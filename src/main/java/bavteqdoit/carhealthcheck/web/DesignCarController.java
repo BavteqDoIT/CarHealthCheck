@@ -1,11 +1,13 @@
 package bavteqdoit.carhealthcheck.web;
 
+import bavteqdoit.carhealthcheck.Car;
 import bavteqdoit.carhealthcheck.Field.Type;
 import bavteqdoit.carhealthcheck.Field;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.Arrays;
@@ -87,7 +89,14 @@ public class DesignCarController {
             model.addAttribute(type.toString().toLowerCase(),
                     filterByType(fields, type));
         }
+        model.addAttribute("design",new Car());
         return "design";
+    }
+
+    @PostMapping
+    public String processDesign(Car design) {
+        log.info("Proccesing car: " + design);
+        return "redirect:/car/current";
     }
 
     private List<Field> filterByType(List<Field> fields, Type type) {

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Car Health Check App</title>
+    <link rel="stylesheet" th:href="@{/styles.css}"/>
+</head>
+<body>
+<h1>Tell us more about your car!</h1>
+<img th:src="@{/images/CarHealthCheckImage.png}"/>
+<form method="POST" th:object="${design}">
+    <div class="grid">
+        <div class="field-group" id="brand">
+            <h3>Choose brand of your car:</h3>
+            <div th:each="field : ${brand}">
+                <input name="fields" type="checkbox" th:value="${field.id}"/>
+                <span th:text="${field.name}">BRAND</span><br/>
+            </div>
+        </div>
+        <div class="field-group" id="model">
+            <h3>Choose model:</h3>
+            <div th:each="field : ${model}">
+                <input name="fields" type="checkbox" th:value="${field.id}"/>
+                <span th:text="${field.name}">MODEL</span><br/>
+            </div>
+        </div>
+        <div class="field-group" id="color">
+            <h3>Choose color:</h3>
+            <div th:each="field : ${color}">
+                <input name="fields" type="checkbox" th:value="${field.id}"/>
+                <span th:text="${field.name}">COLOR</span><br/>
+            </div>
+        </div>
+        <div class="field-group" id="engine_type">
+            <h3>Choose type of engine:</h3>
+            <div th:each="field : ${engine_type}">
+                <input name="fields" type="checkbox" th:value="${field.id}"/>
+                <span th:text="${field.name}">ENGINE TYPE</span><br/>
+            </div>
+        </div>
+        <div class="field-group" id="body_type">
+            <h3>Choose type of body of your car:</h3>
+            <div th:each="field : ${body_type}">
+                <input name="fields" type="checkbox" th:value="${field.id}"/>
+                <span th:text="${field.name}">BODY TYPE</span><br/>
+            </div>
+        </div>
+    </div>
+    <div>
+        <h3>Name your car:</h3>
+        <input type="text" th:field="*{name}"/>
+        <br/>
+        <button>Wyślij swoje zamówienie</button>
+    </div>
+</form>
+</body>
+</html>
