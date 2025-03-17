@@ -3,30 +3,16 @@ package bavteqdoit.carhealthcheck;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
-
 @Data
 @RequiredArgsConstructor
-public class Car {
+public class Field {
     private final Long id;
-    private final Brand brand;
-    private final Model model;
-    private final Integer year;
-    private final Color color;
-    private final Double engineCapacity;
-    private final EngineType engineType;
-    private final GearType gearType;
-    private final BigDecimal price;
-    private final BodyType bodyType;
-    private final Long mileage;
-    private final MileageUnit mileageUnit;
-    private final Boolean isAccidentFree;
-    private final Integer doors;
-    private final Integer seats;
-    private final String vin;
-    private final LocalDate registrationDate;
-    private final SteeringSide steeringSide;
+    private final String name;
+    private final Type type;
+
+    public enum Type {
+        BRAND, MODEL, COLOR, ENGINE_TYPE, GEAR_TYPE, BODY_TYPE, MILEAGE_UNIT, STEERING_SIDE
+    }
 
     public enum Brand {
         OPEL, SKODA, MERCEDES, BMW, MINICOOPER, AUDI
@@ -52,11 +38,11 @@ public class Car {
         SEDAN, HATCHBACK, WAGON, COUPE, CONVERTIBLE, SUV, CROSSOVER, PICKUP, MINIVAN, VAN, OFF_ROAD, ROADSTER
     }
 
-    private enum MileageUnit {
+    public enum MileageUnit {
         KILOMETERS, MILES
     }
 
-    private enum SteeringSide {
+    public enum SteeringSide {
         RIGHT, LEFT
     }
 }
