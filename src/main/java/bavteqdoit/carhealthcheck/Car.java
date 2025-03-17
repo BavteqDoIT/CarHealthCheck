@@ -28,35 +28,35 @@ public class Car {
     private final LocalDate registrationDate;
     private final SteeringSide steeringSide;
 
-    public static enum Brand {
+    public enum Brand {
         OPEL, SKODA, MERCEDES, BMW, MINICOOPER, AUDI
     }
 
-    public static enum Model {
+    public enum Model {
         ASTRA, CORSA, MOKKA, FABIA, OCTAVIA, SUPERB, VITO, SLK, GT, SERIES3, SERIES5, SERIES7, CABRIO, CLUBMAN, COUNTRYMAN, A3, A5, S3
     }
 
-    public static enum Color {
+    public enum Color {
         BLUE, RED, YELLOW, GREEN, BLACK, WHITE, ORANGE, GOLD, SILVER, BROWN, MAGENTA, PURPLE, PINK
     }
 
-    public static enum EngineType {
+    public enum EngineType {
         PETROL, PETROL_CNG, PETROL_LPG, DIESEL, ELECTRIC, ETHANOL, HYBRID, PLUG_IN_HYBRID, HYDROGEN
     }
 
-    public static enum GearType {
+    public enum GearType {
         AUTOMATIC, MANUAL
     }
 
-    public static enum BodyType {
+    public enum BodyType {
         SEDAN, HATCHBACK, WAGON, COUPE, CONVERTIBLE, SUV, CROSSOVER, PICKUP, MINIVAN, VAN, OFF_ROAD, ROADSTER
     }
 
-    private static enum MileageUnit {
+    private enum MileageUnit {
         KILOMETERS, MILES
     }
 
-    private static enum SteeringSide {
+    private enum SteeringSide {
         RIGHT, LEFT
     }
 }
