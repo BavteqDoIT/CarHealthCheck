@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Aplikacja Taco Cloud</title>
+    <link rel="stylesheet" th:href="@{/styles.css}"/>
+</head>
+
+<body>
+<form method="POST" th:action="@{/cars}" th:object="${owner}">
+    <h1>Dodaj właściciela!</h1>
+    <img th:src="@{/images/TacoCloud.png}"/>
+    <a th:href="@{/design}" id="another">Dodaj kolejne auto</a><br/>
+    <div th:if="${#fields.hasErrors()}">
+    <span class="validationError">
+        Usuń wymienione problemy i spróbuj ponownie.
+    </span>
+    </div>
+    <h3>Adres właściciela</h3>
+    <label for="name">Imię i nazwisko: </label>
+    <input type="text" id="name" th:field="*{name}"/>
+    <span class="validationError"
+          th:if="${#fields.hasErrors('name')}"
+          th:errors="*{name}">Błędne imie lub nazwisko</span>
+    <br/>
+
+    <label for="street">Ulica: </label>
+    <input type="text" id="street" th:field="*{street}"/>
+    <span class="validationError"
+          th:if="${#fields.hasErrors('street')}"
+          th:errors="*{street}">Błędna ulica</span>
+    <br/>
+
+    <label for="city">Miejscowość: </label>
+    <input type="text" id="city" th:field="*{city}"/>
+    <span class="validationError"
+          th:if="${#fields.hasErrors('city')}"
+          th:errors="*{city}">Błędne miasto.</span>
+    <br/>
+
+    <label for="state">Województwo: </label>
+    <input type="text" id="state" th:field="*{state}"/>
+    <span class="validationError"
+          th:if="${#fields.hasErrors('state')}"
+          th:errors="*{state}">Błędne województwo.</span>
+    <br/>
+
+    <label for="zip">Kod pocztowy: </label>
+    <input type="text" id="zip" th:field="*{zip}"/>
+    <span class="validationError"
+          th:if="${#fields.hasErrors('zip')}"
+          th:errors="*{zip}">Błędny kod pocztowy.</span>
+    <br/>
+
+    <label for="tel">Telefon: </label>
+    <input type="text" id="tel" th:field="*{tel}"/>
+    <span class="validationError"
+          th:if="${#fields.hasErrors('tel')}"
+          th:errors="*{tel}">Błąd numeru telefonu</span>
+    <br/>
+
+    <input type="submit" value="Zapisz właściciela"/>
+</form>
+</body>

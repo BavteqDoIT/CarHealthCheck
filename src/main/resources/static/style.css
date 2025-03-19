@@ -1,0 +1,7 @@
+html, body {
+    height: 100%;
+}
+
+main {
+    flex-grow: 1; /* Sprawia, że treść rozciąga się na dostępne miejsce */
+}

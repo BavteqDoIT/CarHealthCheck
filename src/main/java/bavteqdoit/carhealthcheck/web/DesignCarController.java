@@ -96,7 +96,7 @@ public class DesignCarController {
     @PostMapping
     public String processDesign(Car design) {
         log.info("Proccesing car: " + design);
-        return "redirect:/car/current";
+        return "redirect:/cars/current";
     }
 
     private List<Field> filterByType(List<Field> fields, Type type) {
