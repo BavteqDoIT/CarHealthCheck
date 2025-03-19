@@ -1,57 +1,54 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Car Health Check App</title>
-    <link rel="stylesheet" th:href="@{/styles.css}"/>
-</head>
-<body>
-<h1>Tell us more about your car!</h1>
-<img th:src="@{/images/CarHealthCheckImage1.png}"/>
+<head th:replace="~{fragments/head}"></head>
+
+<body class="d-flex flex-column min-vh-100">
+
+<div th:replace="~{fragments/navbar}"></div>
+<body class="container py-4">
+<h1 class="text-center mb-4">Tell us more about your car!</h1>
 <form method="POST" th:object="${design}">
-    <div class="grid">
-        <div class="field-group" id="brand">
+    <div class="row g-3">
+        <div class="col-md-6">
             <h3>Choose brand of your car:</h3>
-            <div th:each="field : ${brand}">
-                <input name="fields" type="checkbox" th:value="${field.id}"/>
-                <span th:text="${field.name}">BRAND</span><br/>
+            <div class="form-check" th:each="field : ${brand}">
+                <input class="form-check-input" type="checkbox" name="fields" th:value="${field.id}"/>
+                <label class="form-check-label" th:text="${field.name}">BRAND</label>
             </div>
         </div>
-        <div class="field-group" id="model">
+        <div class="col-md-6">
             <h3>Choose model:</h3>
-            <div th:each="field : ${model}">
-                <input name="fields" type="checkbox" th:value="${field.id}"/>
-                <span th:text="${field.name}">MODEL</span><br/>
+            <div class="form-check" th:each="field : ${model}">
+                <input class="form-check-input" type="checkbox" name="fields" th:value="${field.id}"/>
+                <label class="form-check-label" th:text="${field.name}">MODEL</label>
             </div>
         </div>
-        <div class="field-group" id="color">
+        <div class="col-md-6">
             <h3>Choose color:</h3>
-            <div th:each="field : ${color}">
-                <input name="fields" type="checkbox" th:value="${field.id}"/>
-                <span th:text="${field.name}">COLOR</span><br/>
+            <div class="form-check" th:each="field : ${color}">
+                <input class="form-check-input" type="checkbox" name="fields" th:value="${field.id}"/>
+                <label class="form-check-label" th:text="${field.name}">COLOR</label>
             </div>
         </div>
-        <div class="field-group" id="engine_type">
+        <div class="col-md-6">
             <h3>Choose type of engine:</h3>
-            <div th:each="field : ${engine_type}">
-                <input name="fields" type="checkbox" th:value="${field.id}"/>
-                <span th:text="${field.name}">ENGINE TYPE</span><br/>
+            <div class="form-check" th:each="field : ${engine_type}">
+                <input class="form-check-input" type="checkbox" name="fields" th:value="${field.id}"/>
+                <label class="form-check-label" th:text="${field.name}">ENGINE TYPE</label>
             </div>
         </div>
-        <div class="field-group" id="body_type">
+        <div class="col-md-6">
             <h3>Choose type of body of your car:</h3>
-            <div th:each="field : ${body_type}">
-                <input name="fields" type="checkbox" th:value="${field.id}"/>
-                <span th:text="${field.name}">BODY TYPE</span><br/>
+            <div class="form-check" th:each="field : ${body_type}">
+                <input class="form-check-input" type="checkbox" name="fields" th:value="${field.id}"/>
+                <label class="form-check-label" th:text="${field.name}">BODY TYPE</label>
             </div>
         </div>
     </div>
-    <div>
+    <div class="mt-4">
         <h3>Name your car:</h3>
-        <input type="text" th:field="*{name}"/>
-        <br/>
-        <button>Wyślij swoje zamówienie</button>
+        <input type="text" class="form-control" th:field="*{name}"/>
+    </div>
+    <div class="text-center mt-4">
+        <button type="submit" class="btn btn-primary">Wyślij swoje zamówienie</button>
     </div>
 </form>
-</body>
-</html>
+<footer th:replace="~{fragments/footer}"></footer>
