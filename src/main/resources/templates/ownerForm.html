@@ -1,64 +1,88 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Aplikacja Taco Cloud</title>
-    <link rel="stylesheet" th:href="@{/styles.css}"/>
-</head>
+<head th:replace="~{fragments/head}"></head>
 
-<body>
-<form method="POST" th:action="@{/cars}" th:object="${owner}">
-    <h1>Dodaj właściciela!</h1>
-    <img th:src="@{/images/TacoCloud.png}"/>
-    <a th:href="@{/design}" id="another">Dodaj kolejne auto</a><br/>
-    <div th:if="${#fields.hasErrors()}">
-    <span class="validationError">
-        Usuń wymienione problemy i spróbuj ponownie.
-    </span>
-    </div>
-    <h3>Adres właściciela</h3>
-    <label for="name">Imię i nazwisko: </label>
-    <input type="text" id="name" th:field="*{name}"/>
-    <span class="validationError"
-          th:if="${#fields.hasErrors('name')}"
-          th:errors="*{name}">Błędne imie lub nazwisko</span>
-    <br/>
+<body class="d-flex flex-column min-vh-100">
+<div th:replace="~{fragments/navbar}"></div>
 
-    <label for="street">Ulica: </label>
-    <input type="text" id="street" th:field="*{street}"/>
-    <span class="validationError"
-          th:if="${#fields.hasErrors('street')}"
-          th:errors="*{street}">Błędna ulica</span>
-    <br/>
+<div class="container py-4">
+    <form method="POST" th:action="@{/cars}" th:object="${owner}">
+        <div class="row g-3 mt-3">
+            <div class="col-md-6 mb-3 text-end">
+                <div class="row">
+                    <label for="name" class="col-6 col-form-label">Name and Surname:</label>
+                    <div class="col-6">
+                        <input type="text" id="name" class="form-control" th:field="*{name}"/>
+                    </div>
+                </div>
+                <span class="validationError text-danger"
+                      th:if="${#fields.hasErrors('name')}"
+                      th:errors="*{name}">Name error</span>
+            </div>
 
-    <label for="city">Miejscowość: </label>
-    <input type="text" id="city" th:field="*{city}"/>
-    <span class="validationError"
-          th:if="${#fields.hasErrors('city')}"
-          th:errors="*{city}">Błędne miasto.</span>
-    <br/>
+            <div class="col-md-6 mb-3 text-end">
+                <div class="row">
+                    <label for="street" class="col-6 col-form-label">Street: </label>
+                    <div class="col-6">
+                        <input type="text" id="street" class="form-control" th:field="*{street}"/>
+                    </div>
+                </div>
+                <span class="validationError text-danger"
+                      th:if="${#fields.hasErrors('street')}"
+                      th:errors="*{street}">Street error</span>
+            </div>
 
-    <label for="state">Województwo: </label>
-    <input type="text" id="state" th:field="*{state}"/>
-    <span class="validationError"
-          th:if="${#fields.hasErrors('state')}"
-          th:errors="*{state}">Błędne województwo.</span>
-    <br/>
+            <div class="col-md-6 mb-3 text-end">
+                <div class="row">
+                    <label for="city" class="col-6 col-form-label">City: </label>
+                    <div class="col-6">
+                        <input type="text" id="city" class="form-control" th:field="*{city}"/>
+                    </div>
+                </div>
+                <span class="validationError text-danger"
+                      th:if="${#fields.hasErrors('city')}"
+                      th:errors="*{city}">City error</span>
+            </div>
 
-    <label for="zip">Kod pocztowy: </label>
-    <input type="text" id="zip" th:field="*{zip}"/>
-    <span class="validationError"
-          th:if="${#fields.hasErrors('zip')}"
-          th:errors="*{zip}">Błędny kod pocztowy.</span>
-    <br/>
+            <div class="col-md-6 mb-3 text-end">
+                <div class="row">
+                    <label for="state" class="col-6 col-form-label">State: </label>
+                    <div class="col-6">
+                        <input type="text" id="state" class="form-control" th:field="*{state}"/>
+                    </div>
+                </div>
+                <span class="validationError text-danger"
+                      th:if="${#fields.hasErrors('state')}"
+                      th:errors="*{state}">State error</span>
+            </div>
 
-    <label for="tel">Telefon: </label>
-    <input type="text" id="tel" th:field="*{tel}"/>
-    <span class="validationError"
-          th:if="${#fields.hasErrors('tel')}"
-          th:errors="*{tel}">Błąd numeru telefonu</span>
-    <br/>
+            <div class="col-md-6 mb-3 text-end">
+                <div class="row">
+                    <label for="zip" class="col-6 col-form-label">Zip code: </label>
+                    <div class="col-6">
+                        <input type="text" id="zip" class="form-control" th:field="*{zip}"/>
+                    </div>
+                </div>
+                <span class="validationError text-danger"
+                      th:if="${#fields.hasErrors('zip')}"
+                      th:errors="*{zip}">Zip code error</span>
+            </div>
+            <div class="col-md-6 mb-3 text-end">
+                <div class="row">
+                    <label for="phoneNumber" class="col-6 col-form-label">Phone number: </label>
+                    <div class="col-6">
+                        <input type="text" id="phoneNumber" class="form-control" th:field="*{phoneNumber}"/>
+                    </div>
+                </div>
+                <span class="validationError text-danger"
+                      th:if="${#fields.hasErrors('phoneNumber')}"
+                      th:errors="*{phoneNumber}">Phone number error</span>
+            </div>
+        </div>
 
-    <input type="submit" value="Zapisz właściciela"/>
-</form>
-</body>
+        <div class="mt-5 mb-4 text-center">
+            <button type="submit" class="btn btn-primary btn-lg px-4 py-2 rounded-pill shadow-sm">
+                Next
+            </button>
+        </div>
+    </form>
+</div>
+>
