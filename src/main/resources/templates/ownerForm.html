@@ -1,88 +1,95 @@
-<head th:replace="~{fragments/head}"></head>
-
-<body class="d-flex flex-column min-vh-100">
-<div th:replace="~{fragments/navbar}"></div>
-
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout :: head"/>
+<body>
+<div th:replace="layout :: navbar"/>
 <div class="container py-4">
-    <form method="POST" th:action="@{/cars}" th:object="${owner}">
-        <div class="row g-3 mt-3">
-            <div class="col-md-6 mb-3 text-end">
-                <div class="row">
-                    <label for="name" class="col-6 col-form-label">Name and Surname:</label>
-                    <div class="col-6">
-                        <input type="text" id="name" class="form-control" th:field="*{name}"/>
+    <main>
+        <form method="POST" th:action="@{/cars}" th:object="${owner}">
+            <div class="row g-3 mt-3">
+                <div class="col-md-6 mb-3 text-end">
+                    <div class="row">
+                        <label for="name" class="col-6 col-form-label">Name and Surname:</label>
+                        <div class="col-6">
+                            <input type="text" id="name" class="form-control" th:field="*{name}"/>
+                        </div>
                     </div>
+                    <span class="validationError text-danger"
+                          th:if="${#fields.hasErrors('name')}"
+                          th:errors="*{name}">Name error</span>
                 </div>
-                <span class="validationError text-danger"
-                      th:if="${#fields.hasErrors('name')}"
-                      th:errors="*{name}">Name error</span>
+
+                <div class="col-md-6 mb-3 text-end">
+                    <div class="row">
+                        <label for="street" class="col-6 col-form-label">Street: </label>
+                        <div class="col-6">
+                            <input type="text" id="street" class="form-control" th:field="*{street}"/>
+                        </div>
+                    </div>
+                    <span class="validationError text-danger"
+                          th:if="${#fields.hasErrors('street')}"
+                          th:errors="*{street}">Street error</span>
+                </div>
+
+                <div class="col-md-6 mb-3 text-end">
+                    <div class="row">
+                        <label for="city" class="col-6 col-form-label">City: </label>
+                        <div class="col-6">
+                            <input type="text" id="city" class="form-control" th:field="*{city}"/>
+                        </div>
+                    </div>
+                    <span class="validationError text-danger"
+                          th:if="${#fields.hasErrors('city')}"
+                          th:errors="*{city}">City error</span>
+                </div>
+
+                <div class="col-md-6 mb-3 text-end">
+                    <div class="row">
+                        <label for="state" class="col-6 col-form-label">State: </label>
+                        <div class="col-6">
+                            <input type="text" id="state" class="form-control" th:field="*{state}"/>
+                        </div>
+                    </div>
+                    <span class="validationError text-danger"
+                          th:if="${#fields.hasErrors('state')}"
+                          th:errors="*{state}">State error</span>
+                </div>
+
+                <div class="col-md-6 mb-3 text-end">
+                    <div class="row">
+                        <label for="zip" class="col-6 col-form-label">Zip code: </label>
+                        <div class="col-6">
+                            <input type="text" id="zip" class="form-control" th:field="*{zip}"/>
+                        </div>
+                    </div>
+                    <span class="validationError text-danger"
+                          th:if="${#fields.hasErrors('zip')}"
+                          th:errors="*{zip}">Zip code error</span>
+                </div>
+                <div class="col-md-6 mb-3 text-end">
+                    <div class="row">
+                        <label for="phoneNumber" class="col-6 col-form-label">Phone number: </label>
+                        <div class="col-6">
+                            <input type="text" id="phoneNumber" class="form-control" th:field="*{phoneNumber}"/>
+                        </div>
+                    </div>
+                    <span class="validationError text-danger"
+                          th:if="${#fields.hasErrors('phoneNumber')}"
+                          th:errors="*{phoneNumber}">Phone number error</span>
+                </div>
             </div>
 
-            <div class="col-md-6 mb-3 text-end">
-                <div class="row">
-                    <label for="street" class="col-6 col-form-label">Street: </label>
-                    <div class="col-6">
-                        <input type="text" id="street" class="form-control" th:field="*{street}"/>
-                    </div>
-                </div>
-                <span class="validationError text-danger"
-                      th:if="${#fields.hasErrors('street')}"
-                      th:errors="*{street}">Street error</span>
+            <div class="mt-5 mb-4 text-center">
+                <button type="submit" class="btn btn-primary btn-lg px-4 py-2 rounded-pill shadow-sm">
+                    Next
+                </button>
             </div>
-
-            <div class="col-md-6 mb-3 text-end">
-                <div class="row">
-                    <label for="city" class="col-6 col-form-label">City: </label>
-                    <div class="col-6">
-                        <input type="text" id="city" class="form-control" th:field="*{city}"/>
-                    </div>
-                </div>
-                <span class="validationError text-danger"
-                      th:if="${#fields.hasErrors('city')}"
-                      th:errors="*{city}">City error</span>
-            </div>
-
-            <div class="col-md-6 mb-3 text-end">
-                <div class="row">
-                    <label for="state" class="col-6 col-form-label">State: </label>
-                    <div class="col-6">
-                        <input type="text" id="state" class="form-control" th:field="*{state}"/>
-                    </div>
-                </div>
-                <span class="validationError text-danger"
-                      th:if="${#fields.hasErrors('state')}"
-                      th:errors="*{state}">State error</span>
-            </div>
-
-            <div class="col-md-6 mb-3 text-end">
-                <div class="row">
-                    <label for="zip" class="col-6 col-form-label">Zip code: </label>
-                    <div class="col-6">
-                        <input type="text" id="zip" class="form-control" th:field="*{zip}"/>
-                    </div>
-                </div>
-                <span class="validationError text-danger"
-                      th:if="${#fields.hasErrors('zip')}"
-                      th:errors="*{zip}">Zip code error</span>
-            </div>
-            <div class="col-md-6 mb-3 text-end">
-                <div class="row">
-                    <label for="phoneNumber" class="col-6 col-form-label">Phone number: </label>
-                    <div class="col-6">
-                        <input type="text" id="phoneNumber" class="form-control" th:field="*{phoneNumber}"/>
-                    </div>
-                </div>
-                <span class="validationError text-danger"
-                      th:if="${#fields.hasErrors('phoneNumber')}"
-                      th:errors="*{phoneNumber}">Phone number error</span>
-            </div>
-        </div>
-
-        <div class="mt-5 mb-4 text-center">
-            <button type="submit" class="btn btn-primary btn-lg px-4 py-2 rounded-pill shadow-sm">
-                Next
-            </button>
-        </div>
-    </form>
+        </form>
+    </main>
 </div>
+<div th:replace="layout :: footer"/>
+</body>
+</html>
 >

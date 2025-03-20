@@ -1,71 +1,76 @@
-<head th:replace="~{fragments/head}"></head>
-
-<body class="d-flex flex-column min-vh-100">
-<div th:replace="~{fragments/navbar}"></div>
-
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout :: head"/>
+<body>
+<div th:replace="layout :: navbar"/>
 <div class="container py-4">
-    <form method="POST" th:object="${car}">
-        <div class="row g-3 mt-3">
+    <main>
+        <form method="POST" th:object="${car}">
+            <div class="row g-3 mt-3">
+                <div class="col-md-6 mb-3 text-center">
+                    <label for="brandSelect">Select a brand:</label>
+                    <select id="brandSelect" class="form-select" th:field="*{brand}">
+                        <option value="">Select a brand</option>
+                        <option th:each="field : ${brand}" th:value="${field.id}" th:text="${field.name}"></option>
+                    </select>
+                    <div class="text-danger" th:if="${#fields.hasErrors('brand')}" th:errors="*{brand}"></div>
+                </div>
 
-            <div class="col-md-6 mb-3 text-center">
-                <label for="brandSelect">Select a brand:</label>
-                <select id="brandSelect" class="form-select" th:field="*{brand}">
-                    <option value="">Select a brand</option>
-                    <option th:each="field : ${brand}" th:value="${field.id}" th:text="${field.name}"></option>
-                </select>
-                <div class="text-danger" th:if="${#fields.hasErrors('brand')}" th:errors="*{brand}"></div>
+                <div class="col-md-6 mb-3 text-center">
+                    <label for="modelSelect">Select model:</label>
+                    <select id="modelSelect" class="form-select" th:field="*{model}">
+                        <option value="">Select a model</option>
+                        <option th:each="field : ${model}" th:value="${field.id}" th:text="${field.name}"></option>
+                    </select>
+                    <div class="text-danger" th:if="${#fields.hasErrors('model')}" th:errors="*{model}"></div>
+                </div>
+
+                <div class="col-md-6 mb-3 text-center">
+                    <label for="colorSelect">Select color:</label>
+                    <select id="colorSelect" class="form-select" th:field="*{color}">
+                        <option value="">Select a color</option>
+                        <option th:each="field : ${color}" th:value="${field.id}" th:text="${field.name}"></option>
+                    </select>
+                    <div class="text-danger" th:if="${#fields.hasErrors('color')}" th:errors="*{color}"></div>
+                </div>
+
+                <div class="col-md-6 mb-3 text-center">
+                    <label for="engineSelect">Select your engine type:</label>
+                    <select id="engineSelect" class="form-select" th:field="*{engineType}">
+                        <option value="">Select an engine type</option>
+                        <option th:each="field : ${engine_type}" th:value="${field.id}"
+                                th:text="${field.name}"></option>
+                    </select>
+                    <div class="text-danger" th:if="${#fields.hasErrors('engineType')}" th:errors="*{engineType}"></div>
+                </div>
+
+                <div class="col-md-6 mb-3 text-center">
+                    <label for="bodySelect">Select type of body of your car:</label>
+                    <select id="bodySelect" class="form-select" th:field="*{bodyType}">
+                        <option value="">Select a body type</option>
+                        <option th:each="field : ${body_type}" th:value="${field.id}" th:text="${field.name}"></option>
+                    </select>
+                    <div class="text-danger" th:if="${#fields.hasErrors('bodyType')}" th:errors="*{bodyType}"></div>
+                </div>
+
             </div>
 
-            <div class="col-md-6 mb-3 text-center">
-                <label for="modelSelect">Select model:</label>
-                <select id="modelSelect" class="form-select" th:field="*{model}">
-                    <option value="">Select a model</option>
-                    <option th:each="field : ${model}" th:value="${field.id}" th:text="${field.name}"></option>
-                </select>
-                <div class="text-danger" th:if="${#fields.hasErrors('model')}" th:errors="*{model}"></div>
+            <div class="mt-4 mb-3 text-center">
+                <label for="name">Name your car:</label>
+                <input id="name" type="text" class="form-control" th:field="*{name}"/>
+                <div class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
             </div>
 
-            <div class="col-md-6 mb-3 text-center">
-                <label for="colorSelect">Select color:</label>
-                <select id="colorSelect" class="form-select" th:field="*{color}">
-                    <option value="">Select a color</option>
-                    <option th:each="field : ${color}" th:value="${field.id}" th:text="${field.name}"></option>
-                </select>
-                <div class="text-danger" th:if="${#fields.hasErrors('color')}" th:errors="*{color}"></div>
+            <div class="mt-5 mb-4 text-center">
+                <button type="submit" class="btn btn-primary btn-lg px-4 py-2 rounded-pill shadow-sm">
+                    Next
+                </button>
             </div>
-
-            <div class="col-md-6 mb-3 text-center">
-                <label for="engineSelect">Select your engine type:</label>
-                <select id="engineSelect" class="form-select" th:field="*{engineType}">
-                    <option value="">Select an engine type</option>
-                    <option th:each="field : ${engine_type}" th:value="${field.id}" th:text="${field.name}"></option>
-                </select>
-                <div class="text-danger" th:if="${#fields.hasErrors('engineType')}" th:errors="*{engineType}"></div>
-            </div>
-
-            <div class="col-md-6 mb-3 text-center">
-                <label for="bodySelect">Select type of body of your car:</label>
-                <select id="bodySelect" class="form-select" th:field="*{bodyType}">
-                    <option value="">Select a body type</option>
-                    <option th:each="field : ${body_type}" th:value="${field.id}" th:text="${field.name}"></option>
-                </select>
-                <div class="text-danger" th:if="${#fields.hasErrors('bodyType')}" th:errors="*{bodyType}"></div>
-            </div>
-
-        </div>
-
-        <div class="mt-4 mb-3 text-center">
-            <label for="name">Name your car:</label>
-            <input id="name" type="text" class="form-control" th:field="*{name}"/>
-            <div class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
-        </div>
-
-        <div class="mt-5 mb-4 text-center">
-            <button type="submit" class="btn btn-primary btn-lg px-4 py-2 rounded-pill shadow-sm">
-                Next
-            </button>
-        </div>
-    </form>
+        </form>
+    </main>
 </div>
-
-<footer th:replace="~{fragments/footer}"></footer>
+<div th:replace="layout :: footer"/>
+</body>
+</html>

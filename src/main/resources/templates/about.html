@@ -1,60 +1,82 @@
-<head th:replace="~{fragments/head}"></head>
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout :: head"/>
+<body>
+<div th:replace="layout :: navbar"/>
+<main>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                <h1 class="mb-3">About Car Health Check</h1>
+                <p class="lead">
+                    Car Health Check is an intelligent web application developed as part of my engineering thesis.
+                    The main goal is to assist users in evaluating the technical condition of used vehicles using
+                    AI-driven diagnostics.
+                </p>
+            </div>
+        </div>
 
-<body class="d-flex flex-column min-vh-100">
+        <div class="row mt-5">
+            <div class="col-md-6 mb-3">
+                <h2 class="text-primary">Project Goals</h2>
+                <ul class="list-group">
+                    <li class="list-group-item"><i class="bi bi-check-circle-fill text-success"></i> AI-powered vehicle
+                        diagnostics
+                    </li>
+                    <li class="list-group-item"><i class="bi bi-check-circle-fill text-success"></i> Vehicle condition
+                        assessment based on user input
+                    </li>
+                    <li class="list-group-item"><i class="bi bi-check-circle-fill text-success"></i> Car inspection
+                        history tracking
+                    </li>
+                    <li class="list-group-item"><i class="bi bi-check-circle-fill text-success"></i> Simplified
+                        car-buying decisions
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-6 mb-3">
+                <h2 class="text-primary">Technologies Used</h2>
+                <ul class="list-group">
+                    <li class="list-group-item"><i class="bi bi-code-slash"></i> Spring Boot - Backend API & logic</li>
+                    <li class="list-group-item"><i class="bi bi-code-slash"></i> Thymeleaf - Frontend templating</li>
+                    <li class="list-group-item"><i class="bi bi-code-slash"></i> React Native - Mobile app (future)</li>
+                    <li class="list-group-item"><i class="bi bi-code-slash"></i> Machine Learning - AI-based analysis
+                    </li>
+                    <li class="list-group-item"><i class="bi bi-code-slash"></i> MariaDB - Data storage</li>
+                </ul>
+            </div>
+        </div>
 
-<div th:replace="~{fragments/navbar}"></div>
-
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-lg-8 text-center">
-            <h1 class="mb-3">About Car Health Check</h1>
-            <p class="lead">
-                Car Health Check is an intelligent web application developed as part of my engineering thesis.
-                The main goal is to assist users in evaluating the technical condition of used vehicles using AI-driven diagnostics.
-            </p>
+        <div class="row mt-5">
+            <div class="col-md-6 mb-3">
+                <h2 class="text-primary">Future Enhancements</h2>
+                <ul class="list-group">
+                    <li class="list-group-item"><i class="bi bi-arrow-right-circle-fill text-warning"></i> VIN-based
+                        vehicle history lookup
+                    </li>
+                    <li class="list-group-item"><i class="bi bi-arrow-right-circle-fill text-warning"></i> Integration
+                        with external automotive APIs
+                    </li>
+                    <li class="list-group-item"><i class="bi bi-arrow-right-circle-fill text-warning"></i>
+                        Mobile-friendly real-time diagnostics
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-6 text-center">
+                <h2 class="text-primary">Author</h2>
+                <p class="text-muted">
+                    Developed by <strong>BavteqDoIT</strong> as part of my engineering thesis at the University of
+                    Silesia.
+                    This project aims to create a practical tool that helps people make informed car-buying decisions.
+                </p>
+                <img th:src="@{/images/CarHealthCheckImage.png}" alt="Car Health Check Logo"
+                     class="img-fluid rounded mb-3" width="150">
+            </div>
         </div>
     </div>
-
-    <div class="row mt-5">
-        <div class="col-md-6 mb-3">
-            <h2 class="text-primary">Project Goals</h2>
-            <ul class="list-group">
-                <li class="list-group-item"><i class="bi bi-check-circle-fill text-success"></i> AI-powered vehicle diagnostics</li>
-                <li class="list-group-item"><i class="bi bi-check-circle-fill text-success"></i> Vehicle condition assessment based on user input</li>
-                <li class="list-group-item"><i class="bi bi-check-circle-fill text-success"></i> Car inspection history tracking</li>
-                <li class="list-group-item"><i class="bi bi-check-circle-fill text-success"></i> Simplified car-buying decisions</li>
-            </ul>
-        </div>
-        <div class="col-md-6 mb-3">
-            <h2 class="text-primary">Technologies Used</h2>
-            <ul class="list-group">
-                <li class="list-group-item"><i class="bi bi-code-slash"></i> Spring Boot - Backend API & logic</li>
-                <li class="list-group-item"><i class="bi bi-code-slash"></i> Thymeleaf - Frontend templating</li>
-                <li class="list-group-item"><i class="bi bi-code-slash"></i> React Native - Mobile app (future)</li>
-                <li class="list-group-item"><i class="bi bi-code-slash"></i> Machine Learning - AI-based analysis</li>
-                <li class="list-group-item"><i class="bi bi-code-slash"></i> MariaDB - Data storage</li>
-            </ul>
-        </div>
-    </div>
-
-    <div class="row mt-5">
-        <div class="col-md-6 mb-3">
-            <h2 class="text-primary">Future Enhancements</h2>
-            <ul class="list-group">
-                <li class="list-group-item"><i class="bi bi-arrow-right-circle-fill text-warning"></i> VIN-based vehicle history lookup</li>
-                <li class="list-group-item"><i class="bi bi-arrow-right-circle-fill text-warning"></i> Integration with external automotive APIs</li>
-                <li class="list-group-item"><i class="bi bi-arrow-right-circle-fill text-warning"></i> Mobile-friendly real-time diagnostics</li>
-            </ul>
-        </div>
-        <div class="col-md-6 text-center">
-            <h2 class="text-primary">Author</h2>
-            <p class="text-muted">
-                Developed by <strong>BavteqDoIT</strong> as part of my engineering thesis at the University of Silesia.
-                This project aims to create a practical tool that helps people make informed car-buying decisions.
-            </p>
-            <img th:src="@{/images/CarHealthCheckImage.png}" alt="Car Health Check Logo" class="img-fluid rounded mb-3" width="150">
-        </div>
-    </div>
-
-</div>
-<footer th:replace="~{fragments/footer}"></footer>
+</main>
+<div th:replace="layout :: footer"/>
+</body>
+</html>

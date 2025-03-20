@@ -1,7 +1,9 @@
 html, body {
     height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 main {
-    flex-grow: 1; /* Sprawia, że treść rozciąga się na dostępne miejsce */
+    flex-grow: 1;
 }
