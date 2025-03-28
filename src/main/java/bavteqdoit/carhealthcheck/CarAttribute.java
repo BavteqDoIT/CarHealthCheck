@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 @Data
 @RequiredArgsConstructor
-public class Field {
+public class CarAttribute {
     private final Long id;
     private final String name;
     private final Type type;

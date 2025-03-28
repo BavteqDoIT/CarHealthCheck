@@ -13,7 +13,7 @@
                     <label for="brandSelect">Select a brand:</label>
                     <select id="brandSelect" class="form-select" th:field="*{brand}">
                         <option value="">Select a brand</option>
-                        <option th:each="field : ${brand}" th:value="${field.id}" th:text="${field.name}"></option>
+                        <option th:each="carAttribute : ${brand}" th:value="${carAttribute.id}" th:text="${carAttribute.name}"></option>
                     </select>
                     <div class="text-danger" th:if="${#fields.hasErrors('brand')}" th:errors="*{brand}"></div>
                 </div>
@@ -22,7 +22,7 @@
                     <label for="modelSelect">Select model:</label>
                     <select id="modelSelect" class="form-select" th:field="*{model}">
                         <option value="">Select a model</option>
-                        <option th:each="field : ${model}" th:value="${field.id}" th:text="${field.name}"></option>
+                        <option th:each="carAttribute : ${model}" th:value="${carAttribute.id}" th:text="${carAttribute.name}"></option>
                     </select>
                     <div class="text-danger" th:if="${#fields.hasErrors('model')}" th:errors="*{model}"></div>
                 </div>
@@ -31,7 +31,7 @@
                     <label for="colorSelect">Select color:</label>
                     <select id="colorSelect" class="form-select" th:field="*{color}">
                         <option value="">Select a color</option>
-                        <option th:each="field : ${color}" th:value="${field.id}" th:text="${field.name}"></option>
+                        <option th:each="carAttribute : ${color}" th:value="${carAttribute.id}" th:text="${carAttribute.name}"></option>
                     </select>
                     <div class="text-danger" th:if="${#fields.hasErrors('color')}" th:errors="*{color}"></div>
                 </div>
@@ -40,8 +40,8 @@
                     <label for="engineSelect">Select your engine type:</label>
                     <select id="engineSelect" class="form-select" th:field="*{engineType}">
                         <option value="">Select an engine type</option>
-                        <option th:each="field : ${engine_type}" th:value="${field.id}"
-                                th:text="${field.name}"></option>
+                        <option th:each="carAttribute : ${engine_type}" th:value="${carAttribute.id}"
+                                th:text="${carAttribute.name}"></option>
                     </select>
                     <div class="text-danger" th:if="${#fields.hasErrors('engineType')}" th:errors="*{engineType}"></div>
                 </div>
@@ -50,7 +50,7 @@
                     <label for="bodySelect">Select type of body of your car:</label>
                     <select id="bodySelect" class="form-select" th:field="*{bodyType}">
                         <option value="">Select a body type</option>
-                        <option th:each="field : ${body_type}" th:value="${field.id}" th:text="${field.name}"></option>
+                        <option th:each="carAttribute : ${body_type}" th:value="${carAttribute.id}" th:text="${carAttribute.name}"></option>
                     </select>
                     <div class="text-danger" th:if="${#fields.hasErrors('bodyType')}" th:errors="*{bodyType}"></div>
                 </div>
