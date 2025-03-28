@@ -2,9 +2,9 @@
 <html lang="en"
       xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
-<head th:replace="layout :: head"/>
+<head th:replace="~{layout :: head}"/>
 <body>
-<div th:replace="layout :: navbar"/>
+<div th:replace="~{layout :: navbar}"/>
 <div class="container py-4">
     <main>
         <form method="POST" th:object="${car}">
@@ -71,6 +71,6 @@
         </form>
     </main>
 </div>
-<div th:replace="layout :: footer"/>
+<div th:replace="~{layout :: footer}"/>
 </body>
 </html>
