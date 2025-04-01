@@ -13,18 +13,16 @@
                     <label for="brandSelect">Select a brand:</label>
                     <select id="brandSelect" class="form-select" th:field="*{brand}">
                         <option value="">Select a brand</option>
-                        <!-- Pobierz listę brandów z modelu -->
-                        <option th:each="brand : ${brands}" th:value="${brand.id}" th:text="${brand.brandName}"></option>
+                        <option th:each="brand : ${brands}" th:value="${brand.id}"
+                                th:text="${brand.brandName}"></option>
                     </select>
                     <div class="text-danger" th:if="${#fields.hasErrors('brand')}" th:errors="*{brand}"></div>
                 </div>
 
                 <div class="col-md-6 mb-3 text-center">
                     <label for="modelSelect">Select model:</label>
-                    <select id="modelSelect" class="form-select" th:field="*{modelType}">
+                    <select id="modelSelect" class="form-select" th:field="*{modelType}" disabled>
                         <option value="">Select a model</option>
-                        <!-- Pobierz listę modeli z modelu -->
-                        <option th:each="model : ${models}" th:value="${model.id}" th:text="${model.modelName}"></option>
                     </select>
                     <div class="text-danger" th:if="${#fields.hasErrors('modelType')}" th:errors="*{modelType}"></div>
                 </div>
@@ -33,7 +31,6 @@
                     <label for="colorSelect">Select color:</label>
                     <select id="colorSelect" class="form-select" th:field="*{color}">
                         <option value="">Select a color</option>
-                        <!-- Pobierz listę kolorów z modelu -->
                         <option th:each="color : ${colors}" th:value="${color.id}" th:text="${color.color}"></option>
                     </select>
                     <div class="text-danger" th:if="${#fields.hasErrors('color')}" th:errors="*{color}"></div>
@@ -43,8 +40,8 @@
                     <label for="engineSelect">Select your engine type:</label>
                     <select id="engineSelect" class="form-select" th:field="*{engineType}">
                         <option value="">Select an engine type</option>
-                        <!-- Pobierz listę typów silników z modelu -->
-                        <option th:each="engine : ${engineTypes}" th:value="${engine.id}" th:text="${engine.engineType}"></option>
+                        <option th:each="engine : ${engineTypes}" th:value="${engine.id}"
+                                th:text="${engine.engineType}"></option>
                     </select>
                     <div class="text-danger" th:if="${#fields.hasErrors('engineType')}" th:errors="*{engineType}"></div>
                 </div>
@@ -53,7 +50,6 @@
                     <label for="bodySelect">Select type of body of your car:</label>
                     <select id="bodySelect" class="form-select" th:field="*{bodyType}">
                         <option value="">Select a body type</option>
-                        <!-- Pobierz listę typów nadwozia z modelu -->
                         <option th:each="body : ${bodyTypes}" th:value="${body.id}" th:text="${body.bodyType}"></option>
                     </select>
                     <div class="text-danger" th:if="${#fields.hasErrors('bodyType')}" th:errors="*{bodyType}"></div>
@@ -76,5 +72,29 @@
     </main>
 </div>
 <div th:replace="~{layout :: footer}"></div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#brandSelect').change(function () {
+            let brandId = $(this).val();
+            let modelSelect = $('#modelSelect');
+
+            modelSelect.empty().append('<option value="">Select a model</option>');
+
+            if (brandId) {
+                $.get('/api/models/' + brandId, function (data) {
+                    $.each(data, function (index, model) {
+                        modelSelect.append('<option value="' + model.id + '">' + model.modelName + '</option>');
+                    });
+                    modelSelect.prop('disabled', false);
+                });
+            } else {
+                modelSelect.prop('disabled', true);
+            }
+        });
+    });
+</script>
 </body>
 </html>
