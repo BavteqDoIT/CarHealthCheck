@@ -1,4 +1,4 @@
-package bavteqdoit.carhealthcheck;
+package bavteqdoit.carhealthcheck.model;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;

@@ -1,10 +1,15 @@
 package bavteqdoit.carhealthcheck.web;
 
-import bavteqdoit.carhealthcheck.Car;
-import bavteqdoit.carhealthcheck.CarAttribute;
-import bavteqdoit.carhealthcheck.CarAttribute.Type;
+import bavteqdoit.carhealthcheck.data.*;
+import bavteqdoit.carhealthcheck.model.Car;
+import bavteqdoit.carhealthcheck.model.Brand;
+import bavteqdoit.carhealthcheck.model.ModelType;
+import bavteqdoit.carhealthcheck.model.Color;
+import bavteqdoit.carhealthcheck.model.EngineType;
+import bavteqdoit.carhealthcheck.model.BodyType;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -12,92 +17,81 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Controller
 @RequestMapping("/design")
 public class DesignCarController {
 
+    private final BrandRepository brandRepository;
+    private final ModelTypeRepository modelTypeRepository;
+    private final ColorRepository colorRepository;
+    private final EngineTypeRepository engineTypeRepository;
+    private final BodyTypeRepository bodyTypeRepository;
+
+    public DesignCarController(BrandRepository brandRepository,
+                               ModelTypeRepository modelTypeRepository,
+                               ColorRepository colorRepository,
+                               EngineTypeRepository engineTypeRepository,
+                               BodyTypeRepository bodyTypeRepository) {
+        this.brandRepository = brandRepository;
+        this.modelTypeRepository = modelTypeRepository;
+        this.colorRepository = colorRepository;
+        this.engineTypeRepository = engineTypeRepository;
+        this.bodyTypeRepository = bodyTypeRepository;
+    }
+
     @GetMapping
     public String showDesignForm(Model model) {
-        List<CarAttribute> carAttributes = Arrays.asList(
-                new CarAttribute(1000L, "Skoda", Type.BRAND),
-                new CarAttribute(1001L, "Mercedes", Type.BRAND),
-                new CarAttribute(1002L, "BMW", Type.BRAND),
-                new CarAttribute(1003L, "Minicooper", Type.BRAND),
-                new CarAttribute(1004L, "Audi", Type.BRAND),
-                new CarAttribute(1005L, "Opel", Type.BRAND),
-                new CarAttribute(2000L, "Astra", Type.MODEL),
-                new CarAttribute(2001L, "Corsa", Type.MODEL),
-                new CarAttribute(2002L, "Mokka", Type.MODEL),
-                new CarAttribute(2003L, "Fabia", Type.MODEL),
-                new CarAttribute(2004L, "Octavia", Type.MODEL),
-                new CarAttribute(3000L, "Blue", Type.COLOR),
-                new CarAttribute(3001L, "Green", Type.COLOR),
-                new CarAttribute(3002L, "Yellow", Type.COLOR),
-                new CarAttribute(4000L, "Petrol", Type.ENGINE_TYPE),
-                new CarAttribute(4001L, "Diesel", Type.ENGINE_TYPE),
-                new CarAttribute(4002L, "Electric", Type.ENGINE_TYPE),
-                new CarAttribute(6000L, "Sedan", Type.BODY_TYPE),
-                new CarAttribute(6001L, "Hatchback", Type.BODY_TYPE),
-                new CarAttribute(6002L, "SUV", Type.BODY_TYPE)
-        );
+        // Pobieramy dane z bazy
+        List<Brand> brands = brandRepository.findAll();
+        List<ModelType> models = modelTypeRepository.findAll();
+        List<Color> colors = colorRepository.findAll();
+        List<EngineType> engineTypes = engineTypeRepository.findAll();
+        List<BodyType> bodyTypes = bodyTypeRepository.findAll();
 
-        Type[] types = CarAttribute.Type.values();
-        for (Type type : types) {
-            model.addAttribute(type.toString().toLowerCase(),
-                    filterByType(carAttributes, type));
-        }
+        // Dodajemy atrybuty do modelu
+        model.addAttribute("brands", brands);
+        model.addAttribute("models", models);
+        model.addAttribute("colors", colors);
+        model.addAttribute("engineTypes", engineTypes);
+        model.addAttribute("bodyTypes", bodyTypes);
 
+        // Tworzymy nowy obiekt Car i dodajemy go do modelu
         model.addAttribute("car", new Car());
+
         return "design";
     }
+
+    @Autowired
+    private CarRepository carRepository; // Repozytorium do zapisu obiektów Car
 
     @PostMapping
     public String processDesign(@Valid Car car, Errors errors, Model model) {
         if (errors.hasErrors()) {
-            Type[] types = CarAttribute.Type.values();
-            List<CarAttribute> carAttributes = Arrays.asList(
-                    new CarAttribute(1000L, "Skoda", Type.BRAND),
-                    new CarAttribute(1001L, "Mercedes", Type.BRAND),
-                    new CarAttribute(1002L, "BMW", Type.BRAND),
-                    new CarAttribute(1003L, "Minicooper", Type.BRAND),
-                    new CarAttribute(1004L, "Audi", Type.BRAND),
-                    new CarAttribute(1005L, "Opel", Type.BRAND),
-                    new CarAttribute(2000L, "Astra", Type.MODEL),
-                    new CarAttribute(2001L, "Corsa", Type.MODEL),
-                    new CarAttribute(2002L, "Mokka", Type.MODEL),
-                    new CarAttribute(2003L, "Fabia", Type.MODEL),
-                    new CarAttribute(2004L, "Octavia", Type.MODEL),
-                    new CarAttribute(3000L, "Blue", Type.COLOR),
-                    new CarAttribute(3001L, "Green", Type.COLOR),
-                    new CarAttribute(3002L, "Yellow", Type.COLOR),
-                    new CarAttribute(4000L, "Petrol", Type.ENGINE_TYPE),
-                    new CarAttribute(4001L, "Diesel", Type.ENGINE_TYPE),
-                    new CarAttribute(4002L, "Electric", Type.ENGINE_TYPE),
-                    new CarAttribute(6000L, "Sedan", Type.BODY_TYPE),
-                    new CarAttribute(6001L, "Hatchback", Type.BODY_TYPE),
-                    new CarAttribute(6002L, "SUV", Type.BODY_TYPE)
-            );
+            // Ponowne załadowanie danych do modelu, jeśli wystąpiły błędy walidacji
+            List<Brand> brands = brandRepository.findAll();
+            List<ModelType> models = modelTypeRepository.findAll();
+            List<Color> colors = colorRepository.findAll();
+            List<EngineType> engineTypes = engineTypeRepository.findAll();
+            List<BodyType> bodyTypes = bodyTypeRepository.findAll();
 
-            for (Type type : types) {
-                model.addAttribute(type.toString().toLowerCase(),
-                        filterByType(carAttributes, type));
-            }
+            // Ponownie dodajemy atrybuty do modelu
+            model.addAttribute("brands", brands);
+            model.addAttribute("models", models);
+            model.addAttribute("colors", colors);
+            model.addAttribute("engineTypes", engineTypes);
+            model.addAttribute("bodyTypes", bodyTypes);
 
             return "design";
         }
 
-        log.info("Processing car: " + car);
-        return "redirect:/cars/current";
-    }
+        // Zapisanie samochodu w bazie danych
+        carRepository.save(car);
 
-    private List<CarAttribute> filterByType(List<CarAttribute> carAttributes, Type type) {
-        return carAttributes.stream()
-                .filter(carAttribute -> carAttribute.getType() == type)
-                .collect(Collectors.toList());
+        log.info("Processing car: " + car);
+
+        return "redirect:/";
     }
 }

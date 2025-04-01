@@ -2,9 +2,9 @@
 <html lang="en"
       xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{layout :: head}"/>
+<head th:replace="~{layout :: head}"></head>
 <body>
-<div th:replace="~{layout :: navbar}"/>
+<div th:replace="~{layout :: navbar}"></div>
 <div class="container py-4">
     <main>
         <form method="POST" th:object="${car}">
@@ -13,25 +13,28 @@
                     <label for="brandSelect">Select a brand:</label>
                     <select id="brandSelect" class="form-select" th:field="*{brand}">
                         <option value="">Select a brand</option>
-                        <option th:each="carAttribute : ${brand}" th:value="${carAttribute.id}" th:text="${carAttribute.name}"></option>
+                        <!-- Pobierz listę brandów z modelu -->
+                        <option th:each="brand : ${brands}" th:value="${brand.id}" th:text="${brand.brandName}"></option>
                     </select>
                     <div class="text-danger" th:if="${#fields.hasErrors('brand')}" th:errors="*{brand}"></div>
                 </div>
 
                 <div class="col-md-6 mb-3 text-center">
                     <label for="modelSelect">Select model:</label>
-                    <select id="modelSelect" class="form-select" th:field="*{model}">
+                    <select id="modelSelect" class="form-select" th:field="*{modelType}">
                         <option value="">Select a model</option>
-                        <option th:each="carAttribute : ${model}" th:value="${carAttribute.id}" th:text="${carAttribute.name}"></option>
+                        <!-- Pobierz listę modeli z modelu -->
+                        <option th:each="model : ${models}" th:value="${model.id}" th:text="${model.modelName}"></option>
                     </select>
-                    <div class="text-danger" th:if="${#fields.hasErrors('model')}" th:errors="*{model}"></div>
+                    <div class="text-danger" th:if="${#fields.hasErrors('modelType')}" th:errors="*{modelType}"></div>
                 </div>
 
                 <div class="col-md-6 mb-3 text-center">
                     <label for="colorSelect">Select color:</label>
                     <select id="colorSelect" class="form-select" th:field="*{color}">
                         <option value="">Select a color</option>
-                        <option th:each="carAttribute : ${color}" th:value="${carAttribute.id}" th:text="${carAttribute.name}"></option>
+                        <!-- Pobierz listę kolorów z modelu -->
+                        <option th:each="color : ${colors}" th:value="${color.id}" th:text="${color.color}"></option>
                     </select>
                     <div class="text-danger" th:if="${#fields.hasErrors('color')}" th:errors="*{color}"></div>
                 </div>
@@ -40,8 +43,8 @@
                     <label for="engineSelect">Select your engine type:</label>
                     <select id="engineSelect" class="form-select" th:field="*{engineType}">
                         <option value="">Select an engine type</option>
-                        <option th:each="carAttribute : ${engine_type}" th:value="${carAttribute.id}"
-                                th:text="${carAttribute.name}"></option>
+                        <!-- Pobierz listę typów silników z modelu -->
+                        <option th:each="engine : ${engineTypes}" th:value="${engine.id}" th:text="${engine.engineType}"></option>
                     </select>
                     <div class="text-danger" th:if="${#fields.hasErrors('engineType')}" th:errors="*{engineType}"></div>
                 </div>
@@ -50,7 +53,8 @@
                     <label for="bodySelect">Select type of body of your car:</label>
                     <select id="bodySelect" class="form-select" th:field="*{bodyType}">
                         <option value="">Select a body type</option>
-                        <option th:each="carAttribute : ${body_type}" th:value="${carAttribute.id}" th:text="${carAttribute.name}"></option>
+                        <!-- Pobierz listę typów nadwozia z modelu -->
+                        <option th:each="body : ${bodyTypes}" th:value="${body.id}" th:text="${body.bodyType}"></option>
                     </select>
                     <div class="text-danger" th:if="${#fields.hasErrors('bodyType')}" th:errors="*{bodyType}"></div>
                 </div>
@@ -71,6 +75,6 @@
         </form>
     </main>
 </div>
-<div th:replace="~{layout :: footer}"/>
+<div th:replace="~{layout :: footer}"></div>
 </body>
 </html>
