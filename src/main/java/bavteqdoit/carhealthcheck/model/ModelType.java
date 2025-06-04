@@ -33,8 +33,7 @@ public class ModelType {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof ModelType)) return false;
-        ModelType that = (ModelType) o;
+        if (!(o instanceof ModelType that)) return false;
         return id != null && Objects.equals(id, that.getId());
     }
 

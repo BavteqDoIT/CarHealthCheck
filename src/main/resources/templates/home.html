@@ -2,9 +2,9 @@
 <html lang="en"
       xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{layout :: head}"/>
+<head th:replace="~{layout :: head}"><title>Car Health Check</title></head>
 <body>
-<div th:replace="~{layout :: navbar}"/>
+<div th:replace="~{layout :: navbar}"></div>
 <main>
     <div class="container text-center mt-5">
         <img th:src="@{/images/CarHealthCheckImage.png}" class="img-fluid" alt="Car Health Check Logo" width="150">
@@ -13,6 +13,6 @@
         <a href="/design" class="btn btn-primary btn-lg px-4 py-2 rounded-pill shadow-sm">Check my car</a>
     </div>
 </main>
-<div th:replace="~{layout :: footer}"/>
+<div th:replace="~{layout :: footer}"></div>
 </body>
 </html>

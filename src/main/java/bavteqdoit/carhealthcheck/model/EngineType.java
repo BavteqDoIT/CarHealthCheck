@@ -26,8 +26,7 @@ public class EngineType {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof EngineType)) return false;
-        EngineType that = (EngineType) o;
+        if (!(o instanceof EngineType that)) return false;
         return id != null && Objects.equals(id, that.getId());
     }
 

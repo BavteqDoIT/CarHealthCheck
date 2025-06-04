@@ -2,7 +2,7 @@
 <html lang="en"
       xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{layout :: head}"></head>
+<head th:replace="~{layout :: head}"><title>Car Health Check</title></head>
 <body>
 <div th:replace="~{layout :: navbar}"></div>
 <div class="container py-4">
@@ -45,7 +45,7 @@
                 </div>
 
                 <div class="col-md-6 mb-3 text-center">
-                    <label for="bodySelect">Select type of body of your car:</label>
+                    <label for="bodySelect">Select type body of your car:</label>
                     <select id="bodySelect" class="form-select" th:field="*{bodyType}">
                         <option value="">Select a body type</option>
                         <option th:each="body : ${bodyTypes}" th:value="${body.id}" th:text="${body.bodyType}"></option>
