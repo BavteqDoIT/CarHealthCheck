@@ -1,9 +1,14 @@
 package bavteqdoit.carhealthcheck.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+import java.util.Set;
+import java.util.Objects;
+
+@Getter
+@Setter
 @Entity
 public class ModelType {
     @Id
@@ -16,4 +21,25 @@ public class ModelType {
     @ManyToOne
     @JoinColumn(name = "brand_id")
     private Brand brand;
+
+    @ManyToMany
+    @JoinTable(
+            name = "model_engine_type",
+            joinColumns = @JoinColumn(name = "model_type_id"),
+            inverseJoinColumns = @JoinColumn(name = "engine_type_id")
+    )
+    private Set<EngineType> engineTypes;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ModelType)) return false;
+        ModelType that = (ModelType) o;
+        return id != null && Objects.equals(id, that.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return 31;
+    }
 }

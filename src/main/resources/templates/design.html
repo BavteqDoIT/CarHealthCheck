@@ -22,7 +22,7 @@
                 <div class="col-md-6 mb-3 text-center">
                     <label for="modelSelect">Select model:</label>
                     <select id="modelSelect" class="form-select" th:field="*{modelType}" disabled>
-                        <option value="">Select a model</option>
+                        <option value="">First select a brand</option>
                     </select>
                     <div class="text-danger" th:if="${#fields.hasErrors('modelType')}" th:errors="*{modelType}"></div>
                 </div>
@@ -38,10 +38,8 @@
 
                 <div class="col-md-6 mb-3 text-center">
                     <label for="engineSelect">Select your engine type:</label>
-                    <select id="engineSelect" class="form-select" th:field="*{engineType}">
-                        <option value="">Select an engine type</option>
-                        <option th:each="engine : ${engineTypes}" th:value="${engine.id}"
-                                th:text="${engine.engineType}"></option>
+                    <select id="engineSelect" class="form-select" th:field="*{engineType}" disabled>
+                        <option value="">First select a model</option>
                     </select>
                     <div class="text-danger" th:if="${#fields.hasErrors('engineType')}" th:errors="*{engineType}"></div>
                 </div>
@@ -74,27 +72,6 @@
 <div th:replace="~{layout :: footer}"></div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-<script>
-    $(document).ready(function () {
-        $('#brandSelect').change(function () {
-            let brandId = $(this).val();
-            let modelSelect = $('#modelSelect');
-
-            modelSelect.empty().append('<option value="">Select a model</option>');
-
-            if (brandId) {
-                $.get('/api/models/' + brandId, function (data) {
-                    $.each(data, function (index, model) {
-                        modelSelect.append('<option value="' + model.id + '">' + model.modelName + '</option>');
-                    });
-                    modelSelect.prop('disabled', false);
-                });
-            } else {
-                modelSelect.prop('disabled', true);
-            }
-        });
-    });
-</script>
+<script src="/js/carForm.js"></script>
 </body>
 </html>

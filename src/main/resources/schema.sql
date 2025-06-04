@@ -20,6 +20,14 @@ CREATE TABLE IF NOT EXISTS engine_type (
     engine_type VARCHAR(255) NOT NULL
     );
 
+CREATE TABLE model_engine_type (
+    model_type_id BIGINT NOT NULL,
+    engine_type_id BIGINT NOT NULL,
+    PRIMARY KEY (model_type_id, engine_type_id),
+    FOREIGN KEY (model_type_id) REFERENCES model_type(id) ON DELETE CASCADE,
+    FOREIGN KEY (engine_type_id) REFERENCES engine_type(id) ON DELETE CASCADE
+);
+
 CREATE TABLE IF NOT EXISTS body_type (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     body_type VARCHAR(255) NOT NULL
