@@ -1,26 +1,28 @@
-CREATE TABLE IF NOT EXISTS brand (
+CREATE SCHEMA IF NOT EXISTS public;
+
+CREATE TABLE IF NOT EXISTS public.brand (
     id BIGSERIAL PRIMARY KEY,
     brand_name VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS model_type (
+CREATE TABLE IF NOT EXISTS public.model_type (
     id BIGSERIAL PRIMARY KEY,
     model_type VARCHAR(255) NOT NULL,
     brand_id BIGINT NOT NULL,
     FOREIGN KEY (brand_id) REFERENCES brand(id) ON DELETE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS color (
+CREATE TABLE IF NOT EXISTS public.color (
     id BIGSERIAL PRIMARY KEY,
     color VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS engine_type (
+CREATE TABLE IF NOT EXISTS public.engine_type (
     id BIGSERIAL PRIMARY KEY,
     engine_type VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS model_engine_type (
+CREATE TABLE IF NOT EXISTS public.model_engine_type (
     model_type_id BIGINT NOT NULL,
     engine_type_id BIGINT NOT NULL,
     PRIMARY KEY (model_type_id, engine_type_id),
@@ -28,12 +30,12 @@ CREATE TABLE IF NOT EXISTS model_engine_type (
    FOREIGN KEY (engine_type_id) REFERENCES engine_type(id) ON DELETE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS body_type (
+CREATE TABLE IF NOT EXISTS public.body_type (
     id BIGSERIAL PRIMARY KEY,
     body_type VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS car (
+CREATE TABLE IF NOT EXISTS public.car (
     id BIGSERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     brand_id BIGINT NOT NULL,
