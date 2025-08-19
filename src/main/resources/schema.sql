@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS engine_type (
     engine_type VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE model_engine_type (
+CREATE TABLE IF NOT EXISTS model_engine_type (
     model_type_id BIGINT NOT NULL,
     engine_type_id BIGINT NOT NULL,
     PRIMARY KEY (model_type_id, engine_type_id),
