@@ -17,9 +17,16 @@ CREATE TABLE IF NOT EXISTS public.color (
     color VARCHAR(255) NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS public.fuel_type (
+    id BIGSERIAL PRIMARY KEY,
+    fuel VARCHAR(50) NOT NULL
+    );
+
 CREATE TABLE IF NOT EXISTS public.engine_type (
     id BIGSERIAL PRIMARY KEY,
-    engine_type VARCHAR(255) NOT NULL
+    engine_type VARCHAR(255) NOT NULL,
+    fuel_type_id BIGINT NOT NULL,
+    FOREIGN KEY (fuel_type_id) REFERENCES fuel_type(id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS public.model_engine_type (

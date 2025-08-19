@@ -19,6 +19,10 @@ public class EngineType {
     @Column(name = "engine_type")
     private String engineType;
 
+    @ManyToOne
+    @JoinColumn(name = "fuel_type_id", nullable = false)
+    private FuelType fuelType;
+
     @JsonIgnore
     @ManyToMany(mappedBy = "engineTypes")
     private Set<ModelType> modelTypes;
