@@ -42,6 +42,16 @@ CREATE TABLE IF NOT EXISTS public.body_type (
     body_type VARCHAR(255) NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS public.drive_type (
+    id BIGSERIAL PRIMARY KEY,
+    drive_type VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS public.gearbox_type (
+     id BIGSERIAL PRIMARY KEY,
+     gearbox_type VARCHAR(255) NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS public.car (
     id BIGSERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
@@ -50,9 +60,13 @@ CREATE TABLE IF NOT EXISTS public.car (
     color_id BIGINT NOT NULL,
     engine_type_id BIGINT NOT NULL,
     body_type_id BIGINT NOT NULL,
+    drive_type_id BIGINT NOT NULL,
+    gearbox_type_id BIGINT NOT NULL,
     FOREIGN KEY (brand_id) REFERENCES brand(id) ON DELETE CASCADE,
     FOREIGN KEY (model_type_id) REFERENCES model_type(id) ON DELETE CASCADE,
     FOREIGN KEY (color_id) REFERENCES color(id) ON DELETE CASCADE,
     FOREIGN KEY (engine_type_id) REFERENCES engine_type(id) ON DELETE CASCADE,
-    FOREIGN KEY (body_type_id) REFERENCES body_type(id) ON DELETE CASCADE
+    FOREIGN KEY (body_type_id) REFERENCES body_type(id) ON DELETE CASCADE,
+    FOREIGN KEY (drive_type_id) REFERENCES drive_type(id) ON DELETE CASCADE,
+    FOREIGN KEY (gearbox_type_id) REFERENCES gearbox_type(id) ON DELETE CASCADE
 );

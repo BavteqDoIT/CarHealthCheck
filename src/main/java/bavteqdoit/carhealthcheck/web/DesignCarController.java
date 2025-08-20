@@ -7,6 +7,8 @@ import bavteqdoit.carhealthcheck.model.ModelType;
 import bavteqdoit.carhealthcheck.model.Color;
 import bavteqdoit.carhealthcheck.model.EngineType;
 import bavteqdoit.carhealthcheck.model.BodyType;
+import bavteqdoit.carhealthcheck.model.GearboxType;
+import bavteqdoit.carhealthcheck.model.DriveType;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -28,18 +30,25 @@ public class DesignCarController {
     private final ColorRepository colorRepository;
     private final EngineTypeRepository engineTypeRepository;
     private final BodyTypeRepository bodyTypeRepository;
+    private final DriveTypeRepository driveTypeRepository;
+    private final GearboxTypeRepository gearboxTypeRepository;
 
     public DesignCarController(BrandRepository brandRepository,
                                ModelTypeRepository modelTypeRepository,
                                ColorRepository colorRepository,
                                EngineTypeRepository engineTypeRepository,
-                               BodyTypeRepository bodyTypeRepository, CarRepository carRepository) {
+                               BodyTypeRepository bodyTypeRepository,
+                               CarRepository carRepository,
+                               DriveTypeRepository driveTypeRepository,
+                               GearboxTypeRepository gearboxTypeRepository) {
         this.brandRepository = brandRepository;
         this.modelTypeRepository = modelTypeRepository;
         this.colorRepository = colorRepository;
         this.engineTypeRepository = engineTypeRepository;
         this.bodyTypeRepository = bodyTypeRepository;
         this.carRepository = carRepository;
+        this.driveTypeRepository = driveTypeRepository;
+        this.gearboxTypeRepository = gearboxTypeRepository;
     }
 
     @GetMapping
@@ -77,11 +86,15 @@ public class DesignCarController {
         List<Color> colors = colorRepository.findAll();
         List<EngineType> engineTypes = engineTypeRepository.findAll();
         List<BodyType> bodyTypes = bodyTypeRepository.findAll();
+        List<DriveType> driveTypes = driveTypeRepository.findAll();
+        List<GearboxType> gearboxTypes = gearboxTypeRepository.findAll();
 
         model.addAttribute("brands", brands);
         model.addAttribute("models", models);
         model.addAttribute("colors", colors);
         model.addAttribute("engineTypes", engineTypes);
         model.addAttribute("bodyTypes", bodyTypes);
+        model.addAttribute("driveTypes", driveTypes);
+        model.addAttribute("gearboxTypes", gearboxTypes);
     }
 }

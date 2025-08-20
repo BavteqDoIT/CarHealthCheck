@@ -29,3 +29,12 @@ INSERT INTO body_type (body_type) VALUES ('Hatchback');
 INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES (1, 1); -- Corolla (ID 1) → 2.0L I4 (ID 1)
 INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES (1, 3); -- Corolla (ID 1) → Electric Motor (ID 3)
 INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES (2, 2); -- Mustang (ID 2) → V6 (ID 2)
+
+--Wstawianie typów skrzyń biegów
+INSERT INTO gearbox_type (gearbox_type) VALUES ('Manual');
+INSERT INTO gearbox_type (gearbox_type) VALUES ('Automatic');
+
+--Wstawianie typów napędu
+INSERT INTO drive_type (drive_type) VALUES ('FWD');
+INSERT INTO drive_type (drive_type) VALUES ('RWD');
+INSERT INTO drive_type (drive_type) VALUES ('AWD');

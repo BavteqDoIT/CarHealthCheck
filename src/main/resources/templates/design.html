@@ -53,6 +53,24 @@
                     <div class="text-danger" th:if="${#fields.hasErrors('bodyType')}" th:errors="*{bodyType}"></div>
                 </div>
 
+                <div class="col-md-6 mb-3 text-center">
+                    <label for="driveTypeSelect">Select type drive type of your car:</label>
+                    <select id="driveTypeSelect" class="form-select" th:field="*{driveType}">
+                        <option value="">Select a drive type</option>
+                        <option th:each="drive : ${driveTypes}" th:value="${drive.id}" th:text="${drive.driveType}"></option>
+                    </select>
+                    <div class="text-danger" th:if="${#fields.hasErrors('driveType')}" th:errors="*{driveType}"></div>
+                </div>
+
+                <div class="col-md-6 mb-3 text-center">
+                    <label for="gearboxTypeSelect">Select type gearbox of your car:</label>
+                    <select id="gearboxTypeSelect" class="form-select" th:field="*{gearboxType}">
+                        <option value="">Select a gearbox type</option>
+                        <option th:each="gearbox : ${gearboxTypes}" th:value="${gearbox.id}" th:text="${gearbox.gearboxType}"></option>
+                    </select>
+                    <div class="text-danger" th:if="${#fields.hasErrors('gearboxType')}" th:errors="*{gearboxType}"></div>
+                </div>
+
             </div>
 
             <div class="mt-4 mb-3 text-center">

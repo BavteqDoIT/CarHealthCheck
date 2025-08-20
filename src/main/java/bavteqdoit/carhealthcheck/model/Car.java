@@ -42,5 +42,13 @@ public class Car {
     @NotNull(message = "You have to select a body type")
     private BodyType bodyType;
 
+    @ManyToOne
+    @JoinColumn(name = "drive_type_id", nullable = false)
+    @NotNull(message = "You have to select a drive type of your car")
+    private DriveType driveType;
 
+    @ManyToOne
+    @JoinColumn(name = "gearbox_type_id", nullable = false)
+    @NotNull(message = "You have to select a gearbox")
+    private GearboxType gearboxType;
 }
