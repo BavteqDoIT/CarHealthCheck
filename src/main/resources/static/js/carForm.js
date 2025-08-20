@@ -6,8 +6,8 @@ $(document).ready(function () {
     brandSelect.change(function () {
         const brandId = $(this).val();
 
-        modelSelect.empty().append('<option value="">Select a model</option>').prop('disabled', true);
-        engineSelect.empty().append('<option value="">Select a model first</option>').prop('disabled', true);
+        modelSelect.empty().append(`<option value="">${msgSelectModel}</option>`).prop('disabled', true);
+        engineSelect.empty().append(`<option value="">${msgSelectModelFirst}</option>`).prop('disabled', true);
 
         if (brandId) {
             $.get('/api/models/' + brandId, function (data) {
@@ -25,7 +25,7 @@ $(document).ready(function () {
         engineSelect.empty();
 
         if (modelId) {
-            engineSelect.append('<option value="">Select an engine type</option>');
+            engineSelect.append(`<option value="">${msgSelectEngineType}</option>`);
 
             $.get('/api/engine/' + modelId, function (data) {
                 $.each(data, function (i, engine) {
@@ -34,7 +34,7 @@ $(document).ready(function () {
                 engineSelect.prop('disabled', false);
             });
         } else {
-            engineSelect.append('<option value="">Select a model first</option>').prop('disabled', true);
+            engineSelect.append(`<option value="">${msgSelectModelFirst}</option>`).prop('disabled', true);
         }
     });
 });

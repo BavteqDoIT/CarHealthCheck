@@ -9,68 +9,45 @@
     <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-lg-8 text-center">
-                <h1 class="mb-3">About Car Health Check</h1>
-                <p class="lead">
-                    Car Health Check is an intelligent web application developed as part of my engineering thesis.
-                    The main goal is to assist users in evaluating the technical condition of used vehicles using
-                    AI-driven diagnostics.
-                </p>
+                <h1 class="mb-3" th:text="#{about.title}"></h1>
+                <p class="lead" th:text="#{about.subtitle}"></p>
             </div>
         </div>
 
         <div class="row mt-5">
             <div class="col-md-6 mb-3">
-                <h2 class="text-primary">Project Goals</h2>
+                <h2 class="text-primary" th:text="#{about.project.title}"></h2>
                 <ul class="list-group">
-                    <li class="list-group-item"><i class="bi bi-check-circle-fill text-success"></i> AI-powered vehicle
-                        diagnostics
-                    </li>
-                    <li class="list-group-item"><i class="bi bi-check-circle-fill text-success"></i> Vehicle condition
-                        assessment based on user input
-                    </li>
-                    <li class="list-group-item"><i class="bi bi-check-circle-fill text-success"></i> Car inspection
-                        history tracking
-                    </li>
-                    <li class="list-group-item"><i class="bi bi-check-circle-fill text-success"></i> Simplified
-                        car-buying decisions
-                    </li>
+                    <li class="list-group-item" th:text="#{about.project.1}"><i class="bi bi-check-circle-fill text-success"></i></li>
+                    <li class="list-group-item" th:text="#{about.project.2}"><i class="bi bi-check-circle-fill text-success"></i></li>
+                    <li class="list-group-item" th:text="#{about.project.3}"><i class="bi bi-check-circle-fill text-success"></i></li>
+                    <li class="list-group-item" th:text="#{about.project.4}"><i class="bi bi-check-circle-fill text-success"></i></li>
                 </ul>
             </div>
             <div class="col-md-6 mb-3">
-                <h2 class="text-primary">Technologies Used</h2>
+                <h2 class="text-primary" th:text="#{about.technologies.title}"></h2>
                 <ul class="list-group">
-                    <li class="list-group-item"><i class="bi bi-code-slash"></i> Spring Boot - Backend API & logic</li>
-                    <li class="list-group-item"><i class="bi bi-code-slash"></i> Thymeleaf - Frontend templating</li>
-                    <li class="list-group-item"><i class="bi bi-code-slash"></i> React Native - Mobile app (future)</li>
-                    <li class="list-group-item"><i class="bi bi-code-slash"></i> Machine Learning - AI-based analysis
-                    </li>
-                    <li class="list-group-item"><i class="bi bi-code-slash"></i> MariaDB - Data storage</li>
+                    <li class="list-group-item" th:text="#{about.technologies.1}"><i class="bi bi-code-slash"></i></li>
+                    <li class="list-group-item" th:text="#{about.technologies.2}"><i class="bi bi-code-slash"></i></li>
+                    <li class="list-group-item" th:text="#{about.technologies.3}"><i class="bi bi-code-slash"></i></li>
+                    <li class="list-group-item" th:text="#{about.technologies.4}"><i class="bi bi-code-slash"></i></li>
+                    <li class="list-group-item" th:text="#{about.technologies.5}"><i class="bi bi-code-slash"></i></li>
                 </ul>
             </div>
         </div>
 
         <div class="row mt-5">
             <div class="col-md-6 mb-3">
-                <h2 class="text-primary">Future Enhancements</h2>
+                <h2 class="text-primary" th:text="#{about.future.title}">Future Enhancements</h2>
                 <ul class="list-group">
-                    <li class="list-group-item"><i class="bi bi-arrow-right-circle-fill text-warning"></i> VIN-based
-                        vehicle history lookup
-                    </li>
-                    <li class="list-group-item"><i class="bi bi-arrow-right-circle-fill text-warning"></i> Integration
-                        with external automotive APIs
-                    </li>
-                    <li class="list-group-item"><i class="bi bi-arrow-right-circle-fill text-warning"></i>
-                        Mobile-friendly real-time diagnostics
-                    </li>
+                    <li class="list-group-item" th:text="#{about.future.1}"><i class="bi bi-arrow-right-circle-fill text-warning"></i></li>
+                    <li class="list-group-item" th:text="#{about.future.2}"><i class="bi bi-arrow-right-circle-fill text-warning"></i></li>
+                    <li class="list-group-item" th:text="#{about.future.3}"><i class="bi bi-arrow-right-circle-fill text-warning"></i></li>
                 </ul>
             </div>
             <div class="col-md-6 text-center">
-                <h2 class="text-primary">Author</h2>
-                <p class="text-muted">
-                    Developed by <strong>BavteqDoIT</strong> as part of my engineering thesis at the University of
-                    Silesia.
-                    This project aims to create a practical tool that helps people make informed car-buying decisions.
-                </p>
+                <h2 class="text-primary" th:text="#{about.author.title}"></h2>
+                <p class="text-muted" th:utext="#{about.author.description}"></p>
                 <img th:src="@{/images/CarHealthCheckImage.png}" alt="Car Health Check Logo"
                      class="img-fluid rounded mb-3" width="150">
             </div>

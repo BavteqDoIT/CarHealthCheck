@@ -13,42 +13,42 @@ public class Car {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Car name cannot be empty")
-    @Size(min = 5, max = 50, message = "Car name must be between 5 and 50 characters")
+    @NotBlank(message = "{car.name.null}")
+    @Size(min = 5, max = 50, message = "{car.name.size}")
     private String name;
 
     @ManyToOne
     @JoinColumn(name = "brand_id", nullable = false)
-    @NotNull(message = "You have to select your car brand")
+    @NotNull(message = "{car.brand.null}")
     private Brand brand;
 
     @ManyToOne
     @JoinColumn(name = "model_type_id", nullable = false)
-    @NotNull(message = "You have to select your car model")
+    @NotNull(message = "{car.brand.null}")
     private ModelType modelType;
 
     @ManyToOne
     @JoinColumn(name = "color_id", nullable = false)
-    @NotNull(message = "You have to select a color")
+    @NotNull(message = "{car.color.null}")
     private Color color;
 
     @ManyToOne
     @JoinColumn(name = "engine_type_id", nullable = false)
-    @NotNull(message = "You have to select an engine type")
+    @NotNull(message = "{car.engine.null}")
     private EngineType engineType;
 
     @ManyToOne
     @JoinColumn(name = "body_type_id", nullable = false)
-    @NotNull(message = "You have to select a body type")
+    @NotNull(message = "{car.body.null}")
     private BodyType bodyType;
 
     @ManyToOne
     @JoinColumn(name = "drive_type_id", nullable = false)
-    @NotNull(message = "You have to select a drive type of your car")
+    @NotNull(message = "{car.drive.null}")
     private DriveType driveType;
 
     @ManyToOne
     @JoinColumn(name = "gearbox_type_id", nullable = false)
-    @NotNull(message = "You have to select a gearbox")
+    @NotNull(message = "{car.gearbox.null}")
     private GearboxType gearboxType;
 }

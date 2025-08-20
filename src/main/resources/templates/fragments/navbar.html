@@ -8,21 +8,42 @@
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
+
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                    <a class="nav-link active" href="/">Home</a>
+                    <a class="nav-link" th:text="#{nav.home}" href="/">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/design">Design</a>
+                    <a class="nav-link" th:text="#{nav.design}" href="/design">Design</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/about">About</a>
+                    <a class="nav-link" th:text="#{nav.about}" href="/about">About</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/contact">Contact</a>
+                    <a class="nav-link" th:text="#{nav.contact}" href="/contact">Contact</a>
                 </li>
             </ul>
+
+            <div class="d-flex align-items-center gap-3 ms-3">
+
+                <div class="dropdown">
+                    <button class="btn btn-light btn-sm dropdown-toggle px-3 py-2 rounded-pill shadow-sm"
+                            type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        🌍 <span th:text="${#locale.language.toUpperCase()}">EN</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+                        <li><a class="dropdown-item" href="?lang=pl">🇵🇱 Polski</a></li>
+                        <li><a class="dropdown-item" href="?lang=en">🇬🇧 English</a></li>
+                        <li><a class="dropdown-item" href="?lang=de">🇩🇪 Deutsch</a></li>
+                    </ul>
+                </div>
+
+                <button type="#"
+                        class="btn btn-light btn-sm px-4 py-2 rounded-pill shadow-sm"
+                        th:text="#{nav.button.login}">
+                </button>
+            </div>
         </div>
     </div>
 </nav>

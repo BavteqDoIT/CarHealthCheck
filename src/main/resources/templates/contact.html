@@ -7,32 +7,27 @@
 <div th:replace="~{layout :: navbar}"></div>
 <main>
     <div class="container py-5">
-        <h2 class="text-center mb-4">Contact Us</h2>
+        <h2 class="text-center mb-4" th:text="#{contact.title}"></h2>
 
         <form>
             <div class="row g-3">
-
                 <div class="col-md-6 mb-3">
-                    <label for="name" class="form-label">Your Name:</label>
-                    <input type="text" id="name" class="form-control" placeholder="Enter your name" disabled>
+                    <label for="name" class="form-label" th:text="#{contact.name}"></label>
+                    <input type="text" id="name" class="form-control" th:placeholder="#{contact.name.mess}" disabled>
                 </div>
-
                 <div class="col-md-6 mb-3">
-                    <label for="email" class="form-label">Your Email:</label>
-                    <input type="email" id="email" class="form-control" placeholder="Enter your email" disabled>
+                    <label for="email" class="form-label" th:text="#{contact.email}"></label>
+                    <input type="email" id="email" class="form-control" th:placeholder="#{contact.email.mess}" disabled>
                 </div>
-
                 <div class="col-12 mb-3">
-                    <label for="message" class="form-label">Your Message:</label>
-                    <textarea id="message" class="form-control" rows="5" placeholder="Enter your message"
+                    <label for="message" class="form-label" th:text="#{contact.mess}"></label>
+                    <textarea id="message" class="form-control" rows="5" th:placeholder="#{contact.mess.mess}"
                               disabled></textarea>
                 </div>
-
             </div>
-
             <div class="text-center mt-4 mb-3">
-                <button type="button" class="btn btn-primary btn-lg px-4 py-2 rounded-pill shadow-sm" disabled>
-                    Send Message
+                <button type="button" class="btn btn-primary btn-lg px-4 py-2 rounded-pill shadow-sm"
+                        th:text="#{contact.button}" disabled>
                 </button>
             </div>
         </form>

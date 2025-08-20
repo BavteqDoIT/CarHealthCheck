@@ -10,9 +10,9 @@
         <form method="POST" th:object="${car}">
             <div class="row g-3 mt-3">
                 <div class="col-md-6 mb-3 text-center">
-                    <label for="brandSelect">Select a brand:</label>
+                    <label for="brandSelect" th:text="#{design.brand}"></label>
                     <select id="brandSelect" class="form-select" th:field="*{brand}">
-                        <option value="">Select a brand</option>
+                        <option value="" th:text="#{design.brand.mess}"></option>
                         <option th:each="brand : ${brands}" th:value="${brand.id}"
                                 th:text="${brand.brandName}"></option>
                     </select>
@@ -20,52 +20,52 @@
                 </div>
 
                 <div class="col-md-6 mb-3 text-center">
-                    <label for="modelSelect">Select model:</label>
+                    <label for="modelSelect" th:text="#{design.model}"></label>
                     <select id="modelSelect" class="form-select" th:field="*{modelType}" disabled>
-                        <option value="">First select a brand</option>
+                        <option value="" th:text="#{design.model.mess}"></option>
                     </select>
                     <div class="text-danger" th:if="${#fields.hasErrors('modelType')}" th:errors="*{modelType}"></div>
                 </div>
 
                 <div class="col-md-6 mb-3 text-center">
-                    <label for="colorSelect">Select color:</label>
+                    <label for="colorSelect" th:text="#{design.color}"></label>
                     <select id="colorSelect" class="form-select" th:field="*{color}">
-                        <option value="">Select a color</option>
+                        <option value="" th:text="#{design.color.mess}"></option>
                         <option th:each="color : ${colors}" th:value="${color.id}" th:text="${color.color}"></option>
                     </select>
                     <div class="text-danger" th:if="${#fields.hasErrors('color')}" th:errors="*{color}"></div>
                 </div>
 
                 <div class="col-md-6 mb-3 text-center">
-                    <label for="engineSelect">Select your engine type:</label>
+                    <label for="engineSelect" th:text="#{design.engine}"></label>
                     <select id="engineSelect" class="form-select" th:field="*{engineType}" disabled>
-                        <option value="">First select a model</option>
+                        <option value="" th:text="#{design.engine.mess}"></option>
                     </select>
                     <div class="text-danger" th:if="${#fields.hasErrors('engineType')}" th:errors="*{engineType}"></div>
                 </div>
 
                 <div class="col-md-6 mb-3 text-center">
-                    <label for="bodySelect">Select type body of your car:</label>
+                    <label for="bodySelect" th:text="#{design.body}"></label>
                     <select id="bodySelect" class="form-select" th:field="*{bodyType}">
-                        <option value="">Select a body type</option>
+                        <option value="" th:text="#{design.body.mess}"></option>
                         <option th:each="body : ${bodyTypes}" th:value="${body.id}" th:text="${body.bodyType}"></option>
                     </select>
                     <div class="text-danger" th:if="${#fields.hasErrors('bodyType')}" th:errors="*{bodyType}"></div>
                 </div>
 
                 <div class="col-md-6 mb-3 text-center">
-                    <label for="driveTypeSelect">Select type drive type of your car:</label>
+                    <label for="driveTypeSelect" th:text="#{design.drive}"></label>
                     <select id="driveTypeSelect" class="form-select" th:field="*{driveType}">
-                        <option value="">Select a drive type</option>
+                        <option value="" th:text="#{design.drive.mess}"></option>
                         <option th:each="drive : ${driveTypes}" th:value="${drive.id}" th:text="${drive.driveType}"></option>
                     </select>
                     <div class="text-danger" th:if="${#fields.hasErrors('driveType')}" th:errors="*{driveType}"></div>
                 </div>
 
                 <div class="col-md-6 mb-3 text-center">
-                    <label for="gearboxTypeSelect">Select type gearbox of your car:</label>
+                    <label for="gearboxTypeSelect" th:text="#{design.gearbox}"></label>
                     <select id="gearboxTypeSelect" class="form-select" th:field="*{gearboxType}">
-                        <option value="">Select a gearbox type</option>
+                        <option value="" th:text="#{design.gearbox.mess}"></option>
                         <option th:each="gearbox : ${gearboxTypes}" th:value="${gearbox.id}" th:text="${gearbox.gearboxType}"></option>
                     </select>
                     <div class="text-danger" th:if="${#fields.hasErrors('gearboxType')}" th:errors="*{gearboxType}"></div>
@@ -74,22 +74,26 @@
             </div>
 
             <div class="mt-4 mb-3 text-center">
-                <label for="name">Name your car:</label>
+                <label for="name" th:text="#{design.car.name}"></label>
                 <input id="name" type="text" class="form-control" th:field="*{name}"/>
                 <div class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
             </div>
 
             <div class="mt-5 mb-4 text-center">
-                <button type="submit" class="btn btn-primary btn-lg px-4 py-2 rounded-pill shadow-sm">
-                    Next
+                <button type="submit" class="btn btn-primary btn-lg px-4 py-2 rounded-pill shadow-sm"
+                        th:text="#{design.button}">
                 </button>
             </div>
         </form>
     </main>
 </div>
 <div th:replace="~{layout :: footer}"></div>
-
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script th:inline="javascript">
+    const msgSelectModel = /*[[#{design.form.model}]]*/ 'Select a model';
+    const msgSelectModelFirst = /*[[#{design.engine.mess}]]*/ 'Select a model first';
+    const msgSelectEngineType = /*[[#{design.form.engine}]]*/ 'Select an engine type';
+</script>
 <script src="/js/carForm.js"></script>
 </body>
 </html>
