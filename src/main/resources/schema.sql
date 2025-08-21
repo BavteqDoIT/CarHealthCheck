@@ -55,6 +55,8 @@ CREATE TABLE IF NOT EXISTS public.gearbox_type (
 CREATE TABLE IF NOT EXISTS public.car (
     id BIGSERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
+    production_year INT NOT NULL,
+    mileage INT NOT NULL,
     brand_id BIGINT NOT NULL,
     model_type_id BIGINT NOT NULL,
     color_id BIGINT NOT NULL,

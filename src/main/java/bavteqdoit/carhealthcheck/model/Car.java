@@ -1,9 +1,8 @@
 package bavteqdoit.carhealthcheck.model;
 
+import bavteqdoit.carhealthcheck.validation.Year;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.Data;
 
 @Data
@@ -16,6 +15,15 @@ public class Car {
     @NotBlank(message = "{car.name.null}")
     @Size(min = 5, max = 50, message = "{car.name.size}")
     private String name;
+
+    @NotNull(message = "{car.year.null}")
+    @Year(min = 1900, allowFuture = false, message = "{car.year.invalid}")
+    private Integer productionYear;
+
+    @NotNull(message = "{car.mileage.null}")
+    @Min(value = 0, message = "{car.mileage.min}")
+    @Max(value = 99999999, message = "{car.mileage.max}")
+    private Integer mileage;
 
     @ManyToOne
     @JoinColumn(name = "brand_id", nullable = false)

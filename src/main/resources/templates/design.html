@@ -71,11 +71,23 @@
                     <div class="text-danger" th:if="${#fields.hasErrors('gearboxType')}" th:errors="*{gearboxType}"></div>
                 </div>
 
+                <div class="col-md-6 mb-3 text-center">
+                    <label for="productionYear" th:text="#{design.car.productionYear}"></label>
+                    <input id="productionYear" th:placeholder="#{design.car.productionYear.placeholder}" type="number" class="form-control" th:field="*{productionYear}"/>
+                    <div class="text-danger" th:if="${#fields.hasErrors('productionYear')}" th:errors="*{productionYear}"></div>
+                </div>
+
+                <div class="col-md-6 mb-3 text-center">
+                    <label for="mileage" th:text="#{design.car.mileage}"></label>
+                    <input id="mileage" th:placeholder="#{design.car.mileage.placeholder}" type="number" min="0" max="9999999999" class="form-control" th:field="*{mileage}"/>
+                    <div class="text-danger" th:if="${#fields.hasErrors('mileage')}" th:errors="*{mileage}"></div>
+                </div>
+
             </div>
 
             <div class="mt-4 mb-3 text-center">
                 <label for="name" th:text="#{design.car.name}"></label>
-                <input id="name" type="text" class="form-control" th:field="*{name}"/>
+                <input id="name" th:placeholder="#{design.car.name.example}" type="text" class="form-control" th:field="*{name}"/>
                 <div class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
             </div>
 
