@@ -88,7 +88,7 @@ public class DesignCarController {
         if (car.getFirstRegistrationDate() == null) {
             return "redirect:/design/paint?carId=" + carId;
         } else {
-            return "design-step2";
+            return "raportVin";
         }
     }
 
@@ -103,7 +103,7 @@ public class DesignCarController {
     public String showPaintForm(@RequestParam Long carId, Model model) {
         Car car = carRepository.findById(carId).orElseThrow();
         model.addAttribute("car", car);
-        return "design-step3";
+        return "paint";
     }
 
     private void loadingDataAndAddAttributes(Model model) {
