@@ -14,9 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -61,7 +59,7 @@ public class DesignCarController {
         return "design";
     }
 
-    private final CarRepository carRepository; // Repozytorium do zapisu obiektów Car
+    private final CarRepository carRepository;
 
     @PostMapping
     public String processDesign(@Valid Car car, Errors errors, Model model) {
@@ -72,12 +70,40 @@ public class DesignCarController {
             return "design";
         }
 
-        // Zapisanie samochodu w bazie danych
         carRepository.save(car);
 
         log.info("Processing car: {}", car);
 
-        return "redirect:/";
+        if (car.isForeignRegistered()) {
+            return "redirect:/design/paint?carId=" + car.getId();
+        } else {
+            return "redirect:/design/raportVin?carId=" + car.getId();
+        }
+    }
+
+    @GetMapping("/raportVin")
+    public String showRaportVin(@RequestParam Long carId, Model model) {
+        Car car = carRepository.findById(carId).orElseThrow();
+        model.addAttribute("car", car);
+        if (car.getFirstRegistrationDate() == null) {
+            return "redirect:/design/paint?carId=" + carId;
+        } else {
+            return "design-step2";
+        }
+    }
+
+    @PostMapping("/raportVin")
+    public String processRaportVin(@RequestParam Long carId) {
+        Car car = carRepository.findById(carId).orElseThrow();
+        carRepository.save(car);
+        return "redirect:/design/paint?carId=" + car.getId();
+    }
+
+    @GetMapping("/paint")
+    public String showPaintForm(@RequestParam Long carId, Model model) {
+        Car car = carRepository.findById(carId).orElseThrow();
+        model.addAttribute("car", car);
+        return "design-step3";
     }
 
     private void loadingDataAndAddAttributes(Model model) {

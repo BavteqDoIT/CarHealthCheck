@@ -37,4 +37,15 @@ $(document).ready(function () {
             engineSelect.append(`<option value="">${msgSelectModelFirst}</option>`).prop('disabled', true);
         }
     });
+
+    const checkbox = $('#foreignRegistered');
+    const dateInput = $('#firstRegistrationDate');
+
+    checkbox.change(function () {
+        if ($(this).is(':checked')) {
+            dateInput.val('').prop('readonly', true);
+        } else {
+            dateInput.val('').prop('readonly', false);
+        }
+    });
 });

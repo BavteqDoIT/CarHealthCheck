@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.Data;
 
+import java.time.LocalDate;
+
 @Data
 @Entity
 public class Car {
@@ -24,6 +26,10 @@ public class Car {
     @Min(value = 0, message = "{car.mileage.min}")
     @Max(value = 99999999, message = "{car.mileage.max}")
     private Integer mileage;
+
+    private LocalDate firstRegistrationDate;
+
+    private boolean foreignRegistered;
 
     @ManyToOne
     @JoinColumn(name = "brand_id", nullable = false)
