@@ -1,10 +1,258 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: head}">
+    <title>Car Health Check - Paint</title>
 </head>
 <body>
-<h1>test</h1>
+<div th:replace="~{layout :: navbar}"></div>
+
+<div class="container py-4">
+    <main>
+        <form method="POST" th:object="${paintCheck}">
+            <h3 class="mb-4">Paint Inspection</h3>
+
+            <div class="mb-4">
+                <h5>1. Are any parts visually different in color?</h5>
+                <p class="mb-4"><strong>Selected color:</strong> <span th:text="${car.color.color}"></span></p>
+
+                <div class="row g-3">
+                    <div class="col-md-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" th:field="*{hoodDifferent}" id="hoodDifferent">
+                            <label class="form-check-label" for="hoodDifferent">Hood</label>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" th:field="*{roofDifferent}" id="roofDifferent">
+                            <label class="form-check-label" for="roofDifferent">Roof</label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" th:field="*{frontLeftDoorDifferent}" id="frontLeftDoorDifferent">
+                            <label class="form-check-label" for="frontLeftDoorDifferent">Front Left Door</label>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" th:field="*{rearLeftDoorDifferent}" id="rearLeftDoorDifferent">
+                            <label class="form-check-label" for="rearLeftDoorDifferent">Rear Left Door</label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" th:field="*{frontRightDoorDifferent}" id="frontRightDoorDifferent">
+                            <label class="form-check-label" for="frontRightDoorDifferent">Front Right Door</label>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" th:field="*{rearRightDoorDifferent}" id="rearRightDoorDifferent">
+                            <label class="form-check-label" for="rearRightDoorDifferent">Rear Right Door</label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" th:field="*{trunkDifferent}" id="trunkDifferent">
+                            <label class="form-check-label" for="trunkDifferent">Trunk</label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" th:field="*{frontLeftWheelArchDifferent}" id="frontLeftWheelArchDifferent">
+                            <label class="form-check-label" for="frontLeftWheelArchDifferent">Front Left Wheel Arch</label>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" th:field="*{frontRightWheelArchDifferent}" id="frontRightWheelArchDifferent">
+                            <label class="form-check-label" for="frontRightWheelArchDifferent">Front Right Wheel Arch</label>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" th:field="*{rearLeftWheelArchDifferent}" id="rearLeftWheelArchDifferent">
+                            <label class="form-check-label" for="rearLeftWheelArchDifferent">Rear Left Wheel Arch</label>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" th:field="*{rearRightWheelArchDifferent}" id="rearRightWheelArchDifferent">
+                            <label class="form-check-label" for="rearRightWheelArchDifferent">Rear Right Wheel Arch</label>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" th:field="*{pillarALeftDifferent}" id="pillarALeftDifferent">
+                            <label class="form-check-label" for="pillarALeftDifferent">A-Pillar Left</label>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" th:field="*{pillarARightDifferent}" id="pillarARightDifferent">
+                            <label class="form-check-label" for="pillarARightDifferent">A-Pillar Right</label>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" th:field="*{pillarBLeftDifferent}" id="pillarBLeftDifferent">
+                            <label class="form-check-label" for="pillarBLeftDifferent">B-Pillar Left</label>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" th:field="*{pillarBRightDifferent}" id="pillarBRightDifferent">
+                            <label class="form-check-label" for="pillarBRightDifferent">B-Pillar Right</label>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" th:field="*{pillarCLeftDifferent}" id="pillarCLeftDifferent">
+                            <label class="form-check-label" for="pillarCLeftDifferent">C-Pillar Left</label>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" th:field="*{pillarCRightDifferent}" id="pillarCRightDifferent">
+                            <label class="form-check-label" for="pillarCRightDifferent">C-Pillar Right</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <h5>2. Visible paint damages</h5>
+                <div id="damages-container">
+                    <div th:each="damage, iterStat : *{damages}" class="border rounded p-3 mb-3 damage-item">
+                        <div class="row g-2 align-items-end">
+                            <div class="col-md-3">
+                                <label class="form-label">Body part</label>
+                                <select class="form-select" th:field="*{damages[__${iterStat.index}__].bodyPart}">
+                                    <option value="Hood">Hood</option>
+                                    <option value="Roof">Roof</option>
+                                    <option value="Door">Door</option>
+                                    <option value="Trunk">Trunk</option>
+                                    <option value="Pillar">Pillar</option>
+                                    <option value="Wheel_Arch">Wheel Arch</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">Damage type</label>
+                                <select class="form-select" th:field="*{damages[__${iterStat.index}__].damageType}">
+                                    <option value="Scratch">Scratch</option>
+                                    <option value="Dent">Dent</option>
+                                    <option value="Chip">Chip</option>
+                                    <option value="Scuff">Scuff</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">Size</label>
+                                <select class="form-select" th:field="*{damages[__${iterStat.index}__].size}">
+                                    <option value="Small">Small</option>
+                                    <option value="Medium">Medium</option>
+                                    <option value="Large">Large</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3 text-end">
+                                <button type="button" class="btn btn-outline-danger remove-damage">Remove</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-outline-primary mt-2" onclick="addDamage()">+ Add damage</button>
+            </div>
+
+            <div class="mb-4">
+                <h5>3. Paint thickness measurements (µm)</h5>
+                <div class="row g-3">
+                    <div class="col-md-3">
+                        <label class="form-label">Hood</label>
+                        <input type="number" class="form-control" th:field="*{hoodThickness}">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Roof</label>
+                        <input type="number" class="form-control" th:field="*{roofThickness}">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Front Left Door</label>
+                        <input type="number" class="form-control" th:field="*{frontLeftDoorThickness}">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Rear Left Door</label>
+                        <input type="number" class="form-control" th:field="*{rearLeftDoorThickness}">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Front Right Door</label>
+                        <input type="number" class="form-control" th:field="*{frontRightDoorThickness}">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Rear Right Door</label>
+                        <input type="number" class="form-control" th:field="*{rearRightDoorThickness}">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Trunk</label>
+                        <input type="number" class="form-control" th:field="*{trunkThickness}">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">A-Pillar Left</label>
+                        <input type="number" class="form-control" th:field="*{pillarALeftThickness}">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">A-Pillar Right</label>
+                        <input type="number" class="form-control" th:field="*{pillarARightThickness}">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">B-Pillar Left</label>
+                        <input type="number" class="form-control" th:field="*{pillarBLeftThickness}">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">B-Pillar Right</label>
+                        <input type="number" class="form-control" th:field="*{pillarBRightThickness}">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">C-Pillar Left</label>
+                        <input type="number" class="form-control" th:field="*{pillarCLeftThickness}">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">C-Pillar Right</label>
+                        <input type="number" class="form-control" th:field="*{pillarCRightThickness}">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Front Left Wheel Arch</label>
+                        <input type="number" class="form-control" th:field="*{frontLeftWheelArchThickness}">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Front Right Wheel Arch</label>
+                        <input type="number" class="form-control" th:field="*{frontRightWheelArchThickness}">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Rear Left Wheel Arch</label>
+                        <input type="number" class="form-control" th:field="*{rearLeftWheelArchThickness}">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Rear Right Wheel Arch</label>
+                        <input type="number" class="form-control" th:field="*{rearRightWheelArchThickness}">
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-5 mb-4 text-center">
+                <button type="submit" class="btn btn-primary btn-lg px-4 py-2 rounded-pill shadow-sm">Continue</button>
+                <button type="button" class="btn btn-secondary btn-lg px-4 py-2 rounded-pill shadow-sm ms-3" onclick="window.location.href='/'">Cancel</button>
+            </div>
+        </form>
+    </main>
+</div>
+
+<div th:replace="~{layout :: footer}"></div>
+<script src="/js/paintForm.js"></script>
 </body>
 </html>

@@ -1,14 +1,7 @@
 package bavteqdoit.carhealthcheck.web;
 
 import bavteqdoit.carhealthcheck.data.*;
-import bavteqdoit.carhealthcheck.model.Car;
-import bavteqdoit.carhealthcheck.model.Brand;
-import bavteqdoit.carhealthcheck.model.ModelType;
-import bavteqdoit.carhealthcheck.model.Color;
-import bavteqdoit.carhealthcheck.model.EngineType;
-import bavteqdoit.carhealthcheck.model.BodyType;
-import bavteqdoit.carhealthcheck.model.GearboxType;
-import bavteqdoit.carhealthcheck.model.DriveType;
+import bavteqdoit.carhealthcheck.model.*;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -102,8 +95,32 @@ public class DesignCarController {
     @GetMapping("/paint")
     public String showPaintForm(@RequestParam Long carId, Model model) {
         Car car = carRepository.findById(carId).orElseThrow();
+
+        PaintCheck paintCheck = car.getPaintCheck();
+        if (paintCheck == null) {
+            paintCheck = new PaintCheck();
+            paintCheck.setCar(car);
+            car.setPaintCheck(paintCheck);
+        }
+
         model.addAttribute("car", car);
+        model.addAttribute("paintCheck", paintCheck);
+
         return "paint";
+    }
+
+    @PostMapping("/paint")
+    public String processPaintForm(@RequestParam Long carId,
+                                   @ModelAttribute PaintCheck paintCheck) {
+        Car car = carRepository.findById(carId).orElseThrow();
+
+        paintCheck.setCar(car);
+        paintCheck.getDamages().forEach(d -> d.setPaintCheck(paintCheck));
+
+        car.setPaintCheck(paintCheck);
+        carRepository.save(car);
+
+        return "redirect:/design/nextStep?carId=" + carId;
     }
 
     private void loadingDataAndAddAttributes(Model model) {

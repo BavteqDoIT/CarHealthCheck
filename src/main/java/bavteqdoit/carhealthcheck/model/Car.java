@@ -36,6 +36,9 @@ public class Car {
 
     private boolean foreignRegistered;
 
+    @OneToOne(mappedBy = "car", cascade = CascadeType.ALL)
+    private PaintCheck paintCheck;
+
     @ManyToOne
     @JoinColumn(name = "brand_id", nullable = false)
     @NotNull(message = "{car.brand.null}")
