@@ -5,25 +5,51 @@
 <head th:replace="~{layout :: head}"><title>Car Health Check</title></head>
 <body>
 <div th:replace="~{layout :: navbar}"></div>
-<main>
-    <form th:object="${car}" method="post" enctype="multipart/form-data">
-        <input type="hidden" th:field="*{id}"/>
+<div class="container py-4">
+    <main>
+        <form method="POST" th:object="${car}">
+            <div class="row g-3 mt-3 text-center">
 
-        <div class="mb-3">
-            <label for="extraInfo">Dodatkowe informacje</label>
-            <input type="text" id="extraInfo" name="extraInfo" class="form-control">
-        </div>
+                <div class="mb-3">
+                    <h4 class="mb-3" th:text="#{raport.details}"></h4>
+                    <p class="mb-4">
+                        <strong th:text="#{raport.vin}"></strong> <span th:text="${car.vin}"></span><br>
+                        <strong th:text="#{raport.date}"></strong> <span th:text="${car.firstRegistrationDate}"></span>
+                    </p>
+                </div>
 
-        <div class="mb-3" th:if="${!car.foreignRegistered}">
-            <label for="report">Raport historii pojazdu</label>
-            <input type="file" id="report" name="report" class="form-control">
-        </div>
+                <div class="mb-3">
+                    <div class="alert alert-info text-center p-4 rounded-3 shadow-sm">
+                        <h4 class="mb-3" th:text="#{raport.site.label}"></h4>
+                        <p class="mb-4" th:utext="#{raport.site.text}">
+                            <a href="https://historiapojazdu.gov.pl/" target="_blank" rel="noopener noreferrer" th:text="#{raport.site.link}">
+                            </a>
+                        </p>
+                        <a href="https://historiapojazdu.gov.pl/" target="_blank" rel="noopener noreferrer"
+                           class="btn btn-success btn-lg px-4 py-2 rounded-pill shadow-sm" th:text="#{raport.site.button}">
+                        </a>
+                    </div>
+                </div>
 
-        <div class="text-center mt-3">
-            <button type="submit" class="btn btn-primary">Zapisz</button>
-        </div>
-    </form>
-</main>
+                <div class="mb-3" th:if="${!car.foreignRegistered}">
+                    <label for="report" th:text="#{raport.label}"></label>
+                    <input type="file" id="report" name="report" class="form-control">
+                </div>
+
+                <div class="mt-5 mb-4 text-center">
+                    <button type="submit" class="btn btn-primary btn-lg px-4 py-2 rounded-pill shadow-sm"
+                            th:text="#{design.button}">
+                    </button>
+                    <button type="button" class="btn btn-primary btn-lg px-4 py-2 rounded-pill shadow-sm ms-3"
+                            th:text="#{design.button.cancel}"
+                            onclick="window.location.href='/'">
+                    </button>
+                </div>
+            </div>
+        </form>
+    </main>
+</div>
 <div th:replace="~{layout :: footer}"></div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </body>
 </html>
