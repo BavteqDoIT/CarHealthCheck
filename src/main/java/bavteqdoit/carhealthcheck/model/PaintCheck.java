@@ -38,6 +38,8 @@ public class PaintCheck {
     private boolean pillarBRightDifferent;
     private boolean pillarCLeftDifferent;
     private boolean pillarCRightDifferent;
+    private boolean frontBumperDifferent;
+    private boolean rearBumperDifferent;
 
     @OneToMany(mappedBy = "paintCheck", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PaintDamage> damages = new ArrayList<>();
@@ -59,4 +61,6 @@ public class PaintCheck {
     private Integer frontRightWheelArchThickness;
     private Integer rearLeftWheelArchThickness;
     private Integer rearRightWheelArchThickness;
+    private Integer frontBumperThickness;
+    private Integer rearBumperThickness;
 }

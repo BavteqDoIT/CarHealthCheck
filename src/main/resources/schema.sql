@@ -86,6 +86,8 @@ CREATE TABLE IF NOT EXISTS public.paint_check (
     front_right_door_different BOOLEAN DEFAULT FALSE,
     rear_right_door_different BOOLEAN DEFAULT FALSE,
     trunk_different BOOLEAN DEFAULT FALSE,
+    front_bumper_different BOOLEAN DEFAULT FALSE,
+    rear_bumper_different BOOLEAN DEFAULT FALSE,
 
     a_pillar_left_different BOOLEAN DEFAULT FALSE,
     a_pillar_right_different BOOLEAN DEFAULT FALSE,
@@ -101,6 +103,8 @@ CREATE TABLE IF NOT EXISTS public.paint_check (
 
     hood_thickness INT,
     roof_thickness INT,
+    front_bumper INT,
+    rear_bumper INT,
     front_left_door_thickness INT,
     rear_left_door_thickness INT,
     front_right_door_thickness INT,

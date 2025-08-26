@@ -1,47 +1,9 @@
 let damageIndex = /*[[${paintCheck.damages.size()}]]*/ 0;
 
 function addDamage() {
-    const container = document.getElementById("damages-container");
-
-    const html = `
-    <div class="border rounded p-3 mb-3 damage-item">
-        <div class="row g-2 align-items-end">
-            <div class="col-md-3">
-                <label class="form-label">Body part</label>
-                <select class="form-select" name="damages[${damageIndex}].bodyPart">
-                    <option value="Hood">Hood</option>
-                    <option value="Roof">Roof</option>
-                    <option value="Door">Door</option>
-                    <option value="Trunk">Trunk</option>
-                    <option value="Pillar">Pillar</option>
-                    <option value="Wheel_Arch">Wheel Arch</option>
-                    <option value="Other">Other</option>
-                </select>
-            </div>
-            <div class="col-md-3">
-                <label class="form-label">Damage type</label>
-                <select class="form-select" name="damages[${damageIndex}].damageType">
-                    <option value="Scratch">Scratch</option>
-                    <option value="Dent">Dent</option>
-                    <option value="Chip">Chip</option>
-                    <option value="Scuff">Scuff</option>
-                </select>
-            </div>
-            <div class="col-md-3">
-                <label class="form-label">Size</label>
-                <select class="form-select" name="damages[${damageIndex}].size">
-                    <option value="Small">Small</option>
-                    <option value="Medium">Medium</option>
-                    <option value="Large">Large</option>
-                </select>
-            </div>
-            <div class="col-md-3 text-end">
-                <button type="button" class="btn btn-outline-danger remove-damage">Remove</button>
-            </div>
-        </div>
-    </div>
-    `;
-    container.insertAdjacentHTML("beforeend", html);
+    const template = document.getElementById("damage-template").innerHTML;
+    const html = template.replace(/__index__/g, damageIndex); // zamiana placeholdera na numer
+    document.getElementById("damages-container").insertAdjacentHTML("beforeend", html);
     attachRemoveHandlers();
     damageIndex++;
 }

@@ -11,242 +11,266 @@
 <div class="container py-4">
     <main>
         <form method="POST" th:object="${paintCheck}">
-            <h3 class="mb-4">Paint Inspection</h3>
+            <h3 class="mb-4" th:text="#{paint.title}"></h3>
 
             <div class="mb-4">
-                <h5>1. Are any parts visually different in color?</h5>
-                <p class="mb-4"><strong>Selected color:</strong> <span th:text="${car.color.color}"></span></p>
+                <h5 th:text="#{paint.subtitle.1}"></h5>
+                <p class="mb-4" th:utext="#{paint.selected.color}"><span th:text="${car.color.color}"></span></p>
 
                 <div class="row g-3">
                     <div class="col-md-3">
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" th:field="*{hoodDifferent}" id="hoodDifferent">
-                            <label class="form-check-label" for="hoodDifferent">Hood</label>
+                            <label class="form-check-label" for="hoodDifferent" th:text="#{paint.hood}"></label>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" th:field="*{roofDifferent}" id="roofDifferent">
-                            <label class="form-check-label" for="roofDifferent">Roof</label>
+                            <label class="form-check-label" for="roofDifferent" th:text="#{paint.roof}"></label>
                         </div>
                     </div>
 
                     <div class="col-md-3">
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" th:field="*{frontLeftDoorDifferent}" id="frontLeftDoorDifferent">
-                            <label class="form-check-label" for="frontLeftDoorDifferent">Front Left Door</label>
+                            <label class="form-check-label" for="frontLeftDoorDifferent" th:text="#{paint.front.left.door}"></label>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" th:field="*{rearLeftDoorDifferent}" id="rearLeftDoorDifferent">
-                            <label class="form-check-label" for="rearLeftDoorDifferent">Rear Left Door</label>
+                            <label class="form-check-label" for="rearLeftDoorDifferent" th:text="#{paint.rear.left.door}"></label>
                         </div>
                     </div>
 
                     <div class="col-md-3">
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" th:field="*{frontRightDoorDifferent}" id="frontRightDoorDifferent">
-                            <label class="form-check-label" for="frontRightDoorDifferent">Front Right Door</label>
+                            <label class="form-check-label" for="frontRightDoorDifferent" th:text="#{paint.front.right.door}"></label>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" th:field="*{rearRightDoorDifferent}" id="rearRightDoorDifferent">
-                            <label class="form-check-label" for="rearRightDoorDifferent">Rear Right Door</label>
+                            <label class="form-check-label" for="rearRightDoorDifferent" th:text="#{paint.rear.right.door}"></label>
                         </div>
                     </div>
 
                     <div class="col-md-3">
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" th:field="*{trunkDifferent}" id="trunkDifferent">
-                            <label class="form-check-label" for="trunkDifferent">Trunk</label>
+                            <label class="form-check-label" for="trunkDifferent" th:text="#{paint.trunk}"></label>
                         </div>
                     </div>
 
                     <div class="col-md-3">
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" th:field="*{frontLeftWheelArchDifferent}" id="frontLeftWheelArchDifferent">
-                            <label class="form-check-label" for="frontLeftWheelArchDifferent">Front Left Wheel Arch</label>
+                            <label class="form-check-label" for="frontLeftWheelArchDifferent" th:text="#{paint.front.left.arch}"></label>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" th:field="*{frontRightWheelArchDifferent}" id="frontRightWheelArchDifferent">
-                            <label class="form-check-label" for="frontRightWheelArchDifferent">Front Right Wheel Arch</label>
+                            <label class="form-check-label" for="frontRightWheelArchDifferent" th:text="#{paint.front.right.arch}"></label>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" th:field="*{rearLeftWheelArchDifferent}" id="rearLeftWheelArchDifferent">
-                            <label class="form-check-label" for="rearLeftWheelArchDifferent">Rear Left Wheel Arch</label>
+                            <label class="form-check-label" for="rearLeftWheelArchDifferent" th:text="#{paint.rear.left.arch}"></label>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" th:field="*{rearRightWheelArchDifferent}" id="rearRightWheelArchDifferent">
-                            <label class="form-check-label" for="rearRightWheelArchDifferent">Rear Right Wheel Arch</label>
+                            <label class="form-check-label" for="rearRightWheelArchDifferent" th:text="#{paint.rear.right.arch}"></label>
                         </div>
                     </div>
                     <div class="col-md-2">
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" th:field="*{pillarALeftDifferent}" id="pillarALeftDifferent">
-                            <label class="form-check-label" for="pillarALeftDifferent">A-Pillar Left</label>
+                            <label class="form-check-label" for="pillarALeftDifferent" th:text="#{paint.pillar.a.left}"></label>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" th:field="*{pillarARightDifferent}" id="pillarARightDifferent">
-                            <label class="form-check-label" for="pillarARightDifferent">A-Pillar Right</label>
+                            <label class="form-check-label" for="pillarARightDifferent" th:text="#{paint.pillar.a.right}"></label>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" th:field="*{pillarBLeftDifferent}" id="pillarBLeftDifferent">
-                            <label class="form-check-label" for="pillarBLeftDifferent">B-Pillar Left</label>
+                            <label class="form-check-label" for="pillarBLeftDifferent" th:text="#{paint.pillar.b.left}"></label>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" th:field="*{pillarBRightDifferent}" id="pillarBRightDifferent">
-                            <label class="form-check-label" for="pillarBRightDifferent">B-Pillar Right</label>
+                            <label class="form-check-label" for="pillarBRightDifferent" th:text="#{paint.pillar.b.right}"></label>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" th:field="*{pillarCLeftDifferent}" id="pillarCLeftDifferent">
-                            <label class="form-check-label" for="pillarCLeftDifferent">C-Pillar Left</label>
+                            <label class="form-check-label" for="pillarCLeftDifferent" th:text="#{paint.pillar.c.left}"></label>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" th:field="*{pillarCRightDifferent}" id="pillarCRightDifferent">
-                            <label class="form-check-label" for="pillarCRightDifferent">C-Pillar Right</label>
+                            <label class="form-check-label" for="pillarCRightDifferent" th:text="#{paint.pillar.c.right}"></label>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" th:field="*{frontBumperDifferent}" id="frontBumper">
+                            <label class="form-check-label" for="frontBumper" th:text="#{paint.bumper.front}"></label>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" th:field="*{rearBumperDifferent}" id="rearBumper">
+                            <label class="form-check-label" for="rearBumper" th:text="#{paint.bumper.rear}"></label>
                         </div>
                     </div>
                 </div>
             </div>
 
             <div class="mb-4">
-                <h5>2. Visible paint damages</h5>
+                <h5 th:text="#{paint.subtitle.2}"></h5>
                 <div id="damages-container">
-                    <div th:each="damage, iterStat : *{damages}" class="border rounded p-3 mb-3 damage-item">
-                        <div class="row g-2 align-items-end">
-                            <div class="col-md-3">
-                                <label class="form-label">Body part</label>
-                                <select class="form-select" th:field="*{damages[__${iterStat.index}__].bodyPart}">
-                                    <option value="Hood">Hood</option>
-                                    <option value="Roof">Roof</option>
-                                    <option value="Door">Door</option>
-                                    <option value="Trunk">Trunk</option>
-                                    <option value="Pillar">Pillar</option>
-                                    <option value="Wheel_Arch">Wheel Arch</option>
-                                    <option value="Other">Other</option>
-                                </select>
-                            </div>
-                            <div class="col-md-3">
-                                <label class="form-label">Damage type</label>
-                                <select class="form-select" th:field="*{damages[__${iterStat.index}__].damageType}">
-                                    <option value="Scratch">Scratch</option>
-                                    <option value="Dent">Dent</option>
-                                    <option value="Chip">Chip</option>
-                                    <option value="Scuff">Scuff</option>
-                                </select>
-                            </div>
-                            <div class="col-md-3">
-                                <label class="form-label">Size</label>
-                                <select class="form-select" th:field="*{damages[__${iterStat.index}__].size}">
-                                    <option value="Small">Small</option>
-                                    <option value="Medium">Medium</option>
-                                    <option value="Large">Large</option>
-                                </select>
-                            </div>
-                            <div class="col-md-3 text-end">
-                                <button type="button" class="btn btn-outline-danger remove-damage">Remove</button>
+                    <template id="damage-template">
+                        <div class="border rounded p-3 mb-3 damage-item">
+                            <div class="row g-2 align-items-end">
+                                <div class="col-md-3">
+                                    <label class="form-label" th:text="#{paint.label.body.part}"></label>
+                                    <select class="form-select" name="damages[__index__].bodyPart">
+                                        <option value="Hood" th:text="#{paint.hood}"></option>
+                                        <option value="Roof" th:text="#{paint.roof}"></option>
+                                        <option value="Door" th:text="#{paint.selected.door}"></option>
+                                        <option value="Trunk" th:text="#{paint.trunk}"></option>
+                                        <option value="Pillar" th:text="#{paint.selected.pillar}"></option>
+                                        <option value="Wheel_Arch" th:text="#{paint.selected.wheel.arch}"></option>
+                                        <option value="Bumper" th:text="#{paint.selected.bumper}"></option>
+                                        <option value="Other" th:text="#{paint.selected.other}"></option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label" th:text="#{paint.label.damage}"></label>
+                                    <select class="form-select" name="damages[__index__].damageType">
+                                        <option value="Scratch" th:text="#{paint.label.damage.scratch}"></option>
+                                        <option value="Dent" th:text="#{paint.label.damage.dent}"></option>
+                                        <option value="Chip" th:text="#{paint.label.damage.chip}"></option>
+                                        <option value="Scuff" th:text="#{paint.label.damage.scuff}"></option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label" th:text="#{paint.size.label}"></label>
+                                    <select class="form-select" name="damages[__index__].size">
+                                        <option value="Small" th:text="#{paint.size.small}"></option>
+                                        <option value="Medium" th:text="#{paint.size.medium}"></option>
+                                        <option value="Large" th:text="#{paint.size.large}"></option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3 text-end">
+                                    <button type="button" class="btn btn-outline-danger remove-damage" th:text="#{paint.button.remove}"></button>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </template>
+
                 </div>
-                <button type="button" class="btn btn-outline-primary mt-2" onclick="addDamage()">+ Add damage</button>
+                <button type="button" class="btn btn-outline-primary mt-2" onclick="addDamage()" th:text="#{paint.button.add.damage}"></button>
             </div>
 
             <div class="mb-4">
-                <h5>3. Paint thickness measurements (µm)</h5>
+                <h5 th:text="#{paint.label.measurements}"></h5>
                 <div class="row g-3">
                     <div class="col-md-3">
-                        <label class="form-label">Hood</label>
+                        <label class="form-label" th:text="#{paint.hood}"></label>
                         <input type="number" class="form-control" th:field="*{hoodThickness}">
                     </div>
                     <div class="col-md-3">
-                        <label class="form-label">Roof</label>
+                        <label class="form-label" th:text="#{paint.roof}"></label>
                         <input type="number" class="form-control" th:field="*{roofThickness}">
                     </div>
                     <div class="col-md-3">
-                        <label class="form-label">Front Left Door</label>
+                        <label class="form-label" th:text="#{paint.front.left.door}"></label>
                         <input type="number" class="form-control" th:field="*{frontLeftDoorThickness}">
                     </div>
                     <div class="col-md-3">
-                        <label class="form-label">Rear Left Door</label>
+                        <label class="form-label" th:text="#{paint.rear.left.door}"></label>
                         <input type="number" class="form-control" th:field="*{rearLeftDoorThickness}">
                     </div>
                     <div class="col-md-3">
-                        <label class="form-label">Front Right Door</label>
+                        <label class="form-label" th:text="#{paint.front.right.door}"></label>
                         <input type="number" class="form-control" th:field="*{frontRightDoorThickness}">
                     </div>
                     <div class="col-md-3">
-                        <label class="form-label">Rear Right Door</label>
+                        <label class="form-label" th:text="#{paint.rear.right.door}"></label>
                         <input type="number" class="form-control" th:field="*{rearRightDoorThickness}">
                     </div>
                     <div class="col-md-3">
-                        <label class="form-label">Trunk</label>
+                        <label class="form-label" th:text="#{paint.trunk}"></label>
                         <input type="number" class="form-control" th:field="*{trunkThickness}">
                     </div>
                     <div class="col-md-3">
-                        <label class="form-label">A-Pillar Left</label>
+                        <label class="form-label" th:text="#{paint.pillar.a.left}"></label>
                         <input type="number" class="form-control" th:field="*{pillarALeftThickness}">
                     </div>
                     <div class="col-md-3">
-                        <label class="form-label">A-Pillar Right</label>
+                        <label class="form-label" th:text="#{paint.pillar.a.right}"></label>
                         <input type="number" class="form-control" th:field="*{pillarARightThickness}">
                     </div>
                     <div class="col-md-3">
-                        <label class="form-label">B-Pillar Left</label>
+                        <label class="form-label" th:text="#{paint.pillar.b.left}"></label>
                         <input type="number" class="form-control" th:field="*{pillarBLeftThickness}">
                     </div>
                     <div class="col-md-3">
-                        <label class="form-label">B-Pillar Right</label>
+                        <label class="form-label" th:text="#{paint.pillar.b.right}"></label>
                         <input type="number" class="form-control" th:field="*{pillarBRightThickness}">
                     </div>
                     <div class="col-md-3">
-                        <label class="form-label">C-Pillar Left</label>
+                        <label class="form-label" th:text="#{paint.pillar.c.left}"></label>
                         <input type="number" class="form-control" th:field="*{pillarCLeftThickness}">
                     </div>
                     <div class="col-md-3">
-                        <label class="form-label">C-Pillar Right</label>
+                        <label class="form-label" th:text="#{paint.pillar.c.right}"></label>
                         <input type="number" class="form-control" th:field="*{pillarCRightThickness}">
                     </div>
                     <div class="col-md-3">
-                        <label class="form-label">Front Left Wheel Arch</label>
+                        <label class="form-label" th:text="#{paint.front.left.arch}"></label>
                         <input type="number" class="form-control" th:field="*{frontLeftWheelArchThickness}">
                     </div>
                     <div class="col-md-3">
-                        <label class="form-label">Front Right Wheel Arch</label>
+                        <label class="form-label" th:text="#{paint.front.right.arch}"></label>
                         <input type="number" class="form-control" th:field="*{frontRightWheelArchThickness}">
                     </div>
                     <div class="col-md-3">
-                        <label class="form-label">Rear Left Wheel Arch</label>
+                        <label class="form-label" th:text="#{paint.rear.right.arch}"></label>
                         <input type="number" class="form-control" th:field="*{rearLeftWheelArchThickness}">
                     </div>
                     <div class="col-md-3">
-                        <label class="form-label">Rear Right Wheel Arch</label>
+                        <label class="form-label" th:text="#{paint.rear.right.arch}"></label>
                         <input type="number" class="form-control" th:field="*{rearRightWheelArchThickness}">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label" th:text="#{paint.bumper.front}"></label>
+                        <input type="number" class="form-control" th:field="*{frontBumperThickness}">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label" th:text="#{paint.bumper.rear}"></label>
+                        <input type="number" class="form-control" th:field="*{rearBumperThickness}">
                     </div>
                 </div>
             </div>
 
             <div class="mt-5 mb-4 text-center">
-                <button type="submit" class="btn btn-primary btn-lg px-4 py-2 rounded-pill shadow-sm">Continue</button>
-                <button type="button" class="btn btn-secondary btn-lg px-4 py-2 rounded-pill shadow-sm ms-3" onclick="window.location.href='/'">Cancel</button>
+                <button type="submit" class="btn btn-primary btn-lg px-4 py-2 rounded-pill shadow-sm" th:text="#{design.button}"></button>
+                <button type="button" class="btn btn-secondary btn-lg px-4 py-2 rounded-pill shadow-sm ms-3" onclick="window.location.href='/'" th:text="#{design.button.cancel}"></button>
             </div>
         </form>
     </main>
