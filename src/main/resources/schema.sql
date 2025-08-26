@@ -64,6 +64,7 @@ CREATE TABLE IF NOT EXISTS public.car (
     body_type_id BIGINT NOT NULL,
     drive_type_id BIGINT NOT NULL,
     gearbox_type_id BIGINT NOT NULL,
+    vin VARCHAR(17) NOT NULL,
     first_registration_date DATE,
     foreign_registered BOOLEAN NOT NULL DEFAULT false,
     FOREIGN KEY (brand_id) REFERENCES brand(id) ON DELETE CASCADE,

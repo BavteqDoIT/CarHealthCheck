@@ -83,6 +83,12 @@
                     <div class="text-danger" th:if="${#fields.hasErrors('mileage')}" th:errors="*{mileage}"></div>
                 </div>
 
+                <div class="col-md-6 mb-3 text-center">
+                    <label for="vin" th:text="#{design.car.vin}"></label>
+                    <input id="vin" th:placeholder="#{design.car.vin.placeholder}" type="text" class="form-control" th:field="*{vin}"/>
+                    <div class="text-danger" th:if="${#fields.hasErrors('vin')}" th:errors="*{vin}"></div>
+                </div>
+
                 <div class="mb-3">
                     <label for="firstRegistrationDate" class="form-label" th:text="#{design.car.registration}"></label>
                     <input type="date" id="firstRegistrationDate" th:field="*{firstRegistrationDate}" class="form-control">

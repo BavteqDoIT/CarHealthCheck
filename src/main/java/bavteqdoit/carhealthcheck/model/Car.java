@@ -27,6 +27,11 @@ public class Car {
     @Max(value = 99999999, message = "{car.mileage.max}")
     private Integer mileage;
 
+    @NotBlank(message = "{car.vin.null}")
+    @Size(min = 17, max = 17, message = "{car.vin.size}")
+    @Pattern(regexp = "^[A-HJ-NPR-Z0-9]{17}$", message = "{car.vin.invalid}")
+    private String vin;
+
     private LocalDate firstRegistrationDate;
 
     private boolean foreignRegistered;
