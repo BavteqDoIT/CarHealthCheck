@@ -132,3 +132,31 @@ CREATE TABLE IF NOT EXISTS public.paint_damage (
      size VARCHAR(50),
      FOREIGN KEY (paint_id) REFERENCES paint_check(id) ON DELETE CASCADE
 );
+
+CREATE TABLE IF NOT EXISTS public.question (
+    id BIGSERIAL PRIMARY KEY,
+    main_category VARCHAR(255),
+    sub_category VARCHAR(255),
+    question_key VARCHAR(255),
+    question_type VARCHAR(255)
+);
+
+CREATE TABLE IF NOT EXISTS public.question_option(
+    id BIGSERIAL PRIMARY KEY,
+    question_id BIGINT NOT NULL,
+    question_option VARCHAR(255),
+    label_key VARCHAR(255),
+    FOREIGN KEY(question_id) REFERENCES question(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS public.question_answer(
+    id BIGSERIAL PRIMARY KEY,
+    question_id BIGINT NOT NULL,
+    answer_value VARCHAR(255),
+    numeric_value FLOAT,
+    car_id BIGINT NOT NULL,
+    selected_option_id BIGINT,
+    FOREIGN KEY(question_id) REFERENCES question(id) ON DELETE CASCADE,
+    FOREIGN KEY(car_id) REFERENCES car(id) ON DELETE CASCADE,
+    FOREIGN KEY (selected_option_id) REFERENCES question_option(id) ON DELETE SET NULL
+);

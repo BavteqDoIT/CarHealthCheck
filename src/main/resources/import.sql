@@ -38,3 +38,35 @@ INSERT INTO gearbox_type (gearbox_type) VALUES ('Automatic');
 INSERT INTO drive_type (drive_type) VALUES ('FWD');
 INSERT INTO drive_type (drive_type) VALUES ('RWD');
 INSERT INTO drive_type (drive_type) VALUES ('AWD');
+
+-- ===============================
+-- Pytania
+-- ===============================
+INSERT INTO question (main_category, sub_category, question_key, question_type) VALUES ('consumables', 'oil', 'oil_level_check', 'select');
+INSERT INTO question (main_category, sub_category, question_key, question_type) VALUES ('consumables', 'brakes', 'brake_fluid_check', 'select');
+INSERT INTO question (main_category, sub_category, question_key, question_type) VALUES ('interior', 'seats', 'seat_condition', 'select');
+INSERT INTO question (main_category, sub_category, question_key, question_type) VALUES ('interior', 'dashboard', 'dashboard_lights', 'select');
+INSERT INTO question (main_category, sub_category, question_key, question_type) VALUES ('mechanics', 'engine', 'engine_noise', 'select');
+INSERT INTO question (main_category, sub_category, question_key, question_type) VALUES ('mechanics', 'suspension', 'suspension_condition', 'select');
+
+INSERT INTO question_option (question_id, question_option, label_key) VALUES (1, 'very_low', 'oil.very_low');
+INSERT INTO question_option (question_id, question_option, label_key) VALUES (1, 'ok', 'oil.ok');
+INSERT INTO question_option (question_id, question_option, label_key) VALUES (1, 'low', 'oil.low');
+
+INSERT INTO question_option (question_id, question_option, label_key) VALUES (2, 'ok', 'brake.ok');
+INSERT INTO question_option (question_id, question_option, label_key) VALUES (2, 'low', 'brake.low');
+INSERT INTO question_option (question_id, question_option, label_key) VALUES (2, 'very_low', 'brake.very_low');
+
+INSERT INTO question_option (question_id, question_option, label_key) VALUES (3, 'good', 'seat.good');
+INSERT INTO question_option (question_id, question_option, label_key) VALUES (3, 'worn', 'seat.worn');
+INSERT INTO question_option (question_id, question_option, label_key) VALUES (3, 'damaged', 'seat.damaged');
+
+INSERT INTO question_option (question_id, question_option, label_key) VALUES (4, 'all_ok', 'dashboard.all_ok');
+INSERT INTO question_option (question_id, question_option, label_key) VALUES (4, 'warning', 'dashboard.warning');
+
+INSERT INTO question_option (question_id, question_option, label_key) VALUES (5, 'normal', 'engine.normal');
+INSERT INTO question_option (question_id, question_option, label_key) VALUES (5, 'abnormal', 'engine.abnormal');
+
+INSERT INTO question_option (question_id, question_option, label_key) VALUES (6, 'ok', 'suspension.ok');
+INSERT INTO question_option (question_id, question_option, label_key) VALUES (6, 'noisy', 'suspension.noisy');
+INSERT INTO question_option (question_id, question_option, label_key) VALUES (6, 'damaged', 'suspension.damaged');
