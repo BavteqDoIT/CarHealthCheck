@@ -111,13 +111,20 @@ public class DesignCarController {
 
     @PostMapping("/paint")
     public String processPaintForm(@RequestParam Long carId,
-                                   @ModelAttribute PaintCheck paintCheck) {
+                                   @Valid @ModelAttribute PaintCheck paintCheck,
+                                   Errors errors) {
+
         Car car = carRepository.findById(carId).orElseThrow();
 
         paintCheck.setCar(car);
         paintCheck.getDamages().forEach(d -> d.setPaintCheck(paintCheck));
 
         car.setPaintCheck(paintCheck);
+
+        if (errors.hasErrors()) {
+            return "paint"; // wraca do formularza z wyświetleniem błędów
+        }
+
         carRepository.save(car);
 
         return "redirect:/design/nextStep?carId=" + carId;

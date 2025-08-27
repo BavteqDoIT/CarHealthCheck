@@ -188,6 +188,9 @@
 
             <div class="mb-4">
                 <h5 th:text="#{paint.label.measurements}"></h5>
+                <div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">
+                        <p th:text="#{paint.not.blank.message}"></p>
+                </div>
                 <div class="row g-3">
                     <div class="col-md-3">
                         <label class="form-label" th:text="#{paint.hood}"></label>
@@ -254,7 +257,7 @@
                         <input type="number" class="form-control" th:field="*{rearLeftWheelArchThickness}">
                     </div>
                     <div class="col-md-3">
-                        <label class="form-label" th:text="#{paint.rear.right.arch}"></label>
+                        <label class="form-label" th:text="#{paint.rear.left.arch}"></label>
                         <input type="number" class="form-control" th:field="*{rearRightWheelArchThickness}">
                     </div>
                     <div class="col-md-3">

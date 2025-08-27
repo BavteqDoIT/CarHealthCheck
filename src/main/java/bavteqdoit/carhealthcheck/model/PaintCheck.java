@@ -1,6 +1,8 @@
 package bavteqdoit.carhealthcheck.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,23 +46,42 @@ public class PaintCheck {
     @OneToMany(mappedBy = "paintCheck", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PaintDamage> damages = new ArrayList<>();
 
+    @NotNull(message = "{paint.not.null.message}")
     private Integer hoodThickness;
+    @NotNull(message = "{paint.not.null.message}")
     private Integer roofThickness;
+    @NotNull(message = "{paint.not.null.message}")
     private Integer frontLeftDoorThickness;
+    @NotNull(message = "{paint.not.null.message}")
     private Integer rearLeftDoorThickness;
+    @NotNull(message = "{paint.not.null.message}")
     private Integer frontRightDoorThickness;
+    @NotNull(message = "{paint.not.null.message}")
     private Integer rearRightDoorThickness;
+    @NotNull(message = "{paint.not.null.message}")
     private Integer trunkThickness;
+    @NotNull(message = "{paint.not.null.message}")
     private Integer pillarALeftThickness;
+    @NotNull(message = "{paint.not.null.message}")
     private Integer pillarARightThickness;
+    @NotNull(message = "{paint.not.null.message}")
     private Integer pillarBLeftThickness;
+    @NotNull(message = "{paint.not.null.message}")
     private Integer pillarBRightThickness;
+    @NotNull(message = "{paint.not.null.message}")
     private Integer pillarCLeftThickness;
+    @NotNull(message = "{paint.not.null.message}")
     private Integer pillarCRightThickness;
+    @NotNull(message = "{paint.not.null.message}")
     private Integer frontLeftWheelArchThickness;
+    @NotNull(message = "{paint.not.null.message}")
     private Integer frontRightWheelArchThickness;
+    @NotNull(message = "{paint.not.null.message}")
     private Integer rearLeftWheelArchThickness;
+    @NotNull(message = "{paint.not.null.message}")
     private Integer rearRightWheelArchThickness;
+    @NotNull(message = "{paint.not.null.message}")
     private Integer frontBumperThickness;
+    @NotNull(message = "{paint.not.null.message}")
     private Integer rearBumperThickness;
 }
