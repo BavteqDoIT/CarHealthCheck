@@ -48,6 +48,9 @@ INSERT INTO question (main_category, sub_category, question_key, question_type) 
 INSERT INTO question (main_category, sub_category, question_key, question_type) VALUES ('interior', 'dashboard', 'dashboard_lights', 'select');
 INSERT INTO question (main_category, sub_category, question_key, question_type) VALUES ('mechanics', 'engine', 'engine_noise', 'select');
 INSERT INTO question (main_category, sub_category, question_key, question_type) VALUES ('mechanics', 'suspension', 'suspension_condition', 'select');
+INSERT INTO question (main_category, sub_category, question_key, question_type) VALUES ('consumables', 'brakes', 'brake_description', 'text');
+INSERT INTO question (main_category, sub_category, question_key, question_type) VALUES ('consumables', 'wheels', 'wheel_tread', 'number');
+
 
 INSERT INTO question_option (question_id, question_option, label_key) VALUES (1, 'very_low', 'oil.very_low');
 INSERT INTO question_option (question_id, question_option, label_key) VALUES (1, 'ok', 'oil.ok');
@@ -70,3 +73,4 @@ INSERT INTO question_option (question_id, question_option, label_key) VALUES (5,
 INSERT INTO question_option (question_id, question_option, label_key) VALUES (6, 'ok', 'suspension.ok');
 INSERT INTO question_option (question_id, question_option, label_key) VALUES (6, 'noisy', 'suspension.noisy');
 INSERT INTO question_option (question_id, question_option, label_key) VALUES (6, 'damaged', 'suspension.damaged');
+

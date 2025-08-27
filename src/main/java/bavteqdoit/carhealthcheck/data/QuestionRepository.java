@@ -1,4 +1,10 @@
 package bavteqdoit.carhealthcheck.data;
 
-public interface QuestionRepository {
+import bavteqdoit.carhealthcheck.model.Question;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
+
+public interface QuestionRepository extends JpaRepository<Question,Long> {
+    List<Question> findByMainCategoryOrderByIdAsc(String mainCategory);
 }

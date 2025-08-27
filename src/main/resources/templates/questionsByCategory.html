@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: head}">
+    <title>Car Health Check</title>
+</head>
+<body>
+<div th:replace="~{layout :: navbar}"></div>
+<div class="container py-4">
+    <main>
+        <form method="POST" th:action="@{/design/questions/save}">
+            <input type="hidden" name="carId" th:value="${carId}"/>
+            <input type="hidden" name="category" th:value="${category}"/>
+
+            <div th:each="q : ${questions}">
+                <p th:text="#{${q.questionKey}}"></p>
+
+                <div th:switch="${q.questionType}">
+                    <div th:case="'select'">
+                        <select th:name="|selectedOption_${q.id}|">
+                            <option th:each="opt : ${q.options}"
+                                    th:value="${opt.id}"
+                                    th:text="#{${opt.labelKey}}"></option>
+                        </select>
+                    </div>
+
+                    <div th:case="'text'">
+                        <input type="text" th:name="|answerValue_${q.id}|"
+                               placeholder="Wpisz tekst" class="form-control mb-2"/>
+                    </div>
+
+                    <div th:case="'number'">
+                        <input type="number" th:name="|numericValue_${q.id}|"
+                               placeholder="Wpisz liczbę" class="form-control mb-2"/>
+                    </div>
+                </div>
+
+                <input type="hidden" th:name="|questionId_${q.id}|" th:value="${q.id}"/>
+            </div>
+
+            <button type="submit" class="btn btn-primary mt-3">Zapisz odpowiedzi</button>
+        </form>
+    </main>
+</div>
+<div th:replace="~{layout :: footer}"></div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</body>
+</html>

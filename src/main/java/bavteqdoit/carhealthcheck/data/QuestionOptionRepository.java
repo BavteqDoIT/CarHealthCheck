@@ -1,4 +1,7 @@
 package bavteqdoit.carhealthcheck.data;
 
-public interface QuestionOptionRepository {
+import bavteqdoit.carhealthcheck.model.QuestionOption;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface QuestionOptionRepository extends JpaRepository<QuestionOption,Long> {
 }

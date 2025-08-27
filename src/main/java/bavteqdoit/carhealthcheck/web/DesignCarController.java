@@ -10,6 +10,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Controller
@@ -23,6 +24,9 @@ public class DesignCarController {
     private final BodyTypeRepository bodyTypeRepository;
     private final DriveTypeRepository driveTypeRepository;
     private final GearboxTypeRepository gearboxTypeRepository;
+    private final QuestionOptionRepository questionOptionRepository;
+    private final QuestionRepository questionRepository;
+    private final QuestionAnswerRepository questionAnswerRepository;
 
     public DesignCarController(BrandRepository brandRepository,
                                ModelTypeRepository modelTypeRepository,
@@ -31,7 +35,10 @@ public class DesignCarController {
                                BodyTypeRepository bodyTypeRepository,
                                CarRepository carRepository,
                                DriveTypeRepository driveTypeRepository,
-                               GearboxTypeRepository gearboxTypeRepository) {
+                               GearboxTypeRepository gearboxTypeRepository,
+                               QuestionOptionRepository questionOptionRepository,
+                               QuestionRepository questionRepository,
+                               QuestionAnswerRepository questionAnswerRepository) {
         this.brandRepository = brandRepository;
         this.modelTypeRepository = modelTypeRepository;
         this.colorRepository = colorRepository;
@@ -40,6 +47,9 @@ public class DesignCarController {
         this.carRepository = carRepository;
         this.driveTypeRepository = driveTypeRepository;
         this.gearboxTypeRepository = gearboxTypeRepository;
+        this.questionRepository = questionRepository;
+        this.questionOptionRepository = questionOptionRepository;
+        this.questionAnswerRepository = questionAnswerRepository;
     }
 
     @GetMapping
@@ -122,12 +132,73 @@ public class DesignCarController {
         car.setPaintCheck(paintCheck);
 
         if (errors.hasErrors()) {
-            return "paint"; // wraca do formularza z wyświetleniem błędów
+            return "paint";
         }
 
         carRepository.save(car);
 
-        return "redirect:/design/nextStep?carId=" + carId;
+        return "redirect:/design/questions?carId=" + carId;
+    }
+
+    @GetMapping("/questions")
+    public String showQuestionsByCategory(@RequestParam Long carId,
+                                          @RequestParam(defaultValue = "consumables") String mainCategory,
+                                          Model model) {
+
+        List<Question> questions = questionRepository.findByMainCategoryOrderByIdAsc(mainCategory);
+
+        model.addAttribute("questions", questions);
+        model.addAttribute("carId", carId);
+        model.addAttribute("category", mainCategory);
+
+        return "questionsByCategory";
+    }
+
+    @PostMapping("/questions/save")
+    public String saveCategoryResponses(@RequestParam Long carId,
+                                        @RequestParam String category,
+                                        @RequestParam Map<String, String> allRequestParams) {
+
+        Car car = carRepository.findById(carId).orElseThrow();
+
+        for (String paramName : allRequestParams.keySet()) {
+            if (paramName.startsWith("questionId_")) {
+                Long questionId = Long.valueOf(allRequestParams.get(paramName));
+
+                Question question = questionRepository.findById(questionId).orElseThrow();
+                QuestionAnswer answer = new QuestionAnswer();
+                answer.setCar(car);
+                answer.setQuestion(question);
+
+                String optionParam = allRequestParams.get("selectedOption_" + questionId);
+                if (optionParam != null && !optionParam.isEmpty()) {
+                    answer.setSelectedOption(questionOptionRepository.findById(Long.valueOf(optionParam)).orElse(null));
+                }
+
+                String textValue = allRequestParams.get("answerValue_" + questionId);
+                if (textValue != null) answer.setAnswerValue(textValue);
+
+                String numericValue = allRequestParams.get("numericValue_" + questionId);
+                if (numericValue != null && !numericValue.isEmpty()) {
+                    answer.setNumericValue(Float.valueOf(numericValue));
+                }
+
+                questionAnswerRepository.save(answer);
+            }
+        }
+
+        String next = nextCategory(category);
+        if (next == null) return "redirect:/design/summary?carId=" + carId;
+        return "redirect:/design/questions?carId=" + carId + "&mainCategory=" + next;
+    }
+
+    private String nextCategory(String current) {
+        return switch (current) {
+            case "consumables" -> "interior";
+            case "interior" -> "mechanics";
+            case "mechanics" -> null;
+            default -> null;
+        };
     }
 
     private void loadingDataAndAddAttributes(Model model) {
