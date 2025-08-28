@@ -122,7 +122,8 @@ public class DesignCarController {
     @PostMapping("/paint")
     public String processPaintForm(@RequestParam Long carId,
                                    @Valid @ModelAttribute PaintCheck paintCheck,
-                                   Errors errors) {
+                                   Errors errors,
+                                   Model model) {
 
         Car car = carRepository.findById(carId).orElseThrow();
 
@@ -132,6 +133,7 @@ public class DesignCarController {
         car.setPaintCheck(paintCheck);
 
         if (errors.hasErrors()) {
+            model.addAttribute("car", car); // <-- dodajemy obiekt car do modelu
             return "paint";
         }
 
@@ -150,6 +152,8 @@ public class DesignCarController {
         model.addAttribute("questions", questions);
         model.addAttribute("carId", carId);
         model.addAttribute("category", mainCategory);
+        Car car = carRepository.findById(carId).orElseThrow();
+        model.addAttribute("car", car);
 
         return "questionsByCategory";
     }

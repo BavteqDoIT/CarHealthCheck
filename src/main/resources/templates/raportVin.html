@@ -38,12 +38,10 @@
 
                 <div class="mt-5 mb-4 text-center">
                     <button type="submit" class="btn btn-primary btn-lg px-4 py-2 rounded-pill shadow-sm"
-                            th:text="#{design.button}">
-                    </button>
-                    <button type="button" class="btn btn-primary btn-lg px-4 py-2 rounded-pill shadow-sm ms-3"
-                            th:text="#{design.button.cancel}"
-                            onclick="window.location.href='/'">
-                    </button>
+                            th:text="#{design.button}"></button>
+                    <button type="button" class="btn btn-danger btn-lg"
+                            th:text="#{summary.delete.button}"
+                            th:onclick="'confirmDelete(' + ${car.id} + ')'"></button>
                 </div>
             </div>
         </form>
@@ -51,5 +49,6 @@
 </div>
 <div th:replace="~{layout :: footer}"></div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="/js/confirmDelete.js"></script>
 </body>
 </html>

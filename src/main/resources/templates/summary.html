@@ -71,16 +71,15 @@
                     </tr>
                     </tbody>
                 </table>
-                <form th:action="@{/design/summary/delete/{id}(id=${car.id})}" method="post"
-                      class="text-center mt-4"
-                      th:onsubmit="'return confirm(\'' + #{summary.confirm.delete} + '\');'">
-                    <button type="submit" class="btn btn-danger btn-lg" th:text="#{summary.delete.button}"></button>
-                </form>
+                <button type="button" class="btn btn-danger btn-lg"
+                        th:text="#{summary.delete.button}"
+                        th:onclick="'confirmDelete(' + ${car.id} + ')'"></button>
             </div>
         </div>
     </main>
 </div>
 <div th:replace="~{layout :: footer}"></div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="/js/confirmDelete.js"></script>
 </body>
 </html>
