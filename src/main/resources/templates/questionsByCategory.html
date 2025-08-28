@@ -13,33 +13,50 @@
             <input type="hidden" name="carId" th:value="${carId}"/>
             <input type="hidden" name="category" th:value="${category}"/>
 
-            <div th:each="q : ${questions}">
-                <p th:text="#{${q.questionKey}}"></p>
+            <div class="row g-3 mt-3">
+                <div th:each="q : ${questions}" class="col-md-6 mb-3 text-center">
 
-                <div th:switch="${q.questionType}">
-                    <div th:case="'select'">
-                        <select th:name="|selectedOption_${q.id}|">
-                            <option th:each="opt : ${q.options}"
-                                    th:value="${opt.id}"
-                                    th:text="#{${opt.labelKey}}"></option>
-                        </select>
+                    <div th:switch="${q.questionType}">
+                        <div th:case="'select'">
+                            <label th:for="|select-${q.id}|" th:text="#{${q.questionKey}}"></label>
+                            <select th:id="|select-${q.id}|" class="form-select"
+                                    th:name="|selectedOption_${q.id}|">
+                                <option th:each="opt : ${q.options}"
+                                        th:value="${opt.id}"
+                                        th:text="#{${opt.labelKey}}"></option>
+                            </select>
+                        </div>
+
+                        <div th:case="'text'">
+                            <label th:for="|text-${q.id}|" th:text="#{${q.questionKey}}"></label>
+                            <input th:id="|text-${q.id}|" type="text"
+                                   th:name="|answerValue_${q.id}|"
+                                   th:placeholder="#{questions.placeholder.text}"
+                                   class="form-control"/>
+                        </div>
+
+                        <div th:case="'number'">
+                            <label th:for="|number-${q.id}|" th:text="#{${q.questionKey}}"></label>
+                            <input th:id="|number-${q.id}|" type="number"
+                                   th:name="|numericValue_${q.id}|"
+                                   th:placeholder="#{questions.placeholder.number}"
+                                   class="form-control"/>
+                        </div>
                     </div>
 
-                    <div th:case="'text'">
-                        <input type="text" th:name="|answerValue_${q.id}|"
-                               placeholder="Wpisz tekst" class="form-control mb-2"/>
-                    </div>
-
-                    <div th:case="'number'">
-                        <input type="number" th:name="|numericValue_${q.id}|"
-                               placeholder="Wpisz liczbę" class="form-control mb-2"/>
-                    </div>
+                    <input type="hidden" th:name="|questionId_${q.id}|" th:value="${q.id}"/>
                 </div>
-
-                <input type="hidden" th:name="|questionId_${q.id}|" th:value="${q.id}"/>
             </div>
 
-            <button type="submit" class="btn btn-primary mt-3">Zapisz odpowiedzi</button>
+            <div class="mt-5 mb-4 text-center">
+                <button type="submit" class="btn btn-primary btn-lg px-4 py-2 rounded-pill shadow-sm"
+                        th:text="#{design.button}">
+                </button>
+                <button type="button" class="btn btn-primary btn-lg px-4 py-2 rounded-pill shadow-sm ms-3"
+                        th:text="#{design.button.cancel}"
+                        onclick="window.location.href='/'">
+                </button>
+            </div>
         </form>
     </main>
 </div>

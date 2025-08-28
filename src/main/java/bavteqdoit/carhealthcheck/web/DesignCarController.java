@@ -201,6 +201,11 @@ public class DesignCarController {
         };
     }
 
+    @GetMapping("/summary")
+    public String showSummary(@RequestParam Long carId, Model model) {
+        return "summary";
+    }
+
     private void loadingDataAndAddAttributes(Model model) {
         List<Brand> brands = brandRepository.findAll();
         List<ModelType> models = modelTypeRepository.findAll();
