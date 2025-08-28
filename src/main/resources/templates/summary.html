@@ -2,12 +2,82 @@
 <html lang="en"
       xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{layout :: head}"><title>Car Health Check</title></head>
+<head th:replace="~{layout :: head}">
+    <title>Car Health Check</title>
+</head>
 <body>
 <div th:replace="~{layout :: navbar}"></div>
 <div class="container py-4">
     <main>
-        <h1 class="display-4 text-center">Summary</h1>
+        <h1 class="display-4 text-center mb-4" th:text="#{summary.title}"></h1>
+        <div th:object="${car}">
+            <div class="alert alert-info p-4 rounded-3 shadow-sm">
+                <h3 class="mb-3 text-center" th:text="#{summary.table.car.title}">Car details</h3>
+                <table class="table table-striped table-bordered align-middle">
+                    <tbody>
+                    <tr>
+                        <th scope="row" th:text="#{summary.brand}">Brand</th>
+                        <td th:text="*{brand.brandName}"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row" th:text="#{summary.model}">Model</th>
+                        <td th:text="*{modelType.modelName}"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row" th:text="#{summary.color}">Color</th>
+                        <td th:text="*{color.color}"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row" th:text="#{summary.engine}">Engine</th>
+                        <td th:text="*{engineType.engineType}"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row" th:text="#{summary.body.type}">Body type</th>
+                        <td th:text="*{bodyType.bodyType}"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row" th:text="#{summary.drive.type}">Drive type</th>
+                        <td th:text="*{driveType.driveType}"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row" th:text="#{summary.gearbox}">Gearbox</th>
+                        <td th:text="*{gearboxType.gearboxType}"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row" th:text="#{summary.production.year}">Production year</th>
+                        <td th:text="*{productionYear}"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row" th:text="#{summary.mileage}">Mileage</th>
+                        <td th:text="*{mileage + ' km'}"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row" th:text="#{summary.vin}">VIN</th>
+                        <td th:text="*{vin}"></td>
+                    </tr>
+                    <tr th:if="${car.firstRegistrationDate != null}">
+                        <th scope="row" th:text="#{summary.first.registration}">Date of first registration in Poland</th>
+                        <td th:text="*{firstRegistrationDate}"></td>
+                    </tr>
+                    <tr th:if="${car.foreignRegistered == true}">
+                        <th scope="row" th:text="#{summary.model.foreign.registered}">Foreign registered</th>
+                        <td>
+                            <span th:text="*{foreignRegistered} ? #{summary.yes} : #{summary.no}"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row" th:text="#{summary.car.name}">Car name</th>
+                        <td th:text="*{name}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <form th:action="@{/design/summary/delete/{id}(id=${car.id})}" method="post"
+                      class="text-center mt-4"
+                      th:onsubmit="'return confirm(\'' + #{summary.confirm.delete} + '\');'">
+                    <button type="submit" class="btn btn-danger btn-lg" th:text="#{summary.delete.button}"></button>
+                </form>
+            </div>
+        </div>
     </main>
 </div>
 <div th:replace="~{layout :: footer}"></div>

@@ -203,7 +203,15 @@ public class DesignCarController {
 
     @GetMapping("/summary")
     public String showSummary(@RequestParam Long carId, Model model) {
+        Car car = carRepository.findById(carId).orElseThrow();
+        model.addAttribute("car", car);
         return "summary";
+    }
+
+    @PostMapping("/summary/delete/{id}")
+    public String deleteCar(@PathVariable Long id) {
+        carRepository.deleteById(id);
+        return "redirect:/";
     }
 
     private void loadingDataAndAddAttributes(Model model) {

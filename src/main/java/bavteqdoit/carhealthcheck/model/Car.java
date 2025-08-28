@@ -6,6 +6,7 @@ import jakarta.validation.constraints.*;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @Entity
@@ -73,4 +74,7 @@ public class Car {
     @JoinColumn(name = "gearbox_type_id", nullable = false)
     @NotNull(message = "{car.gearbox.null}")
     private GearboxType gearboxType;
+
+    @OneToMany(mappedBy = "car", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<QuestionAnswer> questionAnswers;
 }
