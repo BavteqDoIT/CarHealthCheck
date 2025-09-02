@@ -11,6 +11,7 @@
 <div class="container py-4">
     <main>
         <form method="POST" th:object="${paintCheck}">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
             <h3 class="mb-4" th:text="#{paint.title}"></h3>
 
             <div class="mb-4">
