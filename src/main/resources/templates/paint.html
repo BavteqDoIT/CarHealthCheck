@@ -310,9 +310,7 @@
             <div class="mt-5 mb-4 text-center">
                 <button type="submit" class="btn btn-primary btn-lg px-4 py-2 rounded-pill shadow-sm"
                         th:text="#{design.button}"></button>
-                <button type="button" class="btn btn-danger btn-lg"
-                        th:text="#{summary.delete.button}"
-                        th:onclick="'confirmDelete(' + ${car.id} + ')'"></button>
+                <div th:insert="~{fragments/cancelButton.html}" class="d-inline-block"></div>
             </div>
         </form>
     </main>
@@ -320,6 +318,5 @@
 
 <div th:replace="~{layout :: footer}"></div>
 <script src="/js/paintForm.js"></script>
-<script src="/js/confirmDelete.js"></script>
 </body>
 </html>

@@ -1,5 +1,5 @@
-function confirmDelete(carId) {
-    if (confirm('Czy na pewno chcesz usunąć?')) {
+function confirmDelete(carId, message) {
+    if (confirm(message)) {
         const csrfToken = document.querySelector('input[name="_csrf"]').value;
 
         const form = document.createElement('form');

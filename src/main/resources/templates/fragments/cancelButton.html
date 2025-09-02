@@ -1,0 +1,7 @@
+<div>
+    <button type="button" class="btn btn-danger btn-lg"
+            th:text="#{summary.delete.button}"
+            th:onclick="|confirmDelete(${car.id}, '#{summary.confirm.delete}')|">
+    </button>
+</div>
+<script src="/js/confirmDelete.js"></script>
