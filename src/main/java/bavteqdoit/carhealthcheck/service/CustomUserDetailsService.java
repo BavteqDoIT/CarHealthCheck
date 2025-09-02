@@ -1,4 +1,4 @@
-package bavteqdoit.carhealthcheck.web;
+package bavteqdoit.carhealthcheck.service;
 
 import bavteqdoit.carhealthcheck.data.UserRepository;
 import bavteqdoit.carhealthcheck.model.User; // <-- Twoja encja
