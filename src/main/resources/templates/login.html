@@ -25,6 +25,9 @@
                 <a href="register" th:text="#{login.register}"></a>
             </div>
         </form>
+        <div th:if="${param.error}" class="alert alert-danger">
+            <span th:text="#{login.error}">Invalid username or password</span>
+        </div>
     </main>
 </div>
 <div th:replace="~{layout :: footer}"></div>
