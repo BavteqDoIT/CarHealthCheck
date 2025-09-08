@@ -15,6 +15,10 @@ public class Car {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User owner;
+
     @NotBlank(message = "{car.name.null}")
     @Size(min = 5, max = 50, message = "{car.name.size}")
     private String name;

@@ -4,6 +4,7 @@ import bavteqdoit.carhealthcheck.data.*;
 import bavteqdoit.carhealthcheck.model.*;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -27,6 +28,7 @@ public class DesignCarController {
     private final QuestionOptionRepository questionOptionRepository;
     private final QuestionRepository questionRepository;
     private final QuestionAnswerRepository questionAnswerRepository;
+    private final UserRepository userRepository;
 
     public DesignCarController(BrandRepository brandRepository,
                                ModelTypeRepository modelTypeRepository,
@@ -38,7 +40,8 @@ public class DesignCarController {
                                GearboxTypeRepository gearboxTypeRepository,
                                QuestionOptionRepository questionOptionRepository,
                                QuestionRepository questionRepository,
-                               QuestionAnswerRepository questionAnswerRepository) {
+                               QuestionAnswerRepository questionAnswerRepository,
+                               UserRepository userRepository) {
         this.brandRepository = brandRepository;
         this.modelTypeRepository = modelTypeRepository;
         this.colorRepository = colorRepository;
@@ -50,6 +53,7 @@ public class DesignCarController {
         this.questionRepository = questionRepository;
         this.questionOptionRepository = questionOptionRepository;
         this.questionAnswerRepository = questionAnswerRepository;
+        this.userRepository = userRepository;
     }
 
     @GetMapping
@@ -65,14 +69,17 @@ public class DesignCarController {
     private final CarRepository carRepository;
 
     @PostMapping
-    public String processDesign(@Valid Car car, Errors errors, Model model) {
+    public String processDesign(@Valid Car car, Errors errors, Model model,  @AuthenticationPrincipal org.springframework.security.core.userdetails.User authUser) {
         if (errors.hasErrors()) {
 
             loadingDataAndAddAttributes(model);
 
             return "design";
         }
+        User user = userRepository.findByUsername(authUser.getUsername())
+                .orElseThrow(() -> new RuntimeException("User not found"));
 
+        car.setOwner(user);
         carRepository.save(car);
 
         log.info("Processing car: {}", car);
