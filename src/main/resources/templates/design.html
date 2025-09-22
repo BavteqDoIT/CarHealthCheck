@@ -33,7 +33,7 @@
                     <label for="colorSelect" th:text="#{design.color}"></label>
                     <select id="colorSelect" class="form-select" th:field="*{color}">
                         <option value="" th:text="#{design.color.mess}"></option>
-                        <option th:each="color : ${colors}" th:value="${color.id}" th:text="${color.color}"></option>
+                        <option th:each="color : ${colors}" th:value="${color.id}" th:text="#{${color.color}}">></option>
                     </select>
                     <div class="text-danger" th:if="${#fields.hasErrors('color')}" th:errors="*{color}"></div>
                 </div>
@@ -59,7 +59,7 @@
                     <label for="driveTypeSelect" th:text="#{design.drive}"></label>
                     <select id="driveTypeSelect" class="form-select" th:field="*{driveType}">
                         <option value="" th:text="#{design.drive.mess}"></option>
-                        <option th:each="drive : ${driveTypes}" th:value="${drive.id}" th:text="${drive.driveType}"></option>
+                        <option th:each="drive : ${driveTypes}" th:value="${drive.id}" th:text="#{${drive.driveType}}"></option>
                     </select>
                     <div class="text-danger" th:if="${#fields.hasErrors('driveType')}" th:errors="*{driveType}"></div>
                 </div>
@@ -68,7 +68,7 @@
                     <label for="gearboxTypeSelect" th:text="#{design.gearbox}"></label>
                     <select id="gearboxTypeSelect" class="form-select" th:field="*{gearboxType}">
                         <option value="" th:text="#{design.gearbox.mess}"></option>
-                        <option th:each="gearbox : ${gearboxTypes}" th:value="${gearbox.id}" th:text="${gearbox.gearboxType}"></option>
+                        <option th:each="gearbox : ${gearboxTypes}" th:value="${gearbox.id}" th:text="#{${gearbox.gearboxType}}"></option>
                     </select>
                     <div class="text-danger" th:if="${#fields.hasErrors('gearboxType')}" th:errors="*{gearboxType}"></div>
                 </div>
