@@ -227,6 +227,10 @@
                 <div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">
                     <p th:text="#{paint.not.blank.message}"></p>
                 </div>
+                <div class="form-check mb-3">
+                    <input class="form-check-input" type="checkbox" th:field="*{noThicknessMeasurements}" id="noThicknessMeasurements">
+                    <label class="form-check-label" for="noThicknessMeasurements" th:text="#{paint.no.sensor}"></label>
+                </div>
                 <div class="row g-3">
                     <div class="col-md-3">
                         <label class="form-label" th:text="#{paint.hood}"></label>

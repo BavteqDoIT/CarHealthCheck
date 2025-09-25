@@ -30,3 +30,23 @@ function updateIndexes() {
 }
 
 attachRemoveHandlers();
+
+document.addEventListener('DOMContentLoaded', function () {
+    const thicknessCheckbox = document.getElementById('noThicknessMeasurements');
+
+    function toggleThicknessInputs() {
+        const thicknessInputs = document.querySelectorAll('input[type="number"]');
+        thicknessInputs.forEach(input => {
+            if (thicknessCheckbox.checked) {
+                input.value = "";
+                input.disabled = true;
+            } else {
+                input.disabled = false;
+            }
+        });
+    }
+
+    toggleThicknessInputs();
+
+    thicknessCheckbox.addEventListener('change', toggleThicknessInputs);
+});
