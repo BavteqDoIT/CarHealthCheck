@@ -233,80 +233,156 @@
                 </div>
                 <div class="row g-3">
                     <div class="col-md-3">
-                        <label class="form-label" th:text="#{paint.hood}"></label>
-                        <input type="number" class="form-control" th:field="*{hoodThickness}">
+                        <label class="form-label" th:text="#{paint.min}+#{paint.hood}"></label>
+                        <input type="number" class="form-control" th:field="*{minHoodThickness}">
                     </div>
                     <div class="col-md-3">
-                        <label class="form-label" th:text="#{paint.roof}"></label>
-                        <input type="number" class="form-control" th:field="*{roofThickness}">
+                        <label class="form-label" th:text="#{paint.max}+#{paint.hood}"></label>
+                        <input type="number" class="form-control" th:field="*{maxHoodThickness}">
                     </div>
                     <div class="col-md-3">
-                        <label class="form-label" th:text="#{paint.front.left.door}"></label>
-                        <input type="number" class="form-control" th:field="*{frontLeftDoorThickness}">
+                        <label class="form-label" th:text="#{paint.min}+#{paint.roof}"></label>
+                        <input type="number" class="form-control" th:field="*{minRoofThickness}">
                     </div>
                     <div class="col-md-3">
-                        <label class="form-label" th:text="#{paint.rear.left.door}"></label>
-                        <input type="number" class="form-control" th:field="*{rearLeftDoorThickness}">
+                        <label class="form-label" th:text="#{paint.max}+#{paint.roof}"></label>
+                        <input type="number" class="form-control" th:field="*{maxRoofThickness}">
                     </div>
                     <div class="col-md-3">
-                        <label class="form-label" th:text="#{paint.front.right.door}"></label>
-                        <input type="number" class="form-control" th:field="*{frontRightDoorThickness}">
+                        <label class="form-label" th:text="#{paint.min}+#{paint.front.left.door}"></label>
+                        <input type="number" class="form-control" th:field="*{minFrontLeftDoorThickness}">
                     </div>
                     <div class="col-md-3">
-                        <label class="form-label" th:text="#{paint.rear.right.door}"></label>
-                        <input type="number" class="form-control" th:field="*{rearRightDoorThickness}">
+                        <label class="form-label" th:text="#{paint.max}+#{paint.front.left.door}"></label>
+                        <input type="number" class="form-control" th:field="*{maxFrontLeftDoorThickness}">
                     </div>
                     <div class="col-md-3">
-                        <label class="form-label" th:text="#{paint.trunk}"></label>
-                        <input type="number" class="form-control" th:field="*{trunkThickness}">
+                        <label class="form-label" th:text="#{paint.min}+#{paint.rear.left.door}"></label>
+                        <input type="number" class="form-control" th:field="*{minRearLeftDoorThickness}">
                     </div>
                     <div class="col-md-3">
-                        <label class="form-label" th:text="#{paint.pillar.a.left}"></label>
-                        <input type="number" class="form-control" th:field="*{pillarALeftThickness}">
+                        <label class="form-label" th:text="#{paint.max}+#{paint.rear.left.door}"></label>
+                        <input type="number" class="form-control" th:field="*{maxRearLeftDoorThickness}">
                     </div>
                     <div class="col-md-3">
-                        <label class="form-label" th:text="#{paint.pillar.a.right}"></label>
-                        <input type="number" class="form-control" th:field="*{pillarARightThickness}">
+                        <label class="form-label" th:text="#{paint.min}+#{paint.front.right.door}"></label>
+                        <input type="number" class="form-control" th:field="*{minFrontRightDoorThickness}">
                     </div>
                     <div class="col-md-3">
-                        <label class="form-label" th:text="#{paint.pillar.b.left}"></label>
-                        <input type="number" class="form-control" th:field="*{pillarBLeftThickness}">
+                        <label class="form-label" th:text="#{paint.max}+#{paint.front.right.door}"></label>
+                        <input type="number" class="form-control" th:field="*{maxFrontRightDoorThickness}">
                     </div>
                     <div class="col-md-3">
-                        <label class="form-label" th:text="#{paint.pillar.b.right}"></label>
-                        <input type="number" class="form-control" th:field="*{pillarBRightThickness}">
+                        <label class="form-label" th:text="#{paint.min}+#{paint.rear.right.door}"></label>
+                        <input type="number" class="form-control" th:field="*{minRearRightDoorThickness}">
                     </div>
                     <div class="col-md-3">
-                        <label class="form-label" th:text="#{paint.pillar.c.left}"></label>
-                        <input type="number" class="form-control" th:field="*{pillarCLeftThickness}">
+                        <label class="form-label" th:text="#{paint.max}+#{paint.rear.right.door}"></label>
+                        <input type="number" class="form-control" th:field="*{maxRearRightDoorThickness}">
                     </div>
                     <div class="col-md-3">
-                        <label class="form-label" th:text="#{paint.pillar.c.right}"></label>
-                        <input type="number" class="form-control" th:field="*{pillarCRightThickness}">
+                        <label class="form-label" th:text="#{paint.min}+#{paint.trunk}"></label>
+                        <input type="number" class="form-control" th:field="*{minTrunkThickness}">
                     </div>
                     <div class="col-md-3">
-                        <label class="form-label" th:text="#{paint.front.left.arch}"></label>
-                        <input type="number" class="form-control" th:field="*{frontLeftWheelArchThickness}">
+                        <label class="form-label" th:text="#{paint.max}+#{paint.trunk}"></label>
+                        <input type="number" class="form-control" th:field="*{maxTrunkThickness}">
                     </div>
                     <div class="col-md-3">
-                        <label class="form-label" th:text="#{paint.front.right.arch}"></label>
-                        <input type="number" class="form-control" th:field="*{frontRightWheelArchThickness}">
+                        <label class="form-label" th:text="#{paint.min}+#{paint.pillar.a.left}"></label>
+                        <input type="number" class="form-control" th:field="*{minPillarALeftThickness}">
                     </div>
                     <div class="col-md-3">
-                        <label class="form-label" th:text="#{paint.rear.right.arch}"></label>
-                        <input type="number" class="form-control" th:field="*{rearLeftWheelArchThickness}">
+                        <label class="form-label" th:text="#{paint.max}+#{paint.pillar.a.left}"></label>
+                        <input type="number" class="form-control" th:field="*{maxPillarALeftThickness}">
                     </div>
                     <div class="col-md-3">
-                        <label class="form-label" th:text="#{paint.rear.left.arch}"></label>
-                        <input type="number" class="form-control" th:field="*{rearRightWheelArchThickness}">
+                        <label class="form-label" th:text="#{paint.min}+#{paint.pillar.a.right}"></label>
+                        <input type="number" class="form-control" th:field="*{minPillarARightThickness}">
                     </div>
                     <div class="col-md-3">
-                        <label class="form-label" th:text="#{paint.bumper.front}"></label>
-                        <input type="number" class="form-control" th:field="*{frontBumperThickness}">
+                        <label class="form-label" th:text="#{paint.max}+#{paint.pillar.a.right}"></label>
+                        <input type="number" class="form-control" th:field="*{maxPillarARightThickness}">
                     </div>
                     <div class="col-md-3">
-                        <label class="form-label" th:text="#{paint.bumper.rear}"></label>
-                        <input type="number" class="form-control" th:field="*{rearBumperThickness}">
+                        <label class="form-label" th:text="#{paint.min}+#{paint.pillar.b.left}"></label>
+                        <input type="number" class="form-control" th:field="*{minPillarBLeftThickness}">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label" th:text="#{paint.max}+#{paint.pillar.b.left}"></label>
+                        <input type="number" class="form-control" th:field="*{maxPillarBLeftThickness}">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label" th:text="#{paint.min}+#{paint.pillar.b.right}"></label>
+                        <input type="number" class="form-control" th:field="*{minPillarBRightThickness}">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label" th:text="#{paint.max}+#{paint.pillar.b.right}"></label>
+                        <input type="number" class="form-control" th:field="*{maxPillarBRightThickness}">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label" th:text="#{paint.min}+#{paint.pillar.c.left}"></label>
+                        <input type="number" class="form-control" th:field="*{minPillarCLeftThickness}">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label" th:text="#{paint.max}+#{paint.pillar.c.left}"></label>
+                        <input type="number" class="form-control" th:field="*{maxPillarCLeftThickness}">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label" th:text="#{paint.min}+#{paint.pillar.c.right}"></label>
+                        <input type="number" class="form-control" th:field="*{minPillarCRightThickness}">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label" th:text="#{paint.max}+#{paint.pillar.c.right}"></label>
+                        <input type="number" class="form-control" th:field="*{maxPillarCRightThickness}">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label" th:text="#{paint.min}+#{paint.front.left.arch}"></label>
+                        <input type="number" class="form-control" th:field="*{minFrontLeftWheelArchThickness}">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label" th:text="#{paint.max}+#{paint.front.left.arch}"></label>
+                        <input type="number" class="form-control" th:field="*{maxFrontLeftWheelArchThickness}">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label" th:text="#{paint.min}+#{paint.front.right.arch}"></label>
+                        <input type="number" class="form-control" th:field="*{minFrontRightWheelArchThickness}">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label" th:text="#{paint.max}+#{paint.front.right.arch}"></label>
+                        <input type="number" class="form-control" th:field="*{maxFrontRightWheelArchThickness}">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label" th:text="#{paint.min}+#{paint.rear.left.arch}"></label>
+                        <input type="number" class="form-control" th:field="*{minRearLeftWheelArchThickness}">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label" th:text="#{paint.max}+#{paint.rear.left.arch}"></label>
+                        <input type="number" class="form-control" th:field="*{maxRearLeftWheelArchThickness}">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label" th:text="#{paint.min}+#{paint.rear.right.arch}"></label>
+                        <input type="number" class="form-control" th:field="*{minRearRightWheelArchThickness}">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label" th:text="#{paint.max}+#{paint.rear.right.arch}"></label>
+                        <input type="number" class="form-control" th:field="*{maxRearRightWheelArchThickness}">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label" th:text="#{paint.min}+#{paint.bumper.front}"></label>
+                        <input type="number" class="form-control" th:field="*{minFrontBumperThickness}">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label" th:text="#{paint.max}+#{paint.bumper.front}"></label>
+                        <input type="number" class="form-control" th:field="*{maxFrontBumperThickness}">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label" th:text="#{paint.min}+#{paint.bumper.rear}"></label>
+                        <input type="number" class="form-control" th:field="*{minRearBumperThickness}">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label" th:text="#{paint.max}+#{paint.bumper.rear}"></label>
+                        <input type="number" class="form-control" th:field="*{maxRearBumperThickness}">
                     </div>
                 </div>
             </div>
