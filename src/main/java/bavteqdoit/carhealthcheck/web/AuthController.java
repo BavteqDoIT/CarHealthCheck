@@ -25,7 +25,19 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public String processRegister(@ModelAttribute User user) {
+    public String processRegister(@ModelAttribute User user, Model model) {
+        if (!user.getPassword().equals(user.getConfirmPassword())) {
+            model.addAttribute("error", "register.password.mismatch");
+            return "register";
+        }
+        if (user.getEmail() == null || user.getEmail().isEmpty()) {
+            model.addAttribute("error", "register.email.empty");
+            return "register";
+        }
+        if (!user.getEmail().matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
+            model.addAttribute("error", "register.email.invalid");
+            return "register";
+        }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole("USER");
         userRepository.save(user);

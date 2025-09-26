@@ -30,6 +30,9 @@ public class User {
     @Column(unique = true, nullable = false)
     private String email;
 
+    @Transient
+    private String confirmPassword;
+
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
