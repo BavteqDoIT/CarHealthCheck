@@ -44,6 +44,12 @@
                     </a>
 
                 </div>
+
+                <div th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+                    <a th:href="@{/admin}" class="btn btn-light btn-sm px-4 py-2 rounded-pill shadow-sm"
+                       th:text="#{nav.button.admin}">
+                    </a>
+                </div>
                 <div class="dropdown">
                     <button class="btn btn-light btn-sm dropdown-toggle px-3 py-2 rounded-pill shadow-sm"
                             type="button" data-bs-toggle="dropdown" aria-expanded="false">
