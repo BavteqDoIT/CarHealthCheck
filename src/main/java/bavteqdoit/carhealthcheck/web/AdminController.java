@@ -2,28 +2,34 @@ package bavteqdoit.carhealthcheck.web;
 
 import bavteqdoit.carhealthcheck.data.UserRepository;
 import bavteqdoit.carhealthcheck.model.Brand;
+import bavteqdoit.carhealthcheck.model.EngineType;
+import bavteqdoit.carhealthcheck.model.FuelType;
 import bavteqdoit.carhealthcheck.model.User;
 import bavteqdoit.carhealthcheck.service.BrandService;
+import bavteqdoit.carhealthcheck.service.EngineService;
+import bavteqdoit.carhealthcheck.service.FuelService;
 import bavteqdoit.carhealthcheck.service.UserService;
+import org.apache.catalina.Engine;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class AdminController {
     private final UserService userService;
     private final UserRepository userRepository;
     private final BrandService brandService;
+    private final EngineService engineService;
+    private final FuelService fuelService;
 
-    public AdminController(UserService userService, UserRepository userRepository, BrandService brandService) {
+    public AdminController(UserService userService, UserRepository userRepository, BrandService brandService,  EngineService engineService,  FuelService fuelService) {
         this.userService = userService;
         this.userRepository = userRepository;
         this.brandService = brandService;
+        this.engineService = engineService;
+        this.fuelService = fuelService;
     }
 
     @GetMapping("/admin")
@@ -85,5 +91,53 @@ public class AdminController {
     public String modelsPage() { return "adminModels"; }
 
     @GetMapping("admin/engines")
-    public String enginesPage() { return "adminEngines"; }
+    public String enginesPage(Model model) {
+        model.addAttribute("engines", engineService.findAll());
+        return "adminEngines";
+    }
+
+    @GetMapping("/admin/engine/add")
+    public String addEngineForm(Model model) {
+        model.addAttribute("engine", new EngineType());
+        model.addAttribute("fuels", fuelService.findAll());
+        return "adminEngineAdd";
+    }
+
+    @PostMapping("/admin/engine/add")
+    public String addEngine(@ModelAttribute EngineType engine) {
+        engineService.save(engine);
+        return "redirect:/admin/engines";
+    }
+
+    @GetMapping("/admin/engine/edit/{id}")
+    public String editBrand(@PathVariable Long id, Model model) {
+        EngineType engine = engineService.findById(id);
+        model.addAttribute("engine", engine);
+        model.addAttribute("fuels", fuelService.findAll());
+        return "adminEngineEdit";
+    }
+
+    @PostMapping("/admin/engine/edit/{id}")
+    public String updateEngine(@PathVariable Long id, @ModelAttribute("engine") EngineType updatedEngine) {
+        EngineType engine = engineService.findById(id);
+
+        engine.setName(updatedEngine.getName());
+        engine.setCapacity(updatedEngine.getCapacity());
+        engine.setFuelType(updatedEngine.getFuelType());
+
+        engineService.save(engine);
+
+        return "redirect:/admin/engines";
+    }
+
+    @PostMapping("/admin/engine/delete/{id}")
+    public String deleteEngine(@PathVariable Long id) {
+        EngineType engine = engineService.findById(id);
+        if(engine.getModelTypes().isEmpty()) {
+            engineService.delete(engine);
+        } else {
+            throw new IllegalStateException("Nie można usunąć silnika, który jest używany w modelach.");
+        }
+        return "redirect:/admin/engines";
+    }
 }

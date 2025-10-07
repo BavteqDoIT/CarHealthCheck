@@ -17,7 +17,10 @@ public class EngineType {
     private Long id;
 
     @Column(name = "engine_type")
-    private String engineType;
+    private String name;
+
+    @Column(name = "capacity")
+    private Integer capacity;
 
     @ManyToOne
     @JoinColumn(name = "fuel_type_id", nullable = false)

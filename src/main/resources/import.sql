@@ -16,9 +16,9 @@ INSERT INTO fuel_type (fuel) VALUES ('Diesel');
 INSERT INTO fuel_type (fuel) VALUES ('Electric');
 
 -- Wstawianie typów silnika z poprawnymi referencjami do paliwa
-INSERT INTO engine_type (engine_type, fuel_type_id) VALUES ('2.0L I4', 1);
-INSERT INTO engine_type (engine_type, fuel_type_id) VALUES ('V6', 1);
-INSERT INTO engine_type (engine_type, fuel_type_id) VALUES ('Electric Motor', 3);
+INSERT INTO engine_type (engine_type, capacity, fuel_type_id) VALUES ('2.0L I4',1999, 1);
+INSERT INTO engine_type (engine_type, capacity, fuel_type_id) VALUES ('V6',3600,1);
+INSERT INTO engine_type (engine_type, capacity, fuel_type_id) VALUES ('Electric Motor',0, 3);
 
 
 -- Wstawianie typów nadwozia

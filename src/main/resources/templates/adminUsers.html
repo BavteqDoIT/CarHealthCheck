@@ -40,7 +40,7 @@
     <div th:if="${param.error == 'cannotChangeOwnRole'}" class="alert alert-warning text-center" th:text="#{admin.error.role}">
     </div>
     <div class="text-center mt-3">
-        <a th:href="@{/admin}" class="btn btn-outline-primary rounded-pill px-4 shadow-sm">⬅ Powrót</a>
+        <a th:href="@{/admin}" class="btn btn-outline-primary rounded-pill px-4 shadow-sm" th:text="#{admin.button.return}"></a>
     </div>
 </div>
 

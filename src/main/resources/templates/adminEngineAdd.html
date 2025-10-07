@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: head}">
+</head>
+<body>
+<div th:replace="~{layout :: navbar}"></div>
+
+<div class="container py-4">
+    <form th:action="@{/admin/engine/add}" th:object="${engine}" method="post">
+        <div class="mb-3">
+            <label for="name" class="form-label" th:text="#{admin.engine.add.name}"></label>
+            <input id="name" class="form-control" type="text" th:field="*{name}" />
+        </div>
+        <div class="mb-3">
+            <label for="fuelType" class="form-label" th:text="#{admin.engine.add.fuel}"></label>
+            <select id="fuelType" th:field="*{fuelType.id}" class="form-select">
+                <option th:each="fuel : ${fuels}" th:value="${fuel.id}" th:text="#{${fuel.fuel}}"></option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="capacity" class="form-label" th:text="#{admin.engine.add.capacity}"></label>
+            <input id="capacity" type="number" th:field="*{capacity}" class="form-control"/>
+        </div>
+        <button type="submit" class="btn btn-success" th:text="#{admin.edit.save}"></button>
+    </form>
+</div>
+
+<div th:replace="~{layout :: footer}"></div>
+</body>
+</html>
