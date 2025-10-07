@@ -9,7 +9,21 @@
 
 <div class="container py-4">
     <main>
-        <h1 class="text-center" th:text="#{admin.header}"></h1>
+        <h1 class="text-center mb-4" th:text="#{admin.header}"></h1>
+        <div class="d-flex flex-wrap justify-content-center gap-3">
+            <a th:href="@{/admin/users}" class="btn btn-outline-primary btn-lg px-4 rounded-pill shadow-sm"
+               th:text="#{admin.button.users}">
+            </a>
+            <a th:href="@{/admin/brands}" class="btn btn-outline-success btn-lg px-4 rounded-pill shadow-sm"
+               th:text="#{admin.button.brands}">
+            </a>
+            <a th:href="@{/admin/models}" class="btn btn-outline-warning btn-lg px-4 rounded-pill shadow-sm"
+               th:text="#{admin.button.models}">
+            </a>
+            <a th:href="@{/admin/engines}" class="btn btn-outline-danger btn-lg px-4 rounded-pill shadow-sm"
+               th:text="#{admin.button.engines}">
+            </a>
+        </div>
     </main>
 </div>
 

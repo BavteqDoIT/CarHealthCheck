@@ -1,10 +1,10 @@
 package bavteqdoit.carhealthcheck.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
@@ -14,4 +14,7 @@ public class Brand {
     private Long id;
 
     private String brandName;
+
+    @OneToMany(mappedBy = "brand", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ModelType> models = new ArrayList<>();
 }
