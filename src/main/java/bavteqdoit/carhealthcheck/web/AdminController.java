@@ -5,10 +5,7 @@ import bavteqdoit.carhealthcheck.model.Brand;
 import bavteqdoit.carhealthcheck.model.EngineType;
 import bavteqdoit.carhealthcheck.model.FuelType;
 import bavteqdoit.carhealthcheck.model.User;
-import bavteqdoit.carhealthcheck.service.BrandService;
-import bavteqdoit.carhealthcheck.service.EngineService;
-import bavteqdoit.carhealthcheck.service.FuelService;
-import bavteqdoit.carhealthcheck.service.UserService;
+import bavteqdoit.carhealthcheck.service.*;
 import org.apache.catalina.Engine;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,13 +20,15 @@ public class AdminController {
     private final BrandService brandService;
     private final EngineService engineService;
     private final FuelService fuelService;
+    private final ModelService modelService;
 
-    public AdminController(UserService userService, UserRepository userRepository, BrandService brandService,  EngineService engineService,  FuelService fuelService) {
+    public AdminController(UserService userService, UserRepository userRepository, BrandService brandService,  EngineService engineService,  FuelService fuelService, ModelService modelService) {
         this.userService = userService;
         this.userRepository = userRepository;
         this.brandService = brandService;
         this.engineService = engineService;
         this.fuelService = fuelService;
+        this.modelService = modelService;
     }
 
     @GetMapping("/admin")
@@ -100,7 +99,15 @@ public class AdminController {
     }
 
     @GetMapping("admin/models")
-    public String modelsPage() { return "adminModels"; }
+    public String modelsPage(Model model) {
+        model.addAttribute("models", modelService.findAll());
+        return "adminModels"; }
+
+    @PostMapping("/admin/model/delete/{id}")
+    public String deleteModel(@PathVariable Long id) {
+        modelService.deleteById(id);
+        return "redirect:/admin/models";
+    }
 
     @GetMapping("admin/engines")
     public String enginesPage(Model model) {
