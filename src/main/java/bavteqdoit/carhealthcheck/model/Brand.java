@@ -13,8 +13,9 @@ public class Brand {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true)
     private String brandName;
 
-    @OneToMany(mappedBy = "brand", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "brand", orphanRemoval = true)
     private List<ModelType> models = new ArrayList<>();
 }

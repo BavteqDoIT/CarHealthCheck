@@ -66,6 +66,18 @@ public class AdminController {
         return "adminBrands";
     }
 
+    @GetMapping("admin/brand/add")
+    public String addBrand(Model model) {
+        model.addAttribute("brand", new Brand());
+        return "adminBrandAdd";
+    }
+
+    @PostMapping("admin/brand/add")
+    public String addBrand(@ModelAttribute Brand brand) {
+        brandService.save(brand);
+        return "redirect:/admin/brands";
+    }
+
     @GetMapping("/admin/brands/edit/{id}")
     public String editBrandForm(@PathVariable Long id, Model model) {
         Brand brand = brandService.findById(id);

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: head}">
+</head>
+<body>
+<div th:replace="~{layout :: navbar}"></div>
+
+<div class="container py-4">
+    <h1 class="text-center mb-4" th:text="#{admin.brand.title}"></h1>
+    <form th:action="@{/admin/brand/add}" th:object="${brand}" method="post">
+        <div class="mb-3">
+            <label for="brandName" class="form-label" th:text="#{admin.brand.name}"></label>
+            <input type="text" class="form-control" id="brandName" th:field="*{brandName}" required>
+        </div>
+        <button type="submit" class="btn btn-success" th:text="#{admin.edit.save}"></button>
+    </form>
+</div>
+
+<div th:replace="~{layout :: footer}"></div>
+</body>
+</html>

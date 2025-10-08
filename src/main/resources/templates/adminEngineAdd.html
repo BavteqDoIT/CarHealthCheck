@@ -6,6 +6,7 @@
 <div th:replace="~{layout :: navbar}"></div>
 
 <div class="container py-4">
+    <h1 class="text-center mb-4" th:text="#{admin.engine.add.title}"></h1>
     <form th:action="@{/admin/engine/add}" th:object="${engine}" method="post">
         <div class="mb-3">
             <label for="name" class="form-label" th:text="#{admin.engine.add.name}"></label>
