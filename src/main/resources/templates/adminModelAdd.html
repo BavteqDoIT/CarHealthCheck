@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: head}">
+</head>
+<body>
+<div th:replace="~{layout :: navbar}"></div>
+
+<div class="container py-4">
+    <h1 class="text-center mb-4" th:text="#{admin.models.add}"></h1>
+    <form th:action="@{/admin/model/add}" th:object="${model}" method="post">
+        <div class="mb-3">
+            <label for="modelName" class="form-label" th:text="#{admin.models.name}"></label>
+            <input type="text" id="modelName" th:field="*{modelName}" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label for="brandName" class="form-label" th:text="#{admin.brand.name}"></label>
+            <select id="brandName" class="form-select" th:field="*{brand}" required>
+                <option th:each="brand : ${brands}"
+                        th:value="${brand.id}"
+                        th:text="${brand.brandName}">
+                </option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="engineTypes" class="form-label" th:text="#{admin.models.engine}"></label>
+            <select id="engineTypes" multiple class="form-select" th:field="*{engineTypes}" required>
+                <option th:each="engine : ${engines}"
+                        th:value="${engine.id}"
+                        th:text="${engine.name}">
+                </option>
+            </select>
+        </div>
+        <div class="text-center mt-4">
+            <button type="submit" class="btn btn-success" th:text="#{admin.edit.save}">Zapisz</button>
+            <a th:href="@{/admin/models}" class="btn btn-secondary" th:text="#{admin.edit.cancel}">Anuluj</a>
+        </div>
+    </form>
+</div>
+
+<div th:replace="~{layout :: footer}"></div>
+</body>
+</html>

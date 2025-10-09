@@ -22,7 +22,10 @@
             <label for="capacity" class="form-label" th:text="#{admin.engine.add.capacity}"></label>
             <input id="capacity" type="number" th:field="*{capacity}" class="form-control"/>
         </div>
-        <button type="submit" class="btn btn-success" th:text="#{admin.edit.save}"></button>
+        <div class="text-center mt-4">
+            <button type="submit" class="btn btn-success" th:text="#{admin.edit.save}">Zapisz</button>
+            <a th:href="@{/admin/engines}" class="btn btn-secondary" th:text="#{admin.edit.cancel}">Anuluj</a>
+        </div>
     </form>
 </div>
 

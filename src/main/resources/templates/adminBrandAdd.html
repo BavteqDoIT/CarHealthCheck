@@ -12,7 +12,10 @@
             <label for="brandName" class="form-label" th:text="#{admin.brand.name}"></label>
             <input type="text" class="form-control" id="brandName" th:field="*{brandName}" required>
         </div>
-        <button type="submit" class="btn btn-success" th:text="#{admin.edit.save}"></button>
+        <div class="text-center mt-4">
+            <button type="submit" class="btn btn-success" th:text="#{admin.edit.save}">Zapisz</button>
+            <a th:href="@{/admin/brands}" class="btn btn-secondary" th:text="#{admin.edit.cancel}">Anuluj</a>
+        </div>
     </form>
 </div>
 

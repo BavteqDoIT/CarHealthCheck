@@ -3,14 +3,12 @@ package bavteqdoit.carhealthcheck.web;
 import bavteqdoit.carhealthcheck.data.UserRepository;
 import bavteqdoit.carhealthcheck.model.*;
 import bavteqdoit.carhealthcheck.service.*;
-import org.apache.catalina.Engine;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @Controller
 public class AdminController {
@@ -112,6 +110,34 @@ public class AdminController {
     @PostMapping("/admin/model/delete/{id}")
     public String deleteModel(@PathVariable Long id) {
         modelService.deleteById(id);
+        return "redirect:/admin/models";
+    }
+
+    @GetMapping("/admin/model/edit/{id}")
+    public String editModel(@PathVariable Long id, Model model) {
+        model.addAttribute("model", modelService.findById(id));
+        model.addAttribute("brands", brandService.findAll());
+        model.addAttribute("engines", engineService.findAll());
+        return "adminModelEdit";
+    }
+
+    @PostMapping("/admin/model/edit/{id}")
+    public String editModel(@PathVariable Long id, @ModelAttribute("model") ModelType updatedModel) {
+        modelService.updateModel(id, updatedModel);
+        return "redirect:/admin/models";
+    }
+
+    @GetMapping("/admin/model/add")
+    public String addModel( Model model) {
+        model.addAttribute("model", new ModelType());
+        model.addAttribute("brands", brandService.findAll());
+        model.addAttribute("engines", engineService.findAll());
+        return "adminModelAdd";
+    }
+
+    @PostMapping("/admin/model/add")
+    public String addModel(@ModelAttribute ModelType model) {
+        modelService.addModel(model);
         return "redirect:/admin/models";
     }
 
