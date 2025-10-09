@@ -1,10 +1,7 @@
 package bavteqdoit.carhealthcheck.web;
 
 import bavteqdoit.carhealthcheck.data.UserRepository;
-import bavteqdoit.carhealthcheck.model.Brand;
-import bavteqdoit.carhealthcheck.model.EngineType;
-import bavteqdoit.carhealthcheck.model.FuelType;
-import bavteqdoit.carhealthcheck.model.User;
+import bavteqdoit.carhealthcheck.model.*;
 import bavteqdoit.carhealthcheck.service.*;
 import org.apache.catalina.Engine;
 import org.springframework.security.core.Authentication;
@@ -12,6 +9,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 public class AdminController {
@@ -99,8 +98,15 @@ public class AdminController {
     }
 
     @GetMapping("admin/models")
-    public String modelsPage(Model model) {
-        model.addAttribute("models", modelService.findAll());
+    public String modelsPage(
+            @RequestParam(defaultValue = "brand.brandName") String sortField,
+            @RequestParam(defaultValue = "asc") String sortOrder,
+            Model model) {
+
+        model.addAttribute("models", modelService.findAllSorted(sortField, sortOrder));
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortOrder", sortOrder);
+        model.addAttribute("reverseSortOrder", sortOrder.equals("asc") ? "desc" : "asc");
         return "adminModels"; }
 
     @PostMapping("/admin/model/delete/{id}")

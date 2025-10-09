@@ -5,6 +5,7 @@ INSERT INTO brand (brand_name) VALUES ('Ford');
 -- Wstawianie modeli (ID: 1 i 2)
 INSERT INTO model_type (model_type, brand_id) VALUES ('Corolla', 1);
 INSERT INTO model_type (model_type, brand_id) VALUES ('Mustang', 2);
+INSERT INTO model_type (model_type, brand_id) VALUES ('Aygo', 1);
 
 -- Wstawianie kolorów (ID: 1 i 2)
 INSERT INTO color (color) VALUES ('Red');
@@ -29,6 +30,7 @@ INSERT INTO body_type (body_type) VALUES ('Hatchback');
 INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES (1, 1); -- Corolla (ID 1) → 2.0L I4 (ID 1)
 INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES (1, 3); -- Corolla (ID 1) → Electric Motor (ID 3)
 INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES (2, 2); -- Mustang (ID 2) → V6 (ID 2)
+INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES (3, 3);
 
 --Wstawianie typów skrzyń biegów
 INSERT INTO gearbox_type (gearbox_type) VALUES ('Manual');

@@ -17,7 +17,11 @@
             <thead class="table-dark">
             <tr>
                 <th>ID</th>
-                <th th:text="#{admin.models.brand.name}"></th>
+                <th>
+                    <a th:href="@{/admin/models(sortField='brand', sortOrder=${sortOrder == 'asc' ? 'desc' : 'asc'})}"
+                       th:text="#{admin.models.brand.name} + (${sortField == 'brand'} ? (${sortOrder == 'asc'} ? ' ↑' : ' ↓') : '')">
+                    </a>
+                </th>
                 <th th:text="#{admin.models.name}"></th>
                 <th th:text="#{admin.models.engine}"></th>
                 <th th:text="#{admin.edit}"></th>
