@@ -10,6 +10,8 @@
 <div class="container py-4">
     <main>
         <h1 class="text-center mb-4" th:text="#{admin.brands.title}"></h1>
+        <div th:if="${successMessage}" class="alert alert-success text-center" th:text="#{${successMessage}}"></div>
+
         <div class="mb-3 text-center">
             <a th:href="@{/admin/brand/add}" class="btn btn-success rounded-pill px-4 shadow-sm" th:text="#{admin.brands.addBrand}"></a>
         </div>

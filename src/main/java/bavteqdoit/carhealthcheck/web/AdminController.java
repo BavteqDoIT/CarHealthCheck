@@ -3,11 +3,14 @@ package bavteqdoit.carhealthcheck.web;
 import bavteqdoit.carhealthcheck.data.UserRepository;
 import bavteqdoit.carhealthcheck.model.*;
 import bavteqdoit.carhealthcheck.service.*;
+import jakarta.persistence.EntityExistsException;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 @Controller
@@ -69,9 +72,15 @@ public class AdminController {
     }
 
     @PostMapping("admin/brand/add")
-    public String addBrand(@ModelAttribute Brand brand) {
-        brandService.save(brand);
-        return "redirect:/admin/brands";
+    public String addBrand(@ModelAttribute Brand brand, RedirectAttributes redirectAttributes, Model model) {
+        try {
+            brandService.add(brand);
+            redirectAttributes.addFlashAttribute("successMessage", "admin.addBrand.success");
+            return "redirect:/admin/brands";
+        } catch (EntityExistsException e) {
+            model.addAttribute("errorMessage", "admin.addBrand.error");
+            return "adminBrandAdd";
+        }
     }
 
     @GetMapping("/admin/brands/edit/{id}")
@@ -82,11 +91,17 @@ public class AdminController {
     }
 
     @PostMapping("/admin/brands/edit/{id}")
-    public String updateBrand(@PathVariable Long id, @RequestParam String name) {
-        Brand brand = brandService.findById(id);
-        brand.setBrandName(name);
-        brandService.save(brand);
-        return "redirect:/admin/brands";
+    public String updateBrand(@PathVariable Long id,
+                              @ModelAttribute("brand") Brand brand,
+                              Model model) {
+        try {
+            brand.setId(id);
+            brandService.update(brand);
+            return "redirect:/admin/brands";
+        } catch (EntityNotFoundException e) {
+            model.addAttribute("errorMessage", "admin.editBrand.error");
+            return "adminBrandEdit";
+        }
     }
 
     @PostMapping("/admin/brands/delete/{id}")

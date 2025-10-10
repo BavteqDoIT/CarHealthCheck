@@ -7,6 +7,7 @@
 
 <div class="container py-4">
     <h1 class="text-center mb-4" th:text="#{admin.brand.title}"></h1>
+    <div th:if="${errorMessage}" class="alert alert-danger text-center" th:text="#{${errorMessage}}"></div>
     <form th:action="@{/admin/brand/add}" th:object="${brand}" method="post">
         <div class="mb-3">
             <label for="brandName" class="form-label" th:text="#{admin.brand.name}"></label>
