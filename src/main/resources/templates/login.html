@@ -6,8 +6,8 @@
 <body>
 <div th:replace="~{layout :: navbar}"></div>
 <div class="container d-flex justify-content-center align-items-center vh-100">
-    <main class="w-100">
-        <form th:action="@{/login}" method="post" class="p-4 border rounded shadow-sm bg-light">
+    <main class="d-flex justify-content-center align-items-center w-100">
+        <form th:action="@{/login}" method="post" class="p-4 border rounded shadow-sm bg-light col-12 col-md-6 col-lg-4">
             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
 
             <div class="mb-3">
