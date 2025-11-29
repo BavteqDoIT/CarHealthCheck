@@ -1,5 +1,6 @@
 package bavteqdoit.carhealthcheck.web;
 
+import bavteqdoit.carhealthcheck.dto.ModelDto;
 import bavteqdoit.carhealthcheck.model.ModelType;
 import bavteqdoit.carhealthcheck.data.ModelTypeRepository;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,10 @@ public class ModelRestController {
     }
 
     @GetMapping("/{brandId}")
-    public List<ModelType> getModelsByBrand(@PathVariable Long brandId) {
-        return modelTypeRepository.findByBrandId(brandId);
+    public List<ModelDto> getModelsByBrand(@PathVariable Long brandId) {
+        return modelTypeRepository.findByBrandId(brandId)
+                .stream()
+                .map(model -> new ModelDto(model.getId(), model.getModelName()))
+                .toList();
     }
 }
