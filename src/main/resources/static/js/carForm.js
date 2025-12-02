@@ -29,7 +29,7 @@ $(document).ready(function () {
 
             $.get('/api/engine/' + modelId, function (data) {
                 $.each(data, function (i, engine) {
-                    engineSelect.append(`<option value="${engine.id}">${engine.name}</option>`);
+                    engineSelect.append(`<option value="${engine.id}">${engine.displayName}</option>`);
                 });
                 engineSelect.prop('disabled', false);
             });
