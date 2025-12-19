@@ -161,3 +161,24 @@ CREATE TABLE IF NOT EXISTS public.question_answer(
     FOREIGN KEY(car_id) REFERENCES car(id) ON DELETE CASCADE,
     FOREIGN KEY (selected_option_id) REFERENCES question_option(id) ON DELETE SET NULL
 );
+
+CREATE TABLE IF NOT EXISTS public.vin_report_file (
+    id BIGSERIAL PRIMARY KEY,
+    car_id BIGINT NOT NULL UNIQUE,
+    pdf_bytes BYTEA NOT NULL,
+    original_filename VARCHAR(255) NOT NULL,
+    content_type VARCHAR(100) NOT NULL,
+    status VARCHAR(30) NOT NULL,
+    uploaded_at TIMESTAMP,
+    parsed_at TIMESTAMP,
+    parse_error VARCHAR(800),
+    FOREIGN KEY (car_id) REFERENCES car(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS public.vin_report_data (
+    id BIGSERIAL PRIMARY KEY,
+    car_id BIGINT NOT NULL UNIQUE,
+    production_year_from_report INT,
+    first_registration_from_report DATE,
+    FOREIGN KEY (car_id) REFERENCES car(id) ON DELETE CASCADE
+);

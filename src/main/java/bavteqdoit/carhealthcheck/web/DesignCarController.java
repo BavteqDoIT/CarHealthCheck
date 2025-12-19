@@ -2,6 +2,8 @@ package bavteqdoit.carhealthcheck.web;
 
 import bavteqdoit.carhealthcheck.data.*;
 import bavteqdoit.carhealthcheck.model.*;
+import bavteqdoit.carhealthcheck.service.VinPdfParserService;
+import bavteqdoit.carhealthcheck.service.VinPdfTextService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -9,7 +11,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -29,6 +36,10 @@ public class DesignCarController {
     private final QuestionRepository questionRepository;
     private final QuestionAnswerRepository questionAnswerRepository;
     private final UserRepository userRepository;
+    private final VinReportDataRepository vinReportDataRepository;
+    private final VinReportFileRepository vinReportFileRepository;
+    private final VinPdfTextService vinPdfTextService;
+    private final VinPdfParserService vinPdfParserService;
 
     public DesignCarController(BrandRepository brandRepository,
                                ModelTypeRepository modelTypeRepository,
@@ -41,7 +52,7 @@ public class DesignCarController {
                                QuestionOptionRepository questionOptionRepository,
                                QuestionRepository questionRepository,
                                QuestionAnswerRepository questionAnswerRepository,
-                               UserRepository userRepository) {
+                               UserRepository userRepository, VinReportDataRepository vinReportDataRepository, VinReportFileRepository vinReportFileRepository, VinPdfTextService vinPdfTextService, VinPdfParserService vinPdfParserService) {
         this.brandRepository = brandRepository;
         this.modelTypeRepository = modelTypeRepository;
         this.colorRepository = colorRepository;
@@ -54,6 +65,10 @@ public class DesignCarController {
         this.questionOptionRepository = questionOptionRepository;
         this.questionAnswerRepository = questionAnswerRepository;
         this.userRepository = userRepository;
+        this.vinReportDataRepository = vinReportDataRepository;
+        this.vinReportFileRepository = vinReportFileRepository;
+        this.vinPdfTextService = vinPdfTextService;
+        this.vinPdfParserService = vinPdfParserService;
     }
 
     @GetMapping
@@ -98,8 +113,85 @@ public class DesignCarController {
         if (car.getFirstRegistrationDate() == null) {
             return "redirect:/design/paint?carId=" + carId;
         } else {
+            vinReportDataRepository.findByCarId(carId)
+                    .ifPresent(data -> model.addAttribute("vinData", data));
+            vinReportFileRepository.findByCarId(carId)
+                    .ifPresent(file -> model.addAttribute("reportFile", file));
             return "raportVin";
         }
+    }
+
+    @PostMapping("/raportVin/upload")
+    public String uploadReport(@RequestParam Long carId,
+                               @RequestParam("file")MultipartFile file){
+        log.info("[VIN][ETAP1] upload start carId={}", carId);
+
+        if(file == null){
+            return "redirect:/design/raportVin?carId=" + carId;
+        }
+
+        log.info("[VIN][ETAP1] filename={}, size={}, contentType={}",
+                file.getOriginalFilename(), file.getSize(), file.getContentType());
+
+        if(file.isEmpty()){
+            return "redirect:/design/raportVin?carId=" + carId;
+        }
+
+        log.info("[VIN][ETAP2] saving PDF to DB...");
+
+        Car car = carRepository.findById(carId).orElseThrow();
+
+        VinReportFile reportFile = vinReportFileRepository.findByCarId(carId)
+                .orElseGet(VinReportFile::new);
+
+        reportFile.setCar(car);
+        reportFile.setOriginalFilename(file.getOriginalFilename() == null ? "report.pdf" : file.getOriginalFilename());
+        reportFile.setContentType(file.getContentType() == null ? "application/pdf" : file.getContentType());
+        reportFile.setStatus(VinReportStatus.UPLOADED);
+        reportFile.setUploadedAt(java.time.LocalDateTime.now());
+        reportFile.setParseError(null);
+
+        try{
+            reportFile.setPdfBytes((file.getBytes()));
+        } catch (IOException e){
+            log.error("[VIN][ETAP2] IOException while reading bytes", e);
+            return "redirect:/design/raportVin?carId=" + carId;
+        }
+
+        vinReportFileRepository.save(reportFile);
+
+        log.info("[VIN][ETAP2] saved VinReportFile id={}, status{}", reportFile.getId(), reportFile.getStatus());
+        try {
+            String text = vinPdfTextService.extractText(reportFile.getPdfBytes());
+            log.info("[VIN][ETAP3] extracted length={}", text.length());
+
+            Integer year = vinPdfParserService.extractProductionYear(text);
+            LocalDate firstReg = vinPdfParserService.extractFirstRegistration(text);
+            log.info("[VIN][ETAP4] parsed year={}, firstReg={}", year, firstReg);
+
+            VinReportData data = vinReportDataRepository.findByCarId(carId)
+                    .orElseGet(VinReportData::new);
+            data.setCar(car);
+            data.setProductionYearFromReport(year);
+            data.setFirstRegistrationFromReport(firstReg);
+            data.setSourceReportFileId(reportFile.getId());
+            vinReportDataRepository.save(data);
+
+            reportFile.setStatus(VinReportStatus.PARSED_OK);
+            reportFile.setParsedAt(LocalDateTime.now());
+            reportFile.setParseError(null);
+            vinReportFileRepository.save(reportFile);
+
+            log.info("[VIN][ETAP5] status updated to PARSED_OK");
+        } catch (Exception e) {
+            reportFile.setStatus(VinReportStatus.PARSED_ERROR);
+            reportFile.setParsedAt(LocalDateTime.now());
+            reportFile.setParseError(e.getMessage());
+            vinReportFileRepository.save(reportFile);
+
+            log.error("[VIN][ETAP5] status updated to PARSED_ERROR, msg={}", e.getMessage(),e);
+        }
+        return "redirect:/design/raportVin?carId=" + carId;
     }
 
     @PostMapping("/raportVin")
@@ -140,7 +232,7 @@ public class DesignCarController {
         car.setPaintCheck(paintCheck);
 
         if (errors.hasErrors()) {
-            model.addAttribute("car", car); // <-- dodajemy obiekt car do modelu
+            model.addAttribute("car", car);
             return "paint";
         }
 

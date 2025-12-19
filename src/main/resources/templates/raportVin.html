@@ -3,47 +3,110 @@
       xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{layout :: head}"><title>Car Health Check</title></head>
+<script th:src="@{/js/autoUploadVinReport.js}"></script>
 <body>
 <div th:replace="~{layout :: navbar}"></div>
 <div class="container py-4">
     <main>
-        <form method="POST" th:object="${car}">
-            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-            <div class="row g-3 mt-3 text-center">
+        <div class="row justify-content-center">
+            <div class="col-md-8 text-center">
+                <h4 class="mb-3" th:text="#{raport.details}"></h4>
+                <p class="mb-4">
+                    <strong th:text="#{raport.vin}"></strong>
+                    <span th:text="${car.vin}"></span>><br>
 
-                <div class="mb-3">
-                    <h4 class="mb-3" th:text="#{raport.details}"></h4>
-                    <p class="mb-4">
-                        <strong th:text="#{raport.vin}"></strong> <span th:text="${car.vin}"></span><br>
-                        <strong th:text="#{raport.date}"></strong> <span th:text="${car.firstRegistrationDate}"></span>
-                    </p>
-                </div>
+                    <strong th:text="#{raport.date}"></strong>
+                    <span th:text="${car.firstRegistrationDate}"></span>
+                </p>
+            </div>
+        </div>
 
-                <div class="mb-3">
-                    <div class="alert alert-info text-center p-4 rounded-3 shadow-sm">
-                        <h4 class="mb-3" th:text="#{raport.site.label}"></h4>
-                        <p class="mb-4" th:utext="#{raport.site.text}">
-                            <a href="https://historiapojazdu.gov.pl/" target="_blank" rel="noopener noreferrer" th:text="#{raport.site.link}">
-                            </a>
-                        </p>
-                        <a href="https://historiapojazdu.gov.pl/" target="_blank" rel="noopener noreferrer"
-                           class="btn btn-success btn-lg px-4 py-2 rounded-pill shadow-sm" th:text="#{raport.site.button}">
-                        </a>
-                    </div>
-                </div>
-
-                <div class="mb-3" th:if="${!car.foreignRegistered}">
-                    <label for="report" th:text="#{raport.label}"></label>
-                    <input type="file" id="report" name="report" class="form-control">
-                </div>
-
-                <div class="mt-5 mb-4 text-center">
-                    <button type="submit" class="btn btn-primary btn-lg px-4 py-2 rounded-pill shadow-sm"
-                            th:text="#{design.button}"></button>
-                    <div th:insert="~{fragments/cancelButton.html}" class="d-inline-block"></div>
+        <div class="row justify-content-center mb-4">
+            <div class="col-md-8">
+                <div class="alert alert-info text-center p-4 rounded-3 shadow-sm">
+                    <h5 class="mb-3" th:text="#{raport.site.label}"></h5>
+                    <p class="mb-3" th:utext="#{raport.site.text}"></p>
+                    <a href="https://historiapojazdu.gov.pl"
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       class="btn btn-success btn-lg px-4 py-2 rounded-pill shadow-sm"
+                       th:text="#{raport.site.button}">
+                    </a>
                 </div>
             </div>
-        </form>
+        </div>
+
+        <div class="row justify-content-center mb-3">
+            <div class="col-md-6">
+                <form th:action="@{/design/raportVin/upload(carId=${car.id})}"
+                      method="post"
+                      enctype="multipart/form-data"
+                      class="text-center"
+                      id="vinUploadForm">
+
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+                    <div class="mb-3">
+                        <input type="file"
+                        name="file"
+                        accept="application/pdf"
+                        class="form-control"
+                        required
+                        onchange="autoUploadVinReport()">
+                    </div>
+
+                    <div class="text-muted small">
+                        <p th:text="#{raport.info}"></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div th:if="${reportFile != null and #authorization.expression('hasRole(''ADMIN'')')}"
+             class="alert alert-secondary mt-3">
+
+            <div><b><th:block th:text="#{raport.info.status} + ' '"/></b>
+                <span th:text="${reportFile.status}"></span></div>
+
+            <div><b><th:block th:text="#{raport.info.uploadedAt} + ' '"/></b>
+                <span th:text="${reportFile.uploadedAt}"></span></div>
+
+            <div><b><th:block th:text="#{raport.info.parsedAt} + ' '"/></b>
+                <span th:text="${reportFile.parsedAt}"></span></div>
+        </div>
+        <div th:if="${reportFile != null and reportFile.status.name() == 'PARSED_ERROR'}"
+             class="alert alert-danger mt-3" th:text="#{raport.info.errorText}">
+        </div>
+        <div th:if="${reportFile != null and reportFile.status.name() == 'PARSED_OK' and vinData != null and vinData.sourceReportFileId == reportFile.id}"
+             class="alert alert-info mt-3">
+            <div><b><th:block th:text="#{raport.info.data}"/></b></div>
+            <div><b><th:block th:text="#{raport.info.filename} + ' '"/></b><span th:text="${reportFile.originalFilename}"></span></div>
+            <div><b><th:block th:text="#{raport.info.data.production.year} + ' '"/></b><span th:text="${vinData.productionYearFromReport}"></span></div>
+            <div><b><th:block th:text="#{raport.info.data.registration.year} + ' '"/></b><span th:text="${vinData.firstRegistrationFromReport}"></span></div>
+        </div>
+        <div th:if="${reportFile != null and reportFile.status.name() == 'PARSED_ERROR' and reportFile.parseError != null and #authorization.expression('hasRole(''ADMIN'')')}"
+             class="alert alert-secondary mt-2">
+            <b><th:block th:text="#{raport.info.data.errorText} + ' '"/></b><span th:text="${reportFile.parseError}"></span>
+        </div>
+        <div class="row justify-content-center mt-4">
+            <div class="col-md-6 text-center">
+                <form method="post"
+                      th:action="@{/design/raportVin(carId=${car.id})}">
+
+                    <input type="hidden"
+                    th:name="${_csrf.parameterName}"
+                    th:value="${_csrf.token}" />
+
+                    <button type="submit"
+                            class="btn btn-primary btn-lg px-4 py-2 rounded-pill shadow-sm"
+                            th:text="#{design.button}">
+                        </button>
+                </form>
+
+                <div th:insert="~{fragments/cancelButton.html}"
+                     class="d-inline-block mt-2">
+                </div>
+            </div>
+        </div>
     </main>
 </div>
 <div th:replace="~{layout :: footer}"></div>
