@@ -36,4 +36,55 @@ public class VinPdfParserService {
 
         return null;
     }
+
+    public String extractPlateNumber(String text) {
+        var m = java.util.regex.Pattern
+                .compile("Numer\\s+rejestracyjny\\s+([A-Z0-9]+)")
+                .matcher(text);
+        return m.find() ? m.group(1) : null;
+    }
+
+    public String extractRegistrationStatus(String text) {
+        var m = java.util.regex.Pattern
+                .compile("Status\\s+rejestracji:\\s*(.+)")
+                .matcher(text);
+        return m.find() ? m.group(1).trim() : null;
+    }
+
+    public String extractOcStatus(String text) {
+        var m = java.util.regex.Pattern
+                .compile("Polisa\\s+OC:\\s*(.+)")
+                .matcher(text);
+        return m.find() ? m.group(1).trim() : null;
+    }
+
+    public String extractInspectionStatus(String text) {
+        var m = java.util.regex.Pattern
+                .compile("Badanie\\s+techniczne:\\s*(.+)")
+                .matcher(text);
+        return m.find() ? m.group(1).trim() : null;
+    }
+
+    public java.time.LocalDate extractOcValidUntil(String text) {
+        var m = java.util.regex.Pattern
+                .compile("Data\\s+ważności\\s+polisy\\s+(\\d{2}\\.\\d{2}\\.\\d{4})")
+                .matcher(text);
+        if (!m.find()) return null;
+
+        String[] p = m.group(1).split("\\.");
+        return java.time.LocalDate.of(
+                Integer.parseInt(p[2]),
+                Integer.parseInt(p[1]),
+                Integer.parseInt(p[0])
+        );
+    }
+
+    public Integer extractLastOdometerKm(String text) {
+        var m = java.util.regex.Pattern
+                .compile("Ostatni\\s+stan\\s+licznika\\s+([\\d\\s]+)\\s*km")
+                .matcher(text);
+        if (!m.find()) return null;
+
+        return Integer.parseInt(m.group(1).replaceAll("\\s+", ""));
+    }
 }

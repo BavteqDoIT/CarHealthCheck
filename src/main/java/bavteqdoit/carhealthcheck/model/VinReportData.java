@@ -21,4 +21,14 @@ public class VinReportData {
     private LocalDate firstRegistrationFromReport;
 
     private Long sourceReportFileId;
+
+    private String plateNumber;
+
+    private String registrationStatus;
+    private String ocStatus;
+    private String technicalInspectionStatus;
+
+    private java.time.LocalDate ocValidUntil;
+
+    private Integer lastOdometerKm;
 }

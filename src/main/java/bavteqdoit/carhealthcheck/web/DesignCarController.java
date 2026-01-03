@@ -175,6 +175,12 @@ public class DesignCarController {
             data.setProductionYearFromReport(year);
             data.setFirstRegistrationFromReport(firstReg);
             data.setSourceReportFileId(reportFile.getId());
+            data.setPlateNumber(vinPdfParserService.extractPlateNumber(text));
+            data.setRegistrationStatus(vinPdfParserService.extractRegistrationStatus(text));
+            data.setOcStatus(vinPdfParserService.extractOcStatus(text));
+            data.setTechnicalInspectionStatus(vinPdfParserService.extractInspectionStatus(text));
+            data.setOcValidUntil(vinPdfParserService.extractOcValidUntil(text));
+            data.setLastOdometerKm(vinPdfParserService.extractLastOdometerKm(text));
             vinReportDataRepository.save(data);
 
             reportFile.setStatus(VinReportStatus.PARSED_OK);
@@ -183,6 +189,15 @@ public class DesignCarController {
             vinReportFileRepository.save(reportFile);
 
             log.info("[VIN][ETAP5] status updated to PARSED_OK");
+            log.info(
+                    "[VIN][ETAP6.1] plate={}, regStatus={}, ocStatus={}, inspStatus={}, ocUntil={}, lastKm={}",
+                    data.getPlateNumber(),
+                    data.getRegistrationStatus(),
+                    data.getOcStatus(),
+                    data.getTechnicalInspectionStatus(),
+                    data.getOcValidUntil(),
+                    data.getLastOdometerKm()
+            );
         } catch (Exception e) {
             reportFile.setStatus(VinReportStatus.PARSED_ERROR);
             reportFile.setParsedAt(LocalDateTime.now());

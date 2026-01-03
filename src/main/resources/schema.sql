@@ -180,5 +180,11 @@ CREATE TABLE IF NOT EXISTS public.vin_report_data (
     car_id BIGINT NOT NULL UNIQUE,
     production_year_from_report INT,
     first_registration_from_report DATE,
+    plate_number VARCHAR(20),
+    registration_status VARCHAR(50),
+    oc_status VARCHAR(50),
+    technical_inspection_status VARCHAR(50),
+    oc_valid_until DATE,
+    last_odometer_km INT,
     FOREIGN KEY (car_id) REFERENCES car(id) ON DELETE CASCADE
 );
