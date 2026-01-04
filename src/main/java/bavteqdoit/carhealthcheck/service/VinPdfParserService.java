@@ -77,7 +77,7 @@ public class VinPdfParserService {
         if (lower.contains("badanie techniczne: nieaktualne")) return TechnicalInspectionStatus.INVALID;
         if (lower.contains("brak informacji o ważnym badaniu technicznym")) return TechnicalInspectionStatus.NO_DATA;
 
-        return TechnicalInspectionStatus.UNKNOWN;
+        return TechnicalInspectionStatus.NO_DATA;
     }
 
     public RegistrationStatus extractRegistrationStatusEnum(String text) {
@@ -87,7 +87,7 @@ public class VinPdfParserService {
         if (lower.contains("status rejestracji: niezarejestrowany")) return RegistrationStatus.NOT_REGISTERED;
         if (lower.contains("brak informacji o statusie rejestracji")) return RegistrationStatus.NO_DATA;
 
-        return null;
+        return RegistrationStatus.NO_DATA;
     }
 
     public OcStatus extractOcStatusEnum(String text) {
@@ -97,7 +97,7 @@ public class VinPdfParserService {
         if (lower.contains("polisa oc: nieaktualna")) return OcStatus.INVALID;
         if (lower.contains("brak informacji o ważnej polisie oc")) return OcStatus.NO_DATA;
 
-        return null;
+        return OcStatus.NO_DATA;
     }
 
 
