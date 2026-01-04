@@ -24,9 +24,14 @@ public class VinReportData {
 
     private String plateNumber;
 
-    private String registrationStatus;
-    private String ocStatus;
-    private String technicalInspectionStatus;
+    @Enumerated(EnumType.STRING)
+    private RegistrationStatus registrationStatus;
+
+    @Enumerated(EnumType.STRING)
+    private OcStatus ocStatus;
+
+    @Enumerated(EnumType.STRING)
+    private TechnicalInspectionStatus technicalInspectionStatus;
 
     private java.time.LocalDate ocValidUntil;
 

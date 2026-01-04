@@ -1,5 +1,8 @@
 package bavteqdoit.carhealthcheck.service;
 
+import bavteqdoit.carhealthcheck.model.OcStatus;
+import bavteqdoit.carhealthcheck.model.RegistrationStatus;
+import bavteqdoit.carhealthcheck.model.TechnicalInspectionStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -44,27 +47,6 @@ public class VinPdfParserService {
         return m.find() ? m.group(1) : null;
     }
 
-    public String extractRegistrationStatus(String text) {
-        var m = java.util.regex.Pattern
-                .compile("Status\\s+rejestracji:\\s*(.+)")
-                .matcher(text);
-        return m.find() ? m.group(1).trim() : null;
-    }
-
-    public String extractOcStatus(String text) {
-        var m = java.util.regex.Pattern
-                .compile("Polisa\\s+OC:\\s*(.+)")
-                .matcher(text);
-        return m.find() ? m.group(1).trim() : null;
-    }
-
-    public String extractInspectionStatus(String text) {
-        var m = java.util.regex.Pattern
-                .compile("Badanie\\s+techniczne:\\s*(.+)")
-                .matcher(text);
-        return m.find() ? m.group(1).trim() : null;
-    }
-
     public java.time.LocalDate extractOcValidUntil(String text) {
         var m = java.util.regex.Pattern
                 .compile("Data\\s+ważności\\s+polisy\\s+(\\d{2}\\.\\d{2}\\.\\d{4})")
@@ -87,4 +69,36 @@ public class VinPdfParserService {
 
         return Integer.parseInt(m.group(1).replaceAll("\\s+", ""));
     }
+
+    public TechnicalInspectionStatus extractTechnicalInspectionStatusEnum(String text) {
+        String lower = text.toLowerCase();
+
+        if (lower.contains("badanie techniczne: aktualne")) return TechnicalInspectionStatus.VALID;
+        if (lower.contains("badanie techniczne: nieaktualne")) return TechnicalInspectionStatus.INVALID;
+        if (lower.contains("brak informacji o ważnym badaniu technicznym")) return TechnicalInspectionStatus.NO_DATA;
+
+        return TechnicalInspectionStatus.UNKNOWN;
+    }
+
+    public RegistrationStatus extractRegistrationStatusEnum(String text) {
+        String lower = text.toLowerCase();
+
+        if (lower.contains("status rejestracji: zarejestrowany")) return RegistrationStatus.REGISTERED;
+        if (lower.contains("status rejestracji: niezarejestrowany")) return RegistrationStatus.NOT_REGISTERED;
+        if (lower.contains("brak informacji o statusie rejestracji")) return RegistrationStatus.NO_DATA;
+
+        return null;
+    }
+
+    public OcStatus extractOcStatusEnum(String text) {
+        String lower = text.toLowerCase();
+
+        if (lower.contains("polisa oc: aktualna")) return OcStatus.VALID;
+        if (lower.contains("polisa oc: nieaktualna")) return OcStatus.INVALID;
+        if (lower.contains("brak informacji o ważnej polisie oc")) return OcStatus.NO_DATA;
+
+        return null;
+    }
+
+
 }

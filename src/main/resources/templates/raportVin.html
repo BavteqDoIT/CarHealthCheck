@@ -84,9 +84,10 @@
             <div><th:block th:text="#{raport.info.data.production.year} + ' '"/><span th:text="${vinData.productionYearFromReport}"></span></div>
             <div><th:block th:text="#{raport.info.data.registration.year} + ' '"/><span th:text="${vinData.firstRegistrationFromReport}"></span></div>
             <div><th:block th:text="#{raport.info.data.registration.plateNumber} + ' '"/><span th:text="${vinData.plateNumber}"></span></div>
-            <div><th:block th:text="#{raport.info.data.registration.registrationStatus} + ' '"/><span th:text="${vinData.registrationStatus}"></span></div>
-            <div><th:block th:text="#{raport.info.data.registration.ocStatus} + ' '"/><span th:text="${vinData.ocStatus}"></span></div>
-            <div><th:block th:text="#{raport.info.data.registration.technicalStatus} + ' '"/><span th:text="${vinData.technicalInspectionStatus}"></span></div>
+            <div><th:block th:text="#{raport.info.data.registration.registrationStatus} + ' '"/><span th:text="${#messages.msg('registration.status.' + vinData.registrationStatus)}"></span></div>
+            <div><th:block th:text="#{raport.info.data.registration.ocStatus} + ' '"/><span th:text="${#messages.msg('oc.status.' + vinData.ocStatus)}"></span></div>
+            <div><th:block th:text="#{raport.info.data.registration.technicalStatus} + ' '"/><span th:text="${#messages.msg('inspection.status.' + vinData.technicalInspectionStatus)}"></span>
+            </div>
             <div th:if="${vinData.ocValidUntil != null}">
                 <th:block th:text="#{raport.info.data.registration.ocValidDate} + ' '"/><span th:text="${vinData.ocValidUntil}"></span>
             </div>
@@ -94,6 +95,37 @@
                 <th:block th:text="#{raport.info.data.registration.lastOdometer} + ' '"/><span th:text="${vinData.lastOdometerKm}"></span> km
             </div>
 
+        </div>
+        <div th:if="${reportFile != null and reportFile.status.name() == 'PARSED_OK' and mileageEntries != null and !mileageEntries.isEmpty()}"
+             class="card mt-3">
+            <div class="card-body">
+                <h6 class="card-title mb-3" th:text="#{raport.info.data.report.table.title}"></h6>
+
+                <div class="table-responsive">
+                    <table class="table table-sm">
+                        <thead>
+                        <tr>
+                            <th th:text="#{raport.info.data.report.table.date}"></th>
+                            <th th:text="#{raport.info.data.report.table.mileage}"></th>
+                            <th th:text="#{raport.info.data.report.table.source}"></th>
+                            <th th:text="#{raport.info.data.report.table.event}"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="e : ${mileageEntries}">
+                            <td th:text="${e.readingDate}"></td>
+                            <td th:text="${e.mileageKm}"></td>
+                            <td th:text="#{${e.source}}"></td>
+                            <td th:text="${e.eventTitle}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div th:if="${reportFile != null and reportFile.status.name() == 'PARSED_OK' and (mileageEntries == null or mileageEntries.isEmpty())}"
+             class="alert alert-warning mt-3" th:text="#{raport.info.data.report.table.error}">
         </div>
         <div th:if="${reportFile != null and reportFile.status.name() == 'PARSED_ERROR' and reportFile.parseError != null and #authorization.expression('hasRole(''ADMIN'')')}"
              class="alert alert-secondary mt-2">

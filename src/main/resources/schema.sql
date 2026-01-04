@@ -188,3 +188,14 @@ CREATE TABLE IF NOT EXISTS public.vin_report_data (
     last_odometer_km INT,
     FOREIGN KEY (car_id) REFERENCES car(id) ON DELETE CASCADE
 );
+
+CREATE TABLE IF NOT EXISTS public.vin_mileage_entry (
+    id BIGSERIAL PRIMARY KEY,
+    car_id BIGINT NOT NULL,
+    reading_date DATE NOT NULL,
+    mileage_km INT NOT NULL,
+    source VARCHAR(40) NOT NULL,
+    event_title VARCHAR(500),
+    CONSTRAINT fk_mileage_car FOREIGN KEY (car_id) REFERENCES car(id) ON DELETE CASCADE,
+    CONSTRAINT uk_car_date_mileage UNIQUE (car_id, reading_date, mileage_km)
+);
