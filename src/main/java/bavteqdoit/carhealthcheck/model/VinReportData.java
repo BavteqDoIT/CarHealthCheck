@@ -36,4 +36,34 @@ public class VinReportData {
     private java.time.LocalDate ocValidUntil;
 
     private Integer lastOdometerKm;
+
+    @Enumerated(EnumType.STRING)
+    private CarRisk theft;
+
+    @Enumerated(EnumType.STRING)
+    private CarRisk scrapped;
+
+    @Enumerated(EnumType.STRING)
+    private CarRisk accident;
+
+    @Enumerated(EnumType.STRING)
+    private CarRisk damaged;
+
+    @Enumerated(EnumType.STRING)
+    private CarRisk odometerMismatch;
+
+    @Enumerated(EnumType.STRING)
+    private CarRisk notRoadworthy;
+
+    @Enumerated(EnumType.STRING)
+    private CarRisk taxi;
+
+    @Enumerated(EnumType.STRING)
+    private CarRisk totalLoss;
+
+    @Enumerated(EnumType.STRING)
+    private CarRisk vinChecksumError;
+
+    @Enumerated(EnumType.STRING)
+    private CarRisk serviceActions;
 }

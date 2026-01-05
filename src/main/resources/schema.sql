@@ -186,6 +186,16 @@ CREATE TABLE IF NOT EXISTS public.vin_report_data (
     technical_inspection_status VARCHAR(50),
     oc_valid_until DATE,
     last_odometer_km INT,
+    theft VARCHAR(50),
+    scrapped VARCHAR(50),
+    accident VARCHAR(50),
+    damaged VARCHAR(50),
+    odometer_mismatch VARCHAR(50),
+    not_roadworthy VARCHAR(50),
+    taxi VARCHAR(50),
+    total_loss VARCHAR(50),
+    vin_checksum_error VARCHAR(50),
+    service_actions VARCHAR(50),
     FOREIGN KEY (car_id) REFERENCES car(id) ON DELETE CASCADE
 );
 

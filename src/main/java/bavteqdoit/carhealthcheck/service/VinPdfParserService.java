@@ -1,5 +1,6 @@
 package bavteqdoit.carhealthcheck.service;
 
+import bavteqdoit.carhealthcheck.model.CarRisk;
 import bavteqdoit.carhealthcheck.model.OcStatus;
 import bavteqdoit.carhealthcheck.model.RegistrationStatus;
 import bavteqdoit.carhealthcheck.model.TechnicalInspectionStatus;
@@ -98,4 +99,89 @@ public class VinPdfParserService {
     }
 
 
+    public CarRisk extractTheftRisk(String text) {
+        return extractForeignRiskOr(text, "Kradzież");
+    }
+
+    public CarRisk extractScrappedRisk(String text) {
+        return extractForeignRiskOr(text, "Złomowanie");
+    }
+
+    public CarRisk extractAccidentRisk(String text) {
+        return extractForeignRiskOr(text, "Powypadkowy");
+    }
+
+    public CarRisk extractDamagedRisk(String text) {
+        return extractForeignRiskOr(text, "Uszkodzony");
+    }
+
+    public CarRisk extractOdometerMismatchRisk(String text) {
+        return extractForeignRiskOr(text, "Rozbieżność licznika");
+    }
+
+    public CarRisk extractNotRoadworthyRisk(String text) {
+        return extractForeignRiskOr(text, "Niedopuszczony do ruchu");
+    }
+
+    public CarRisk extractTaxiRisk(String text) {
+        return extractForeignRiskOr(text, "Służył jako taxi");
+    }
+
+    public CarRisk extractTotalLossRisk(String text) {
+        return extractForeignRiskOr(text, "Szkoda całkowita");
+    }
+
+    public CarRisk extractVinChecksumErrorRisk(String text) {
+        return extractForeignRiskOr(text, "Błąd cyfry kontrolnej w numerze VIN");
+    }
+
+    public CarRisk extractServiceActionsRisk(String text) {
+        return extractForeignRiskOr(text, "Akcje serwisowe");
+    }
+
+
+    private CarRisk extractForeignRiskOr(String fullText, String label) {
+        String foreign = substringFrom(fullText, "Dane zagraniczne");
+
+        if (foreign.isBlank()) return CarRisk.NOT_FOUND;
+
+        String carfaxBlock = substringBetween(foreign, "Ryzyka według Carfax", "Ryzyka według autoDNA");
+        String autodnaBlock = substringFrom(foreign, "Ryzyka według autoDNA");
+
+        boolean hasAny = !(carfaxBlock.isBlank() && autodnaBlock.isBlank());
+        if (!hasAny) return CarRisk.NOT_FOUND;
+
+        if (isNoted(carfaxBlock, label) || isNoted(autodnaBlock, label)) {
+            return CarRisk.FOUNDED;
+        }
+
+        return CarRisk.NOT_FOUND;
+    }
+
+    private boolean isNoted(String block, String label) {
+        if (block == null || block.isBlank()) return false;
+
+        Pattern p = Pattern.compile(
+                "(?mi)^\\s*" + Pattern.quote(label) + "\\s+(odnotowano|nie odnotowano)\\s*$"
+        );
+        Matcher m = p.matcher(block);
+        if (!m.find()) return false;
+
+        String status = m.group(1).toLowerCase();
+        return status.equals("odnotowano");
+    }
+
+    private String substringFrom(String text, String marker) {
+        if (text == null) return "";
+        int idx = text.indexOf(marker);
+        return idx >= 0 ? text.substring(idx) : "";
+    }
+
+    private String substringBetween(String text, String start, String end) {
+        if (text == null) return "";
+        int s = text.indexOf(start);
+        if (s < 0) return "";
+        int e = text.indexOf(end, s + start.length());
+        return e >= 0 ? text.substring(s, e) : text.substring(s);
+    }
 }

@@ -195,6 +195,16 @@ public class DesignCarController {
             data.setTechnicalInspectionStatus(vinPdfParserService.extractTechnicalInspectionStatusEnum(text));
             data.setOcValidUntil(vinPdfParserService.extractOcValidUntil(text));
             data.setLastOdometerKm(vinPdfParserService.extractLastOdometerKm(text));
+            data.setTheft(vinPdfParserService.extractTheftRisk(text));
+            data.setScrapped(vinPdfParserService.extractScrappedRisk(text));
+            data.setAccident(vinPdfParserService.extractAccidentRisk(text));
+            data.setDamaged(vinPdfParserService.extractDamagedRisk(text));
+            data.setOdometerMismatch(vinPdfParserService.extractOdometerMismatchRisk(text));
+            data.setNotRoadworthy(vinPdfParserService.extractNotRoadworthyRisk(text));
+            data.setTaxi(vinPdfParserService.extractTaxiRisk(text));
+            data.setTotalLoss(vinPdfParserService.extractTotalLossRisk(text));
+            data.setVinChecksumError(vinPdfParserService.extractVinChecksumErrorRisk(text));
+            data.setServiceActions(vinPdfParserService.extractServiceActionsRisk(text));
             vinReportDataRepository.save(data);
 
             reportFile.setStatus(VinReportStatus.PARSED_OK);

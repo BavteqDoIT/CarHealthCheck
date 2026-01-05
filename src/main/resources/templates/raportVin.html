@@ -44,15 +44,15 @@
                       class="text-center"
                       id="vinUploadForm">
 
-                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
 
                     <div class="mb-3">
                         <input type="file"
-                        name="file"
-                        accept="application/pdf"
-                        class="form-control"
-                        required
-                        onchange="autoUploadVinReport()">
+                               name="file"
+                               accept="application/pdf"
+                               class="form-control"
+                               required
+                               onchange="autoUploadVinReport()">
                     </div>
 
                     <div class="text-muted small">
@@ -64,13 +64,19 @@
         <div th:if="${reportFile != null and #authorization.expression('hasRole(''ADMIN'')')}"
              class="alert alert-secondary mt-3">
 
-            <div><b><th:block th:text="#{raport.info.status} + ' '"/></b>
+            <div><b>
+                <th:block th:text="#{raport.info.status} + ' '"/>
+            </b>
                 <span th:text="${reportFile.status}"></span></div>
 
-            <div><b><th:block th:text="#{raport.info.uploadedAt} + ' '"/></b>
+            <div><b>
+                <th:block th:text="#{raport.info.uploadedAt} + ' '"/>
+            </b>
                 <span th:text="${reportFile.uploadedAt}"></span></div>
 
-            <div><b><th:block th:text="#{raport.info.parsedAt} + ' '"/></b>
+            <div><b>
+                <th:block th:text="#{raport.info.parsedAt} + ' '"/>
+            </b>
                 <span th:text="${reportFile.parsedAt}"></span></div>
         </div>
         <div th:if="${reportFile != null and reportFile.status.name() == 'PARSED_ERROR'}"
@@ -78,21 +84,78 @@
         </div>
         <div th:if="${reportFile != null and reportFile.status.name() == 'PARSED_OK' and vinData != null}"
              class="alert alert-info mt-3">
-            <div><b><th:block th:text="#{raport.info.data}"/></b></div>
-
-            <div><th:block th:text="#{raport.info.filename} + ' '"/><span th:text="${reportFile.originalFilename}"></span></div>
-            <div><th:block th:text="#{raport.info.data.production.year} + ' '"/><span th:text="${vinData.productionYearFromReport}"></span></div>
-            <div><th:block th:text="#{raport.info.data.registration.year} + ' '"/><span th:text="${vinData.firstRegistrationFromReport}"></span></div>
-            <div><th:block th:text="#{raport.info.data.registration.plateNumber} + ' '"/><span th:text="${vinData.plateNumber}"></span></div>
-            <div><th:block th:text="#{raport.info.data.registration.registrationStatus} + ' '"/><span th:text="${#messages.msg('registration.status.' + vinData.registrationStatus)}"></span></div>
-            <div><th:block th:text="#{raport.info.data.registration.ocStatus} + ' '"/><span th:text="${#messages.msg('oc.status.' + vinData.ocStatus)}"></span></div>
-            <div><th:block th:text="#{raport.info.data.registration.technicalStatus} + ' '"/><span th:text="${#messages.msg('inspection.status.' + vinData.technicalInspectionStatus)}"></span>
+            <div><b>
+                <th:block th:text="#{raport.info.data}"/>
+            </b></div>
+            <div>
+                <th:block th:text="#{raport.info.filename} + ' '"/>
+                <span th:text="${reportFile.originalFilename}"></span></div>
+            <div>
+                <th:block th:text="#{raport.info.data.production.year} + ' '"/>
+                <span th:text="${vinData.productionYearFromReport}"></span></div>
+            <div>
+                <th:block th:text="#{raport.info.data.registration.year} + ' '"/>
+                <span th:text="${vinData.firstRegistrationFromReport}"></span></div>
+            <div>
+                <th:block th:text="#{raport.info.data.registration.plateNumber} + ' '"/>
+                <span th:text="${vinData.plateNumber}"></span></div>
+            <div>
+                <th:block th:text="#{raport.info.data.registration.registrationStatus} + ' '"/>
+                <span th:text="${#messages.msg('registration.status.' + vinData.registrationStatus)}"></span></div>
+            <div>
+                <th:block th:text="#{raport.info.data.registration.ocStatus} + ' '"/>
+                <span th:text="${#messages.msg('oc.status.' + vinData.ocStatus)}"></span></div>
+            <div>
+                <th:block th:text="#{raport.info.data.registration.technicalStatus} + ' '"/>
+                <span th:text="${#messages.msg('inspection.status.' + vinData.technicalInspectionStatus)}"></span>
             </div>
             <div th:if="${vinData.ocValidUntil != null}">
-                <th:block th:text="#{raport.info.data.registration.ocValidDate} + ' '"/><span th:text="${vinData.ocValidUntil}"></span>
+                <th:block th:text="#{raport.info.data.registration.ocValidDate} + ' '"/>
+                <span th:text="${vinData.ocValidUntil}"></span>
             </div>
             <div th:if="${vinData.lastOdometerKm != null}">
-                <th:block th:text="#{raport.info.data.registration.lastOdometer} + ' '"/><span th:text="${vinData.lastOdometerKm}"></span> km
+                <th:block th:text="#{raport.info.data.registration.lastOdometer} + ' '"/>
+                <span th:text="${vinData.lastOdometerKm}"></span> km
+            </div>
+            <div>
+                <th:block th:text="#{raport.info.data.risk.theft} + ' '"/>
+                <span th:text="${#messages.msg('car.risk.' + vinData.theft)}"></span>
+            </div>
+            <div>
+                <th:block th:text="#{raport.info.data.risk.scrapped} + ' '"/>
+                <span th:text="${#messages.msg('car.risk.' + vinData.scrapped)}"></span>
+            </div>
+            <div>
+                <th:block th:text="#{raport.info.data.risk.accident} + ' '"/>
+                <span th:text="${#messages.msg('car.risk.' + vinData.accident)}"></span>
+            </div>
+            <div>
+                <th:block th:text="#{raport.info.data.risk.damaged} + ' '"/>
+                <span th:text="${#messages.msg('car.risk.' + vinData.damaged)}"></span>
+            </div>
+            <div>
+                <th:block th:text="#{raport.info.data.risk.odometerMismatch} + ' '"/>
+                <span th:text="${#messages.msg('car.risk.' + vinData.odometerMismatch)}"></span>
+            </div>
+            <div>
+                <th:block th:text="#{raport.info.data.risk.notRoadworthy} + ' '"/>
+                <span th:text="${#messages.msg('car.risk.' + vinData.notRoadworthy)}"></span>
+            </div>
+            <div>
+                <th:block th:text="#{raport.info.data.risk.taxi} + ' '"/>
+                <span th:text="${#messages.msg('car.risk.' + vinData.taxi)}"></span>
+            </div>
+            <div>
+                <th:block th:text="#{raport.info.data.risk.totalLoss} + ' '"/>
+                <span th:text="${#messages.msg('car.risk.' + vinData.totalLoss)}"></span>
+            </div>
+            <div>
+                <th:block th:text="#{raport.info.data.risk.vinChecksumError} + ' '"/>
+                <span th:text="${#messages.msg('car.risk.' + vinData.vinChecksumError)}"></span>
+            </div>
+            <div>
+                <th:block th:text="#{raport.info.data.risk.serviceActions} + ' '"/>
+                <span th:text="${#messages.msg('car.risk.' + vinData.serviceActions)}"></span>
             </div>
 
         </div>
@@ -129,7 +192,9 @@
         </div>
         <div th:if="${reportFile != null and reportFile.status.name() == 'PARSED_ERROR' and reportFile.parseError != null and #authorization.expression('hasRole(''ADMIN'')')}"
              class="alert alert-secondary mt-2">
-            <b><th:block th:text="#{raport.info.data.errorText} + ' '"/></b><span th:text="${reportFile.parseError}"></span>
+            <b>
+                <th:block th:text="#{raport.info.data.errorText} + ' '"/>
+            </b><span th:text="${reportFile.parseError}"></span>
         </div>
         <div class="row justify-content-center mt-4">
             <div class="col-md-6 text-center">
@@ -137,13 +202,13 @@
                       th:action="@{/design/raportVin(carId=${car.id})}">
 
                     <input type="hidden"
-                    th:name="${_csrf.parameterName}"
-                    th:value="${_csrf.token}" />
+                           th:name="${_csrf.parameterName}"
+                           th:value="${_csrf.token}"/>
 
                     <button type="submit"
                             class="btn btn-primary btn-lg px-4 py-2 rounded-pill shadow-sm"
                             th:text="#{design.button}">
-                        </button>
+                    </button>
                 </form>
 
                 <div th:insert="~{fragments/cancelButton.html}"
