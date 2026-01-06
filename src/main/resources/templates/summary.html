@@ -73,6 +73,30 @@
                     </tr>
                     </tbody>
                 </table>
+                <div class="mt-3">
+
+                    <div th:if="${summary.redFlags.size() > 0}" class="alert alert-danger">
+                        <b>Wysokie ryzyko / problemy:</b>
+                        <ul>
+                            <li th:each="x : ${summary.redFlags}" th:text="${x}"></li>
+                        </ul>
+                    </div>
+
+                    <div th:if="${summary.yellowFlags.size() > 0}" class="alert alert-warning">
+                        <b>Uwagi do sprawdzenia:</b>
+                        <ul>
+                            <li th:each="x : ${summary.yellowFlags}" th:text="${x}"></li>
+                        </ul>
+                    </div>
+
+                    <div th:if="${summary.greenNotes.size() > 0}" class="alert alert-success">
+                        <b>OK:</b>
+                        <ul>
+                            <li th:each="x : ${summary.greenNotes}" th:text="${x}"></li>
+                        </ul>
+                    </div>
+
+                </div>
                 <div class="d-flex justify-content-center gap-3 mt-4">
                     <div>
                         <a href="/account" class="btn btn-success btn-lg">

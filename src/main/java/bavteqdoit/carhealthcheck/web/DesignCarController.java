@@ -2,10 +2,7 @@ package bavteqdoit.carhealthcheck.web;
 
 import bavteqdoit.carhealthcheck.data.*;
 import bavteqdoit.carhealthcheck.model.*;
-import bavteqdoit.carhealthcheck.service.VinPdfParserService;
-import bavteqdoit.carhealthcheck.service.VinPdfTextService;
-import bavteqdoit.carhealthcheck.service.VinReportMileageService;
-import bavteqdoit.carhealthcheck.service.VinTimelineParserService;
+import bavteqdoit.carhealthcheck.service.*;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -46,6 +43,7 @@ public class DesignCarController {
     private final VinTimelineParserService vinTimelineParserService;
     private final VinMileageEntryRepository vinMileageEntryRepository;
     private final VinReportMileageService vinReportMileageService;
+    private final InspectionSummaryService inspectionSummaryService;
 
     public DesignCarController(BrandRepository brandRepository,
                                ModelTypeRepository modelTypeRepository,
@@ -61,7 +59,8 @@ public class DesignCarController {
                                UserRepository userRepository, VinReportDataRepository vinReportDataRepository, VinReportFileRepository vinReportFileRepository, VinPdfTextService vinPdfTextService, VinPdfParserService vinPdfParserService,
                                VinTimelineParserService vinTimelineParserService,
                                VinMileageEntryRepository vinMileageEntryRepository,
-                               VinReportMileageService vinReportMileageService) {
+                               VinReportMileageService vinReportMileageService,
+                               InspectionSummaryService inspectionSummaryService) {
         this.brandRepository = brandRepository;
         this.modelTypeRepository = modelTypeRepository;
         this.colorRepository = colorRepository;
@@ -81,6 +80,7 @@ public class DesignCarController {
         this.vinTimelineParserService = vinTimelineParserService;
         this.vinMileageEntryRepository = vinMileageEntryRepository;
         this.vinReportMileageService = vinReportMileageService;
+        this.inspectionSummaryService = inspectionSummaryService;
     }
 
     @GetMapping
@@ -384,6 +384,8 @@ public class DesignCarController {
     public String showSummary(@RequestParam Long carId, Model model) {
         Car car = carRepository.findById(carId).orElseThrow();
         model.addAttribute("car", car);
+        var summary = inspectionSummaryService.buildSummary(carId);
+        model.addAttribute("summary", summary);
         return "summary";
     }
 

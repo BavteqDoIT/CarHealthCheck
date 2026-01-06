@@ -6,6 +6,7 @@ import jakarta.validation.constraints.*;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -81,4 +82,13 @@ public class Car {
 
     @OneToMany(mappedBy = "car", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<QuestionAnswer> questionAnswers;
+
+    @OneToMany(mappedBy = "car", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<VinMileageEntry> vinMileageEntries = new ArrayList<>();
+
+    @OneToOne(mappedBy = "car", cascade = CascadeType.ALL, orphanRemoval = true)
+    private VinReportData vinReportData;
+
+    @OneToOne(mappedBy = "car", cascade = CascadeType.ALL, orphanRemoval = true)
+    private VinReportFile vinReportFile;
 }

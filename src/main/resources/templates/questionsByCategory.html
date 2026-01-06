@@ -21,13 +21,16 @@
                         <div th:case="'select'">
                             <label th:for="|select-${q.id}|">
                                 <span th:switch="${q.subCategory}">
-                                    <span th:case="'brakes'">🛑</span>
-                                    <span th:case="'oil'">🛢️</span>
-                                    <span th:case="'wheels'">⭕</span>
-                                    <span th:case="'seats'">💺</span>
-                                    <span th:case="'dashboard'">💡</span>
+                                    <span th:case="'exterior'">🚗</span>
+                                    <span th:case="'tires'">⭕️</span>
+                                    <span th:case="'fluids'">🛢️</span>
+                                    <span th:case="'docs'">📄</span>
+                                    <span th:case="'trim'">🪑</span>
+                                    <span th:case="'electronics'">💡</span>
+                                    <span th:case="'startup'">🚦️</span>
                                     <span th:case="'engine'">⚙️</span>
-                                    <span th:case="'suspension'">⚙️</span>
+                                    <span th:case="'drivetrain'">🔩️</span>
+                                    <span th:case="'roadtest'">🛣️</span>
                                     <span th:case="*">❓</span>
                                 </span>
                                 <span th:text="#{${q.questionKey}}"></span>
