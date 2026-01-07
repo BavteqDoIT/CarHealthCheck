@@ -85,7 +85,9 @@
                     <div th:if="${summary.yellowFlags.size() > 0}" class="alert alert-warning">
                         <b th:block th:text="#{summary.yellowFlags.title}"/>
                         <ul>
-                            <li th:each="x : ${summary.yellowFlags}" th:text="${x}"></li>
+                            <li th:each="m : ${summary.yellowFlags}"
+                                th:text="#{${m.key}(#{${m.args[0]}}, ${m.args[1]}, ${m.args[2]}, ${m.args[3]})}">
+                            </li>
                         </ul>
                     </div>
 

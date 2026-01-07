@@ -195,7 +195,7 @@ public class InspectionSummaryService {
 
     private void applySideMismatchChecks(InspectionSummaryDto dto, PaintCheck paint) {
         List<SidePair> pairs = List.of(
-                new SidePair("Drzwi przednie",
+                new SidePair("summary.part.front.doors",
                         PaintCheck::getMinFrontLeftDoorThickness, PaintCheck::getMaxFrontLeftDoorThickness,
                         PaintCheck::getMinFrontRightDoorThickness, PaintCheck::getMaxFrontRightDoorThickness),
 
@@ -235,10 +235,13 @@ public class InspectionSummaryService {
                 int right = worstThickness(rMin, rMax);
                 int diff = Math.abs(left - right);
 
-                dto.yellow("Lakier: " + p.label()
-                        + " lewa/prawa różnią się o " + diff + " µm (zakresy: L "
-                        + formatRange(lMin, lMax) + " µm vs P "
-                        + formatRange(rMin, rMax) + " µm). Możliwa wymiana elementu.");
+                dto.yellow(
+                        "summary.paint.side_mismatch",
+                        p.label(),
+                        diff,
+                        formatRange(lMin, lMax),
+                        formatRange(rMin, rMax)
+                );
             }
         }
     }
