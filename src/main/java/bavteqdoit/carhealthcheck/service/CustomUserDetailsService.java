@@ -1,7 +1,7 @@
 package bavteqdoit.carhealthcheck.service;
 
 import bavteqdoit.carhealthcheck.data.UserRepository;
-import bavteqdoit.carhealthcheck.model.User; // <-- Twoja encja
+import bavteqdoit.carhealthcheck.model.User;
 import org.springframework.security.core.userdetails.*;
 import org.springframework.stereotype.Service;
 

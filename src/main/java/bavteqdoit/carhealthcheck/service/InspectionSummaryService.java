@@ -6,9 +6,11 @@ import bavteqdoit.carhealthcheck.data.VinReportDataRepository;
 import bavteqdoit.carhealthcheck.dto.InspectionSummaryDto;
 import bavteqdoit.carhealthcheck.model.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Locale;
 
 @Service
 @RequiredArgsConstructor
@@ -17,77 +19,74 @@ public class InspectionSummaryService {
     private final VinReportDataRepository vinReportDataRepository;
     private final PaintCheckRepository paintCheckRepository;
     private final QuestionAnswerRepository questionAnswerRepository;
+    private final MessageSource messageSource;
 
-    public InspectionSummaryDto buildSummary(Long carId) {
+    public InspectionSummaryDto buildSummary(Long carId, Locale locale) {
         var dto = new InspectionSummaryDto();
 
         var vin = vinReportDataRepository.findByCarId(carId).orElse(null);
         var paint = paintCheckRepository.findByCarId(carId).orElse(null);
         var answers = questionAnswerRepository.findAllByCarIdWithDetails(carId);
 
-        applyVin(dto, vin);
-        applyPaint(dto, paint);
-        applyQuestions(dto, answers);
+        applyVin(dto, vin, locale);
+        applyPaint(dto, paint, locale);
+        applyQuestions(dto, answers, locale);
 
-        // Opcjonalnie: jeśli nic nie wyszło, daj notkę
         if (dto.getRedFlags().isEmpty() && dto.getYellowFlags().isEmpty()) {
-            dto.green("Brak wykrytych problemów w dostępnych danych.");
+            dto.green(msg(locale, "summary.ok.no_issues"));
         }
 
         return dto;
     }
 
-    // ===== VIN =====
-    private void applyVin(InspectionSummaryDto dto, VinReportData vin) {
+    private void applyVin(InspectionSummaryDto dto, VinReportData vin, Locale locale) {
         if (vin == null) {
-            dto.yellow("Brak wgranego raportu VIN (brak danych z CEPIK).");
+            dto.yellow(msg(locale, "summary.vin.missing"));
             return;
         }
 
-        // statusy
         if (vin.getOcStatus() != null) {
             switch (vin.getOcStatus()) {
-                case INVALID -> dto.red("OC: nieaktualne.");
-                case NO_DATA -> dto.yellow("OC: brak danych.");
-                default -> dto.green("OC: aktualne.");
+                case INVALID -> dto.red(msg(locale, "summary.vin.oc.invalid"));
+                case NO_DATA -> dto.yellow(msg(locale, "summary.vin.oc.no_data"));
+                default -> dto.green(msg(locale, "summary.vin.oc.valid"));
             }
         }
 
         if (vin.getTechnicalInspectionStatus() != null) {
             switch (vin.getTechnicalInspectionStatus()) {
-                case INVALID -> dto.red("Badanie techniczne: nieaktualne.");
-                case NO_DATA -> dto.yellow("Badanie techniczne: brak danych.");
-                default -> dto.green("Badanie techniczne: aktualne.");
+                case INVALID -> dto.red(msg(locale, "summary.vin.ti.invalid"));
+                case NO_DATA -> dto.yellow(msg(locale, "summary.vin.ti.no_data"));
+                default -> dto.green(msg(locale, "summary.vin.ti.valid"));
             }
         }
 
         if (vin.getRegistrationStatus() != null) {
             switch (vin.getRegistrationStatus()) {
-                case NOT_REGISTERED -> dto.red("Status rejestracji: niezarejestrowany.");
-                case NO_DATA -> dto.yellow("Status rejestracji: brak danych.");
-                default -> dto.green("Status rejestracji: zarejestrowany.");
+                case NOT_REGISTERED -> dto.red(msg(locale, "summary.vin.reg.not_registered"));
+                case NO_DATA -> dto.yellow(msg(locale, "summary.vin.reg.no_data"));
+                default -> dto.green(msg(locale, "summary.vin.reg.registered"));
             }
         }
 
-        // dane zagraniczne OR (CarRisk: FOUNDED/NOT_FOUND)
-        if (isFounded(vin.getTheft())) dto.red("Dane zagraniczne: odnotowano kradzież.");
-        if (isFounded(vin.getTotalLoss())) dto.red("Dane zagraniczne: odnotowano szkodę całkowitą.");
-        if (isFounded(vin.getOdometerMismatch())) dto.red("Dane zagraniczne: odnotowano rozbieżność licznika.");
-        if (isFounded(vin.getScrapped())) dto.red("Dane zagraniczne: odnotowano złomowanie.");
-        if (isFounded(vin.getNotRoadworthy())) dto.red("Dane zagraniczne: odnotowano niedopuszczenie do ruchu.");
-        if (isFounded(vin.getVinChecksumError())) dto.yellow("Dane zagraniczne: odnotowano błąd cyfry kontrolnej VIN.");
-        if (isFounded(vin.getServiceActions())) dto.yellow("Dane zagraniczne: odnotowano akcje serwisowe.");
-        if (isFounded(vin.getTaxi())) dto.yellow("Dane zagraniczne: odnotowano użytkowanie jako taxi.");
-        if (isFounded(vin.getAccident())) dto.yellow("Dane zagraniczne: odnotowano powypadkowy.");
-        if (isFounded(vin.getDamaged())) dto.yellow("Dane zagraniczne: odnotowano uszkodzenia.");
+        if (isFounded(vin.getTheft())) dto.red(msg(locale, "summary.foreign.theft"));
+        if (isFounded(vin.getTotalLoss())) dto.red(msg(locale, "summary.foreign.total_loss"));
+        if (isFounded(vin.getOdometerMismatch())) dto.red(msg(locale, "summary.foreign.odometer_mismatch"));
+        if (isFounded(vin.getScrapped())) dto.red(msg(locale, "summary.foreign.scrapped"));
+        if (isFounded(vin.getNotRoadworthy())) dto.red(msg(locale, "summary.foreign.not_roadworthy"));
+
+        if (isFounded(vin.getVinChecksumError())) dto.yellow(msg(locale, "summary.foreign.vin_checksum_error"));
+        if (isFounded(vin.getServiceActions())) dto.yellow(msg(locale, "summary.foreign.service_actions"));
+        if (isFounded(vin.getTaxi())) dto.yellow(msg(locale, "summary.foreign.taxi"));
+        if (isFounded(vin.getAccident())) dto.yellow(msg(locale, "summary.foreign.accident"));
+        if (isFounded(vin.getDamaged())) dto.yellow(msg(locale, "summary.foreign.damaged"));
     }
 
     private boolean isFounded(CarRisk r) {
         return r != null && r == CarRisk.FOUNDED;
     }
 
-    // ===== LAKIER =====
-    private void applyPaint(InspectionSummaryDto dto, PaintCheck paint) {
+    private void applyPaint(InspectionSummaryDto dto, PaintCheck paint, Locale locale) {
         if (paint == null) {
             dto.yellow("Brak wypełnionej kontroli lakieru.");
             return;
@@ -97,84 +96,99 @@ public class InspectionSummaryService {
             dto.yellow("Lakier: brak pomiarów grubości (tryb bez pomiarów).");
         }
 
-        paintFlag(dto, "Maska", paint.isHoodDifferent(), paint.getMinHoodThickness(), paint.getMaxHoodThickness());
-        paintFlag(dto, "Dach", paint.isRoofDifferent(), paint.getMinRoofThickness(), paint.getMaxRoofThickness());
+        paintFlag(dto, locale, "paint.hood", paint.isHoodDifferent(), paint.getMinHoodThickness(), paint.getMaxHoodThickness());
+        paintFlag(dto,locale, "paint.roof", paint.isRoofDifferent(), paint.getMinRoofThickness(), paint.getMaxRoofThickness());
 
-        paintFlag(dto, "Drzwi przód lewy", paint.isFrontLeftDoorDifferent(),
+        paintFlag(dto,locale, "paint.front.left.door", paint.isFrontLeftDoorDifferent(),
                 paint.getMinFrontLeftDoorThickness(), paint.getMaxFrontLeftDoorThickness());
-        paintFlag(dto, "Drzwi tył lewy", paint.isRearLeftDoorDifferent(),
+        paintFlag(dto,locale, "paint.rear.left.door", paint.isRearLeftDoorDifferent(),
                 paint.getMinRearLeftDoorThickness(), paint.getMaxRearLeftDoorThickness());
-        paintFlag(dto, "Drzwi przód prawy", paint.isFrontRightDoorDifferent(),
+        paintFlag(dto,locale, "paint.front.right.door", paint.isFrontRightDoorDifferent(),
                 paint.getMinFrontRightDoorThickness(), paint.getMaxFrontRightDoorThickness());
-        paintFlag(dto, "Drzwi tył prawy", paint.isRearRightDoorDifferent(),
+        paintFlag(dto,locale, "paint.rear.right.door", paint.isRearRightDoorDifferent(),
                 paint.getMinRearRightDoorThickness(), paint.getMaxRearRightDoorThickness());
 
-        paintFlag(dto, "Klapa bagażnika", paint.isTrunkDifferent(),
+        paintFlag(dto,locale, "paint.trunk", paint.isTrunkDifferent(),
                 paint.getMinTrunkThickness(), paint.getMaxTrunkThickness());
 
-        paintFlag(dto, "Słupek A lewy", paint.isPillarALeftDifferent(),
+        paintFlag(dto,locale, "paint.pillar.a.left", paint.isPillarALeftDifferent(),
                 paint.getMinPillarALeftThickness(), paint.getMaxPillarALeftThickness());
-        paintFlag(dto, "Słupek A prawy", paint.isPillarARightDifferent(),
+        paintFlag(dto,locale, "paint.pillar.a.right", paint.isPillarARightDifferent(),
                 paint.getMinPillarARightThickness(), paint.getMaxPillarARightThickness());
-        paintFlag(dto, "Słupek B lewy", paint.isPillarBLeftDifferent(),
+        paintFlag(dto,locale, "paint.pillar.b.left", paint.isPillarBLeftDifferent(),
                 paint.getMinPillarBLeftThickness(), paint.getMaxPillarBLeftThickness());
-        paintFlag(dto, "Słupek B prawy", paint.isPillarBRightDifferent(),
+        paintFlag(dto,locale, "paint.pillar.b.right", paint.isPillarBRightDifferent(),
                 paint.getMinPillarBRightThickness(), paint.getMaxPillarBRightThickness());
-        paintFlag(dto, "Słupek C lewy", paint.isPillarCLeftDifferent(),
+        paintFlag(dto,locale, "paint.pillar.c.left", paint.isPillarCLeftDifferent(),
                 paint.getMinPillarCLeftThickness(), paint.getMaxPillarCLeftThickness());
-        paintFlag(dto, "Słupek C prawy", paint.isPillarCRightDifferent(),
+        paintFlag(dto,locale, "paint.pillar.c.right", paint.isPillarCRightDifferent(),
                 paint.getMinPillarCRightThickness(), paint.getMaxPillarCRightThickness());
 
-        paintFlag(dto, "Nadkole przód lewe", paint.isFrontLeftWheelArchDifferent(),
+        paintFlag(dto,locale, "paint.front.left.arch", paint.isFrontLeftWheelArchDifferent(),
                 paint.getMinFrontLeftWheelArchThickness(), paint.getMaxFrontLeftWheelArchThickness());
-        paintFlag(dto, "Nadkole przód prawe", paint.isFrontRightWheelArchDifferent(),
+        paintFlag(dto,locale, "paint.front.right.arch", paint.isFrontRightWheelArchDifferent(),
                 paint.getMinFrontRightWheelArchThickness(), paint.getMaxFrontRightWheelArchThickness());
-        paintFlag(dto, "Nadkole tył lewe", paint.isRearLeftWheelArchDifferent(),
+        paintFlag(dto,locale, "paint.rear.left.arch", paint.isRearLeftWheelArchDifferent(),
                 paint.getMinRearLeftWheelArchThickness(), paint.getMaxRearLeftWheelArchThickness());
-        paintFlag(dto, "Nadkole tył prawe", paint.isRearRightWheelArchDifferent(),
+        paintFlag(dto,locale, "paint.rear.right.arch", paint.isRearRightWheelArchDifferent(),
                 paint.getMinRearRightWheelArchThickness(), paint.getMaxRearRightWheelArchThickness());
 
-        paintFlag(dto, "Zderzak przedni", paint.isFrontBumperDifferent(),
+        paintFlag(dto,locale, "paint.bumper.front", paint.isFrontBumperDifferent(),
                 paint.getMinFrontBumperThickness(), paint.getMaxFrontBumperThickness());
-        paintFlag(dto, "Zderzak tylny", paint.isRearBumperDifferent(),
+        paintFlag(dto,locale, "paint.bumper.rear", paint.isRearBumperDifferent(),
                 paint.getMinRearBumperThickness(), paint.getMaxRearBumperThickness());
 
-        // Uszkodzenia lakieru (masz je w encji)
-        if (paint.getDamages() != null) {
+        if (paint.getDamages() != null && !paint.getDamages().isEmpty()) {
+
             for (PaintDamage d : paint.getDamages()) {
-                dto.yellow("Uszkodzenie lakieru: " + safe(d.getBodyPart()) + " / " +
-                        safe(d.getDamageType()) + " / " + safe(d.getSize()));
+                String part = safeKey(locale, "paint.", normalizeDamageKey(d.getBodyPart()));
+                String type = safeKey(locale, "paint.label.damage.", normalizeDamageKey(d.getDamageType()));
+                String size = safeKey(locale, "paint.size.", normalizeDamageKey(d.getSize()));
+
+                dto.getPaintDamageDetails().add(
+                        msg(locale, "summary.paint.damage", part, type, size)
+                );
             }
+
+            dto.yellow(msg(locale, "summary.paint.damage.count", dto.getPaintDamageDetails().size()));
         }
-        applySideMismatchChecks(dto, paint);
+
+        applySideMismatchChecks(dto, paint, locale);
     }
 
-    private String safe(String s) {
-        return s == null ? "brak" : s;
+    private String normalizeDamageKey(String raw) {
+        if (raw == null) return null;
+        return raw.trim().toLowerCase().replace(" ", "_");
+    }
+
+    private String safeKey(Locale locale, String prefix, String raw) {
+        if (raw == null || raw.isBlank()) return msg(locale, "summary.value.missing");
+        return msg(locale, prefix + raw);
     }
 
     private void paintFlag(InspectionSummaryDto dto,
-                           String part,
+                           Locale locale,
+                           String partKey,
                            boolean different,
                            Integer min,
                            Integer max) {
 
         Integer worst = worstThickness(min, max);
+        String part = msg(locale, partKey);
 
         if (worst != null) {
             if (worst >= 300) {
-                dto.red("Lakier: " + part + " – zakres " + formatRange(min, max)
-                        + " µm. Podejrzenie szpachli.");
+                dto.red(msg(locale, "summary.paint.filler", part, formatRange(min, max)));
                 return;
             }
             if (worst >= 200) {
-                dto.yellow("Lakier: " + part + " – zakres " + formatRange(min, max)
-                        + " µm. Możliwe ponowne lakierowanie.");
+                dto.yellow(msg(locale, "summary.paint.repaint", part, formatRange(min, max)));
                 return;
             }
         }
-        if(different){
-            dto.yellow("Lakier: " + part + " różni się – możliwa wymiana elementu.");
+
+        if (different) {
+            dto.yellow(msg(locale, "summary.paint.part_different", part));
         }
     }
 
@@ -193,21 +207,21 @@ public class InspectionSummaryService {
         return left < 200 && right < 200;
     }
 
-    private void applySideMismatchChecks(InspectionSummaryDto dto, PaintCheck paint) {
+    private void applySideMismatchChecks(InspectionSummaryDto dto, PaintCheck paint, Locale locale) {
         List<SidePair> pairs = List.of(
                 new SidePair("summary.part.front.doors",
                         PaintCheck::getMinFrontLeftDoorThickness, PaintCheck::getMaxFrontLeftDoorThickness,
                         PaintCheck::getMinFrontRightDoorThickness, PaintCheck::getMaxFrontRightDoorThickness),
 
-                new SidePair("Drzwi tylne",
+                new SidePair("summary.part.rear.doors",
                         PaintCheck::getMinRearLeftDoorThickness, PaintCheck::getMaxRearLeftDoorThickness,
                         PaintCheck::getMinRearRightDoorThickness, PaintCheck::getMaxRearRightDoorThickness),
 
-                new SidePair("Nadkola przednie",
+                new SidePair("summary.part.front.wheel_arch",
                         PaintCheck::getMinFrontLeftWheelArchThickness, PaintCheck::getMaxFrontLeftWheelArchThickness,
                         PaintCheck::getMinFrontRightWheelArchThickness, PaintCheck::getMaxFrontRightWheelArchThickness),
 
-                new SidePair("Nadkola tylne",
+                new SidePair("summary.part.rear.wheel_arch",
                         PaintCheck::getMinRearLeftWheelArchThickness, PaintCheck::getMaxRearLeftWheelArchThickness,
                         PaintCheck::getMinRearRightWheelArchThickness, PaintCheck::getMaxRearRightWheelArchThickness),
 
@@ -235,12 +249,16 @@ public class InspectionSummaryService {
                 int right = worstThickness(rMin, rMax);
                 int diff = Math.abs(left - right);
 
+                String partName = msg(locale, p.label());
+
                 dto.yellow(
-                        "summary.paint.side_mismatch",
-                        p.label(),
-                        diff,
-                        formatRange(lMin, lMax),
-                        formatRange(rMin, rMax)
+                        msg(locale,
+                                "summary.paint.side_mismatch",
+                                partName,
+                                diff,
+                                formatRange(lMin, lMax),
+                                formatRange(rMin, rMax)
+                        )
                 );
             }
         }
@@ -258,8 +276,7 @@ public class InspectionSummaryService {
         return "max " + max;
     }
 
-    // ===== PYTANIA =====
-    private void applyQuestions(InspectionSummaryDto dto, List<QuestionAnswer> answers) {
+    private void applyQuestions(InspectionSummaryDto dto, List<QuestionAnswer> answers, Locale locale) {
         if (answers == null || answers.isEmpty()) {
             dto.yellow("Brak wypełnionej checklisty pytań.");
             return;
@@ -269,29 +286,22 @@ public class InspectionSummaryService {
             var q = a.getQuestion();
             if (q == null) continue;
 
-            String key = q.getQuestionKey(); // np. "oil_level"
-            String opt = (a.getSelectedOption() != null) ? a.getSelectedOption().getValue() : null;
+            String key = q.getQuestionKey();
+            String opt = a.getSelectedOption() != null ? a.getSelectedOption().getValue() : null;
 
-            // jeśli nie wybrano opcji
             if (opt == null) {
-                dto.yellow("Checklist: brak odpowiedzi dla: " + key);
+                dto.yellow(msg(locale, "summary.checklist.no_answer", msg(locale, "question." + key)));
                 continue;
             }
 
-            // reguły MVP na podstawie option value (Twoje wartości)
-            // Zasada: "ok/good/none/clean/correct/smooth/quiet/effective/precise/stable/normal/readable/coherent"
-            //         => green
-            //         "single/partial/light/borderline/low/weak/slow/minor/temporary/occasional/play/resistance/dark"
-            //         => yellow
-            //         "not_working/damaged/cracked/worn/mismatch/missing/major/problem/stalling/constant/faulty/slipping/loud_noise/strong"
-            //         => red
+            String sentenceKey = "answer." + key + "." + opt;
+            String sentence = msg(locale, sentenceKey);
 
             RiskBand band = classifyOption(opt);
-
             switch (band) {
-                case GREEN -> dto.green("Checklist OK: " + key);
-                case YELLOW -> dto.yellow("Checklist UWAGA: " + key + " = " + opt);
-                case RED -> dto.red("Checklist PROBLEM: " + key + " = " + opt);
+                case GREEN -> dto.green(sentence);
+                case YELLOW -> dto.yellow(sentence);
+                case RED -> dto.red(sentence);
             }
         }
     }
@@ -301,7 +311,6 @@ public class InspectionSummaryService {
     private RiskBand classifyOption(String opt) {
         String o = opt.toLowerCase();
 
-        // RED
         if (o.contains("not_working") || o.contains("damaged") || o.contains("cracked") ||
                 o.contains("worn") || o.contains("mismatch") || o.contains("missing") ||
                 o.contains("major") || o.contains("problem") || o.contains("stalling") ||
@@ -310,7 +319,6 @@ public class InspectionSummaryService {
             return RiskBand.RED;
         }
 
-        // YELLOW
         if (o.contains("single") || o.contains("partial") || o.contains("light") ||
                 o.contains("borderline") || o.contains("low") || o.contains("weak") ||
                 o.contains("slow") || o.contains("minor") || o.contains("temporary") ||
@@ -320,8 +328,11 @@ public class InspectionSummaryService {
             return RiskBand.YELLOW;
         }
 
-        // GREEN (domyślnie)
         return RiskBand.GREEN;
+    }
+
+    private String msg(Locale locale, String key, Object... args) {
+        return messageSource.getMessage(key, args, locale);
     }
 }
 

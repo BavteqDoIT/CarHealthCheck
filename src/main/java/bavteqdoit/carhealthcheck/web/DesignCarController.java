@@ -18,6 +18,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 @Slf4j
@@ -381,10 +382,10 @@ public class DesignCarController {
     }
 
     @GetMapping("/summary")
-    public String showSummary(@RequestParam Long carId, Model model) {
+    public String showSummary(@RequestParam Long carId, Model model, Locale locale) {
         Car car = carRepository.findById(carId).orElseThrow();
         model.addAttribute("car", car);
-        var summary = inspectionSummaryService.buildSummary(carId);
+        var summary = inspectionSummaryService.buildSummary(carId, locale);
         model.addAttribute("summary", summary);
         return "summary";
     }
