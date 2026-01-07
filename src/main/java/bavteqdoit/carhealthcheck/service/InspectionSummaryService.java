@@ -146,6 +146,7 @@ public class InspectionSummaryService {
                         safe(d.getDamageType()) + " / " + safe(d.getSize()));
             }
         }
+        applySideMismatchChecks(dto, paint);
     }
 
     private String safe(String s) {
@@ -157,14 +158,88 @@ public class InspectionSummaryService {
                            boolean different,
                            Integer min,
                            Integer max) {
-        if (!different) return;
 
         Integer worst = worstThickness(min, max);
 
-        if (worst != null && worst >= 350) {
-            dto.red("Lakier: " + part + " różni się, zakres " + formatRange(min, max) + " µm (podejrzenie naprawy).");
-        } else {
-            dto.yellow("Lakier: " + part + " różni się, zakres " + formatRange(min, max) + " µm.");
+        if (worst != null) {
+            if (worst >= 300) {
+                dto.red("Lakier: " + part + " – zakres " + formatRange(min, max)
+                        + " µm. Podejrzenie szpachli.");
+                return;
+            }
+            if (worst >= 200) {
+                dto.yellow("Lakier: " + part + " – zakres " + formatRange(min, max)
+                        + " µm. Możliwe ponowne lakierowanie.");
+                return;
+            }
+        }
+        if(different){
+            dto.yellow("Lakier: " + part + " różni się – możliwa wymiana elementu.");
+        }
+    }
+
+    private boolean isSideMismatch(Integer leftMin, Integer leftMax,
+                                   Integer rightMin, Integer rightMax) {
+
+        Integer left = worstThickness(leftMin, leftMax);
+        Integer right = worstThickness(rightMin, rightMax);
+
+        if (left == null || right == null) return false;
+
+        int diff = Math.abs(left - right);
+
+        if (diff < 50) return false;
+
+        return left < 200 && right < 200;
+    }
+
+    private void applySideMismatchChecks(InspectionSummaryDto dto, PaintCheck paint) {
+        List<SidePair> pairs = List.of(
+                new SidePair("Drzwi przednie",
+                        PaintCheck::getMinFrontLeftDoorThickness, PaintCheck::getMaxFrontLeftDoorThickness,
+                        PaintCheck::getMinFrontRightDoorThickness, PaintCheck::getMaxFrontRightDoorThickness),
+
+                new SidePair("Drzwi tylne",
+                        PaintCheck::getMinRearLeftDoorThickness, PaintCheck::getMaxRearLeftDoorThickness,
+                        PaintCheck::getMinRearRightDoorThickness, PaintCheck::getMaxRearRightDoorThickness),
+
+                new SidePair("Nadkola przednie",
+                        PaintCheck::getMinFrontLeftWheelArchThickness, PaintCheck::getMaxFrontLeftWheelArchThickness,
+                        PaintCheck::getMinFrontRightWheelArchThickness, PaintCheck::getMaxFrontRightWheelArchThickness),
+
+                new SidePair("Nadkola tylne",
+                        PaintCheck::getMinRearLeftWheelArchThickness, PaintCheck::getMaxRearLeftWheelArchThickness,
+                        PaintCheck::getMinRearRightWheelArchThickness, PaintCheck::getMaxRearRightWheelArchThickness),
+
+                new SidePair("Słupek A",
+                        PaintCheck::getMinPillarALeftThickness, PaintCheck::getMaxPillarALeftThickness,
+                        PaintCheck::getMinPillarARightThickness, PaintCheck::getMaxPillarARightThickness),
+
+                new SidePair("Słupek B",
+                        PaintCheck::getMinPillarBLeftThickness, PaintCheck::getMaxPillarBLeftThickness,
+                        PaintCheck::getMinPillarBRightThickness, PaintCheck::getMaxPillarBRightThickness),
+
+                new SidePair("Słupek C",
+                        PaintCheck::getMinPillarCLeftThickness, PaintCheck::getMaxPillarCLeftThickness,
+                        PaintCheck::getMinPillarCRightThickness, PaintCheck::getMaxPillarCRightThickness)
+        );
+
+        for (SidePair p : pairs) {
+            Integer lMin = p.leftMin().apply(paint);
+            Integer lMax = p.leftMax().apply(paint);
+            Integer rMin = p.rightMin().apply(paint);
+            Integer rMax = p.rightMax().apply(paint);
+
+            if (isSideMismatch(lMin, lMax, rMin, rMax)) {
+                int left = worstThickness(lMin, lMax);
+                int right = worstThickness(rMin, rMax);
+                int diff = Math.abs(left - right);
+
+                dto.yellow("Lakier: " + p.label()
+                        + " lewa/prawa różnią się o " + diff + " µm (zakresy: L "
+                        + formatRange(lMin, lMax) + " µm vs P "
+                        + formatRange(rMin, rMax) + " µm). Możliwa wymiana elementu.");
+            }
         }
     }
 
