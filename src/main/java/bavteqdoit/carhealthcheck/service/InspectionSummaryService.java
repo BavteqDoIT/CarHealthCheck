@@ -1,5 +1,6 @@
 package bavteqdoit.carhealthcheck.service;
 
+import bavteqdoit.carhealthcheck.data.CarRepository;
 import bavteqdoit.carhealthcheck.data.PaintCheckRepository;
 import bavteqdoit.carhealthcheck.data.QuestionAnswerRepository;
 import bavteqdoit.carhealthcheck.data.VinReportDataRepository;
@@ -20,17 +21,37 @@ public class InspectionSummaryService {
     private final PaintCheckRepository paintCheckRepository;
     private final QuestionAnswerRepository questionAnswerRepository;
     private final MessageSource messageSource;
+    private final CarRepository carRepository;
+    private final BaselineScoreResolver baselineScoreResolver;
+    private final RiskScoringService riskScoringService;
+
 
     public InspectionSummaryDto buildSummary(Long carId, Locale locale) {
         var dto = new InspectionSummaryDto();
 
+        Car car = carRepository.findById(carId)
+                .orElseThrow(() -> new IllegalArgumentException("Car not found: " + carId));
+
+        var baseline = baselineScoreResolver.resolve(car);
+        dto.setBasicScoreUsed(baseline.scoreUsed());
+
+
+        if (baseline.source() == BaselineScoreResolver.BaselineResult.Source.DEFAULT) {
+            dto.yellow(msg(locale, "summary.basicScore.missing"));
+        }
+
         var vin = vinReportDataRepository.findByCarId(carId).orElse(null);
         var paint = paintCheckRepository.findByCarId(carId).orElse(null);
         var answers = questionAnswerRepository.findAllByCarIdWithDetails(carId);
+        var risk = riskScoringService.compute(car, vin, paint, answers, locale);
 
         applyVin(dto, vin, locale);
         applyPaint(dto, paint, locale);
         applyQuestions(dto, answers, locale);
+
+        dto.setFinalScore(risk.getFinalScore());
+        dto.setRiskLevel(risk.getRiskLevel().name());
+        dto.setRiskReasons(risk.getRiskReasons());
 
         if (dto.getRedFlags().isEmpty() && dto.getYellowFlags().isEmpty()) {
             dto.green(msg(locale, "summary.ok.no_issues"));
@@ -88,12 +109,12 @@ public class InspectionSummaryService {
 
     private void applyPaint(InspectionSummaryDto dto, PaintCheck paint, Locale locale) {
         if (paint == null) {
-            dto.yellow("Brak wypełnionej kontroli lakieru.");
+            dto.yellow(msg(locale, "summary.paint.no.measurement"));
             return;
         }
 
         if (paint.isNoThicknessMeasurements()) {
-            dto.yellow("Lakier: brak pomiarów grubości (tryb bez pomiarów).");
+            dto.yellow(msg(locale, "summary.paint.no.measurement"));
         }
 
         paintFlag(dto, locale, "paint.hood", paint.isHoodDifferent(), paint.getMinHoodThickness(), paint.getMaxHoodThickness());
@@ -297,38 +318,17 @@ public class InspectionSummaryService {
             String sentenceKey = "answer." + key + "." + opt;
             String sentence = msg(locale, sentenceKey);
 
-            RiskBand band = classifyOption(opt);
+            RiskBand band = RiskBand.GREEN;
+            if (a.getSelectedOption() != null && a.getSelectedOption().getRiskBand() != null) {
+                band = a.getSelectedOption().getRiskBand();
+            }
+
             switch (band) {
                 case GREEN -> dto.green(sentence);
                 case YELLOW -> dto.yellow(sentence);
                 case RED -> dto.red(sentence);
             }
         }
-    }
-
-    private enum RiskBand { GREEN, YELLOW, RED }
-
-    private RiskBand classifyOption(String opt) {
-        String o = opt.toLowerCase();
-
-        if (o.contains("not_working") || o.contains("damaged") || o.contains("cracked") ||
-                o.contains("worn") || o.contains("mismatch") || o.contains("missing") ||
-                o.contains("major") || o.contains("problem") || o.contains("stalling") ||
-                o.contains("constant") || o.contains("faulty") || o.contains("slipping") ||
-                o.contains("loud_noise") || o.contains("strong")) {
-            return RiskBand.RED;
-        }
-
-        if (o.contains("single") || o.contains("partial") || o.contains("light") ||
-                o.contains("borderline") || o.contains("low") || o.contains("weak") ||
-                o.contains("slow") || o.contains("minor") || o.contains("temporary") ||
-                o.contains("occasional") || o.contains("play") || o.contains("resistance") ||
-                o.contains("dark") || o.contains("distorted") || o.contains("jerky") ||
-                o.contains("unstable") || o.contains("long") || o.contains("high")) {
-            return RiskBand.YELLOW;
-        }
-
-        return RiskBand.GREEN;
     }
 
     private String msg(Locale locale, String key, Object... args) {

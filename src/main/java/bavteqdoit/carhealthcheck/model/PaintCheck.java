@@ -120,4 +120,56 @@ public class PaintCheck {
         if (min == null || max == null) return false;
         return min <= max;
     }
+
+    public void forEachThickness(java.util.function.Consumer<Integer> consumer) {
+        Integer[] values = {
+                getMaxHoodThickness(),
+                getMaxRoofThickness(),
+                getMaxFrontLeftDoorThickness(),
+                getMaxFrontRightDoorThickness(),
+                getMaxRearLeftDoorThickness(),
+                getMaxRearRightDoorThickness(),
+                getMaxTrunkThickness(),
+                getMaxFrontLeftWheelArchThickness(),
+                getMaxFrontRightWheelArchThickness(),
+                getMaxRearLeftWheelArchThickness(),
+                getMaxRearRightWheelArchThickness(),
+                getMaxPillarALeftThickness(),
+                getMaxPillarARightThickness(),
+                getMaxPillarBLeftThickness(),
+                getMaxPillarBRightThickness(),
+                getMaxPillarCLeftThickness(),
+                getMaxPillarCRightThickness(),
+                getMaxFrontBumperThickness(),
+                getMaxRearBumperThickness()
+        };
+
+        for (Integer v : values) {
+            if (v != null) consumer.accept(v);
+        }
+    }
+
+    public long countDifferentParts() {
+        return java.util.stream.Stream.of(
+                isHoodDifferent(),
+                isRoofDifferent(),
+                isFrontLeftDoorDifferent(),
+                isFrontRightDoorDifferent(),
+                isRearLeftDoorDifferent(),
+                isRearRightDoorDifferent(),
+                isTrunkDifferent(),
+                isFrontLeftWheelArchDifferent(),
+                isFrontRightWheelArchDifferent(),
+                isRearLeftWheelArchDifferent(),
+                isRearRightWheelArchDifferent(),
+                isPillarALeftDifferent(),
+                isPillarARightDifferent(),
+                isPillarBLeftDifferent(),
+                isPillarBRightDifferent(),
+                isPillarCLeftDifferent(),
+                isPillarCRightDifferent(),
+                isFrontBumperDifferent(),
+                isRearBumperDifferent()
+        ).filter(Boolean.TRUE::equals).count();
+    }
 }

@@ -12,6 +12,12 @@ public class InspectionSummaryDto {
     private List<String> greenNotes = new ArrayList<>();
     private List<String> paintDamageDetails = new ArrayList<>();
 
+    private Integer basicScoreUsed;
+
+    private Integer finalScore;
+    private String riskLevel;
+    private List<String> riskReasons = new ArrayList<>();
+
     public void red(String msg) {
         redFlags.add(msg);
     }

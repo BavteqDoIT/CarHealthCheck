@@ -1,6 +1,8 @@
 package bavteqdoit.carhealthcheck.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,6 +23,11 @@ public class ModelType {
     @ManyToOne
     @JoinColumn(name = "brand_id")
     private Brand brand;
+
+    @Column(name = "basic_score")
+    @Min(0)
+    @Max(100)
+    private Integer basicScore;
 
     @ManyToMany
     @JoinTable(

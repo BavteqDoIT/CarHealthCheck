@@ -16,4 +16,8 @@ public class QuestionOption {
     @Column(name = "question_option")
     private String value;
     private String labelKey;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "risk_band", nullable = false)
+    private RiskBand riskBand = RiskBand.GREEN;
 }

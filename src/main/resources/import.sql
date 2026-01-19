@@ -3,9 +3,10 @@ INSERT INTO brand (brand_name) VALUES ('Toyota');
 INSERT INTO brand (brand_name) VALUES ('Ford');
 
 -- Wstawianie modeli (ID: 1 i 2)
-INSERT INTO model_type (model_type, brand_id) VALUES ('Corolla', 1);
-INSERT INTO model_type (model_type, brand_id) VALUES ('Mustang', 2);
-INSERT INTO model_type (model_type, brand_id) VALUES ('Aygo', 1);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Corolla', 1, 65);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Mustang', 2, 55);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Aygo', 1, 70);
+
 
 -- Wstawianie kolorów (ID: 1 i 2)
 INSERT INTO color (color) VALUES ('Red');
@@ -25,6 +26,7 @@ INSERT INTO engine_type (engine_type, capacity, fuel_type_id) VALUES ('Electric 
 -- Wstawianie typów nadwozia
 INSERT INTO body_type (body_type) VALUES ('Coupe');
 INSERT INTO body_type (body_type) VALUES ('Hatchback');
+INSERT INTO body_type (body_type) VALUES ('Sedan');
 
 -- Łączenie modeli z silnikami
 INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES (1, 1); -- Corolla (ID 1) → 2.0L I4 (ID 1)
@@ -40,6 +42,9 @@ INSERT INTO gearbox_type (gearbox_type) VALUES ('Automatic');
 INSERT INTO drive_type (drive_type) VALUES ('FWD');
 INSERT INTO drive_type (drive_type) VALUES ('RWD');
 INSERT INTO drive_type (drive_type) VALUES ('AWD');
+
+--Wstawianie konkretnych modeli
+INSERT INTO model_variant(model_type_id, engine_type_id, body_type_id,year_from, year_to,generation_code, facelift,basic_score,source_url, source_ratings_count, source_avg_rating) VALUES ((SELECT id FROM model_type WHERE model_type = 'Corolla'),(SELECT id FROM engine_type WHERE engine_type = '2.0L I4' AND capacity = 1999),(SELECT id FROM body_type WHERE body_type = 'Sedan'),2004, 2007,'IX', FALSE,70,'https://www.autocentrum.pl/oceny/toyota/corolla/ix-e12/sedan/silnik-diesla-2.0-d-4d-116km-2004-2007/',18,4.16);
 
 -- ===============================
 -- Pytania
@@ -91,161 +96,161 @@ INSERT INTO question (main_category, sub_category, question_key, question_type) 
 
 
 
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (1, 'readable', 'vin.readable');
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (1, 'mismatch', 'vin.mismatch');
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (1, 'not_readable', 'vin.not_readable');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (1, 'readable', 'vin.readable','GREEN');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (1, 'mismatch', 'vin.mismatch','RED');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (1, 'not_readable', 'vin.not_readable','RED');
 
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (2, 'coherent', 'service_docs.coherent');
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (2, 'partial', 'service_docs.partial');
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (2, 'missing', 'service_docs.missing');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (2, 'coherent', 'service_docs.coherent','GREEN');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (2, 'partial', 'service_docs.partial','GREEN');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (2, 'missing', 'service_docs.missing','RED');
 
 -- id=3 lights_working
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (3, 'ok', 'lights_working.ok');
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (3, 'single_fault', 'lights_working.single_fault');
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (3, 'multiple_faults', 'lights_working.multiple_faults');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (3, 'ok', 'lights_working.ok','GREEN');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (3, 'single_fault', 'lights_working.single_fault','YELLOW');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (3, 'multiple_faults', 'lights_working.multiple_faults','RED');
 
 -- id=4 headlights_condition
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (4, 'good', 'headlights_condition.good');
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (4, 'worn', 'headlights_condition.worn');
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (4, 'damaged', 'headlights_condition.damaged');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (4, 'good', 'headlights_condition.good','GREEN');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (4, 'worn', 'headlights_condition.worn','YELLOW');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (4, 'damaged', 'headlights_condition.damaged','RED');
 
 -- id=5 windows_condition
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (5, 'good', 'windows_condition.good');
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (5, 'chips', 'windows_condition.chips');
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (5, 'cracked', 'windows_condition.cracked');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (5, 'good', 'windows_condition.good','GREEN');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (5, 'chips', 'windows_condition.chips','YELLOW');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (5, 'cracked', 'windows_condition.cracked','RED');
 
 -- id=6 tires_tread
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (6, 'good', 'tires_tread.good');
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (6, 'borderline', 'tires_tread.borderline');
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (6, 'worn', 'tires_tread.worn');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (6, 'good', 'tires_tread.good','GREEN');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (6, 'borderline', 'tires_tread.borderline','YELLOW');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (6, 'worn', 'tires_tread.worn','RED');
 
 -- id=7 tires_wear
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (7, 'even', 'tires_wear.even');
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (7, 'uneven', 'tires_wear.uneven');
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (7, 'damaged', 'tires_wear.damaged');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (7, 'even', 'tires_wear.even','GREEN');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (7, 'uneven', 'tires_wear.uneven','RED');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (7, 'damaged', 'tires_wear.damaged','RED');
 
 -- id=8 tires_type
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (8, 'same', 'tires_type.same');
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (8, 'mixed_brands', 'tires_type.mixed_brands');
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (8, 'mixed_sizes', 'tires_type.mixed_sizes');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (8, 'same', 'tires_type.same','GREEN');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (8, 'mixed_brands', 'tires_type.mixed_brands','YELLOW');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (8, 'mixed_sizes', 'tires_type.mixed_sizes','RED');
 
 -- id=9 oil_level
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (9, 'correct', 'oil_level.correct');
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (9, 'low', 'oil_level.low');
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (9, 'high', 'oil_level.high');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (9, 'correct', 'oil_level.correct','GREEN');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (9, 'low', 'oil_level.low','RED');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (9, 'high', 'oil_level.high','RED');
 
 -- id=10 oil_condition
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (10, 'clean', 'oil_condition.clean');
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (10, 'dark', 'oil_condition.dark');
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (10, 'contaminated', 'oil_condition.contaminated');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (10, 'clean', 'oil_condition.clean','GREEN');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (10, 'dark', 'oil_condition.dark','YELLOW');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (10, 'contaminated', 'oil_condition.contaminated','RED');
 
 -- id=11 coolant_level
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (11, 'correct', 'coolant_level.correct');
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (11, 'low', 'coolant_level.low');
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (11, 'leak', 'coolant_level.leak');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (11, 'correct', 'coolant_level.correct','GREEN');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (11, 'low', 'coolant_level.low','YELLOW');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (11, 'leak', 'coolant_level.leak','RED');
 
 -- id=12 visible_leaks
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (12, 'none', 'visible_leaks.none');
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (12, 'minor', 'visible_leaks.minor');
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (12, 'major', 'visible_leaks.major');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (12, 'none', 'visible_leaks.none','GREEN');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (12, 'minor', 'visible_leaks.minor','YELLOW');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (12, 'major', 'visible_leaks.major','RED');
 
 -- id=13 upholstery_condition
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (13, 'good', 'upholstery_condition.good');
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (13, 'normal', 'upholstery_condition.normal');
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (13, 'damaged', 'upholstery_condition.damaged');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (13, 'good', 'upholstery_condition.good','GREEN');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (13, 'normal', 'upholstery_condition.normal','YELLOW');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (13, 'damaged', 'upholstery_condition.damaged','RED');
 
 -- id=14 steering_wear
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (14, 'good', 'steering_wear.good');
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (14, 'worn', 'steering_wear.worn');
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (14, 'excessive', 'steering_wear.excessive');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (14, 'good', 'steering_wear.good','GREEN');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (14, 'worn', 'steering_wear.worn','YELLOW');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (14, 'excessive', 'steering_wear.excessive','RED');
 
 -- id=15 interior_smell
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (15, 'none', 'interior_smell.none');
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (15, 'light', 'interior_smell.light');
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (15, 'strong', 'interior_smell.strong');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (15, 'none', 'interior_smell.none','GREEN');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (15, 'light', 'interior_smell.light','RED');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (15, 'strong', 'interior_smell.strong','RED');
 
 -- id=16 windows_electric
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (16, 'ok', 'windows_electric.ok');
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (16, 'slow', 'windows_electric.slow');
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (16, 'not_working', 'windows_electric.not_working');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (16, 'ok', 'windows_electric.ok','GREEN');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (16, 'slow', 'windows_electric.slow','YELLOW');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (16, 'not_working', 'windows_electric.not_working','RED');
 
 -- id=17 mirrors_adjustment
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (17, 'ok', 'mirrors_adjustment.ok');
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (17, 'partial', 'mirrors_adjustment.partial');
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (17, 'not_working', 'mirrors_adjustment.not_working');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (17, 'ok', 'mirrors_adjustment.ok','GREEN');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (17, 'partial', 'mirrors_adjustment.partial','YELLOW');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (17, 'not_working', 'mirrors_adjustment.not_working','RED');
 
 -- id=18 radio_function
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (18, 'ok', 'radio_function.ok');
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (18, 'distorted', 'radio_function.distorted');
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (18, 'not_working', 'radio_function.not_working');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (18, 'ok', 'radio_function.ok','GREEN');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (18, 'distorted', 'radio_function.distorted','YELLOW');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (18, 'not_working', 'radio_function.not_working','RED');
 
 -- id=19 dashboard_lights
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (19, 'ok', 'dashboard_lights.ok');
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (19, 'single', 'dashboard_lights.single');
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (19, 'multiple', 'dashboard_lights.multiple');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (19, 'ok', 'dashboard_lights.ok','GREEN');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (19, 'single', 'dashboard_lights.single','YELLOW');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (19, 'multiple', 'dashboard_lights.multiple','RED');
 
 -- id=20 air_conditioning
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (20, 'ok', 'air_conditioning.ok');
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (20, 'weak', 'air_conditioning.weak');
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (20, 'not_working', 'air_conditioning.not_working');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (20, 'ok', 'air_conditioning.ok','GREEN');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (20, 'weak', 'air_conditioning.weak','YELLOW');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (20, 'not_working', 'air_conditioning.not_working','RED');
 
 -- id=21 blower_speeds
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (21, 'ok', 'blower_speeds.ok');
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (21, 'partial', 'blower_speeds.partial');
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (21, 'not_working', 'blower_speeds.not_working');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (21, 'ok', 'blower_speeds.ok','GREEN');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (21, 'partial', 'blower_speeds.partial','YELLOW');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (21, 'not_working', 'blower_speeds.not_working','RED');
 
 -- id=22 cold_start
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (22, 'ok', 'cold_start.ok');
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (22, 'long', 'cold_start.long');
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (22, 'problem', 'cold_start.problem');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (22, 'ok', 'cold_start.ok','GREEN');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (22, 'long', 'cold_start.long','YELLOW');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (22, 'problem', 'cold_start.problem','RED');
 
 -- id=23 idle_operation
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (23, 'stable', 'idle_operation.stable');
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (23, 'unstable', 'idle_operation.unstable');
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (23, 'stalling', 'idle_operation.stalling');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (23, 'stable', 'idle_operation.stable','GREEN');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (23, 'unstable', 'idle_operation.unstable','YELLOW');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (23, 'stalling', 'idle_operation.stalling','RED');
 
 -- id=24 exhaust_smoke
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (24, 'none', 'exhaust_smoke.none');
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (24, 'temporary', 'exhaust_smoke.temporary');
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (24, 'constant', 'exhaust_smoke.constant');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (24, 'none', 'exhaust_smoke.none','GREEN');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (24, 'temporary', 'exhaust_smoke.temporary','YELLOW');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (24, 'constant', 'exhaust_smoke.constant','RED');
 
 -- id=25 clutch_operation
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (25, 'ok', 'clutch_operation.ok');
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (25, 'point', 'clutch_operation.point');
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (25, 'slipping', 'clutch_operation.slipping');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (25, 'ok', 'clutch_operation.ok','GREEN');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (25, 'point', 'clutch_operation.point','YELLOW');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (25, 'slipping', 'clutch_operation.slipping','RED');
 
 -- id=26 gearbox_operation
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (26, 'smooth', 'gearbox_operation.smooth');
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (26, 'resistance', 'gearbox_operation.resistance');
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (26, 'faulty', 'gearbox_operation.faulty');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (26, 'smooth', 'gearbox_operation.smooth','GREEN');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (26, 'resistance', 'gearbox_operation.resistance','YELLOW');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (26, 'faulty', 'gearbox_operation.faulty','RED');
 
 -- id=27 acceleration
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (27, 'normal', 'acceleration.normal');
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (27, 'weak', 'acceleration.weak');
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (27, 'jerky', 'acceleration.jerky');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (27, 'normal', 'acceleration.normal','GREEN');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (27, 'weak', 'acceleration.weak','YELLOW');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (27, 'jerky', 'acceleration.jerky','RED');
 
 -- id=28 steering_response
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (28, 'precise', 'steering_response.precise');
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (28, 'play', 'steering_response.play');
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (28, 'noises', 'steering_response.noises');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (28, 'precise', 'steering_response.precise','GREEN');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (28, 'play', 'steering_response.play','YELLOW');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (28, 'noises', 'steering_response.noises','RED');
 
 -- id=29 suspension_behavior
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (29, 'quiet', 'suspension_behavior.quiet');
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (29, 'minor_noise', 'suspension_behavior.minor_noise');
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (29, 'loud_noise', 'suspension_behavior.loud_noise');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (29, 'quiet', 'suspension_behavior.quiet','GREEN');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (29, 'minor_noise', 'suspension_behavior.minor_noise','YELLOW');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (29, 'loud_noise', 'suspension_behavior.loud_noise','RED');
 
 -- id=30 brakes_operation
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (30, 'effective', 'brakes_operation.effective');
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (30, 'vibrations', 'brakes_operation.vibrations');
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (30, 'weak', 'brakes_operation.weak');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (30, 'effective', 'brakes_operation.effective','GREEN');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (30, 'vibrations', 'brakes_operation.vibrations','YELLOW');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (30, 'weak', 'brakes_operation.weak','RED');
 
 -- id=31 driving_noises
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (31, 'none', 'driving_noises.none');
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (31, 'occasional', 'driving_noises.occasional');
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (31, 'constant', 'driving_noises.constant');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (31, 'none', 'driving_noises.none','GREEN');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (31, 'occasional', 'driving_noises.occasional','YELLOW');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (31, 'constant', 'driving_noises.constant','RED');
 
 -- id=32 vibrations
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (32, 'none', 'vibrations.none');
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (32, 'light', 'vibrations.light');
-INSERT INTO question_option (question_id, question_option, label_key) VALUES (32, 'strong', 'vibrations.strong');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (32, 'none', 'vibrations.none','GREEN');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (32, 'light', 'vibrations.light','YELLOW');
+INSERT INTO question_option (question_id, question_option, label_key, risk_band) VALUES (32, 'strong', 'vibrations.strong','RED');
 

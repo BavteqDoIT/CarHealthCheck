@@ -9,7 +9,10 @@ CREATE TABLE IF NOT EXISTS public.model_type (
     id BIGSERIAL PRIMARY KEY,
     model_type VARCHAR(255) NOT NULL,
     brand_id BIGINT NOT NULL,
-    FOREIGN KEY (brand_id) REFERENCES brand(id) ON DELETE CASCADE
+    basic_score INT,
+    FOREIGN KEY (brand_id) REFERENCES brand(id) ON DELETE CASCADE,
+    CONSTRAINT chk_model_type_basic_score_range
+    CHECK (basic_score IS NULL OR (basic_score BETWEEN 0 AND 100))
 );
 
 CREATE TABLE IF NOT EXISTS public.color (
@@ -147,6 +150,7 @@ CREATE TABLE IF NOT EXISTS public.question_option(
     question_id BIGINT NOT NULL,
     question_option VARCHAR(255),
     label_key VARCHAR(255),
+    risk_band VARCHAR(10) NOT NULL DEFAULT 'GREEN',
     FOREIGN KEY(question_id) REFERENCES question(id) ON DELETE CASCADE
 );
 
@@ -209,3 +213,38 @@ CREATE TABLE IF NOT EXISTS public.vin_mileage_entry (
     CONSTRAINT fk_mileage_car FOREIGN KEY (car_id) REFERENCES car(id) ON DELETE CASCADE,
     CONSTRAINT uk_car_date_mileage UNIQUE (car_id, reading_date, mileage_km)
 );
+
+CREATE TABLE IF NOT EXISTS public.model_variant (
+    id BIGSERIAL PRIMARY KEY,
+
+    model_type_id BIGINT NOT NULL,
+    engine_type_id BIGINT NOT NULL,
+    body_type_id BIGINT NOT NULL,
+
+    year_from INT,
+    year_to INT,
+
+    generation_code VARCHAR(50),
+    facelift BOOLEAN,
+
+    basic_score INT,
+
+    source_url TEXT,
+    source_ratings_count INT,
+    source_avg_rating DOUBLE PRECISION,
+
+    FOREIGN KEY (model_type_id) REFERENCES model_type(id) ON DELETE CASCADE,
+    FOREIGN KEY (engine_type_id) REFERENCES engine_type(id) ON DELETE CASCADE,
+    FOREIGN KEY (body_type_id) REFERENCES body_type(id) ON DELETE CASCADE,
+
+    CONSTRAINT chk_model_variant_basic_score
+    CHECK (basic_score IS NULL OR (basic_score BETWEEN 0 AND 100)),
+
+    CONSTRAINT chk_model_variant_years
+    CHECK (year_from IS NULL OR year_to IS NULL OR year_from <= year_to),
+
+    CONSTRAINT ux_mv_unique UNIQUE (model_type_id, engine_type_id, body_type_id, year_from, year_to)
+);
+
+CREATE INDEX IF NOT EXISTS ix_mv_lookup
+    ON public.model_variant(model_type_id, engine_type_id, body_type_id, year_from, year_to);

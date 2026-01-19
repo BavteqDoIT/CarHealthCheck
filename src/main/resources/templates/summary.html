@@ -71,9 +71,26 @@
                         <th scope="row" th:text="#{summary.car.name}">Car name</th>
                         <td th:text="*{name}"></td>
                     </tr>
+                    <tr>
+                        <th scope="row" th:text="#{summary.car.score}"></th>
+                        <td th:text="${summary.basicScoreUsed}+ '/100'"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row" th:text="#{summary.risk.score}"></th>
+                        <td th:text="${summary.finalScore}+ '/100'"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row" th:text="#{summary.risk.level}"></th>
+                        <td th:text="${summary.riskLevel}"></td>
+                    </tr>
+<!--                    <tr>-->
+<!--                        <th scope="row" th:text="#{summary.risk.reasons}"></th>-->
+<!--                        <td th:text="${summary.riskReasons}"></td>-->
+<!--                    </tr>-->
                     </tbody>
                 </table>
                 <div class="mt-3">
+
 
                     <div th:if="${summary.redFlags.size() > 0}" class="alert alert-danger">
                         <b th:block th:text="#{summary.redFlags.title}"/>
