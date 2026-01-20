@@ -188,6 +188,18 @@ INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('XC90', (SELE
 -- Wstawianie kolorów
 INSERT INTO color (color) VALUES ('Red');
 INSERT INTO color (color) VALUES ('Blue');
+INSERT INTO color (color) VALUES ('Black');
+INSERT INTO color (color) VALUES ('White');
+INSERT INTO color (color) VALUES ('Silver');
+INSERT INTO color (color) VALUES ('Grey');
+INSERT INTO color (color) VALUES ('Green');
+INSERT INTO color (color) VALUES ('Yellow');
+INSERT INTO color (color) VALUES ('Orange');
+INSERT INTO color (color) VALUES ('Brown');
+INSERT INTO color (color) VALUES ('Beige');
+INSERT INTO color (color) VALUES ('Purple');
+INSERT INTO color (color) VALUES ('Gold');
+INSERT INTO color (color) VALUES ('Pink');
 
 -- Wstawianie typów paliwa (ID: 1, 2 i 3)
 INSERT INTO fuel_type (fuel) VALUES ('Petrol');
