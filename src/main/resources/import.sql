@@ -1,12 +1,28 @@
 -- Wstawianie marek (ID: 1 i 2)
 INSERT INTO brand (brand_name) VALUES ('Toyota');
 INSERT INTO brand (brand_name) VALUES ('Ford');
+INSERT INTO brand (brand_name) VALUES ('Honda');
+INSERT INTO brand (brand_name) VALUES ('Mazda');
+INSERT INTO brand (brand_name) VALUES ('Hyundai');
+INSERT INTO brand (brand_name) VALUES ('Kia');
+INSERT INTO brand (brand_name) VALUES ('Volkswagen');
+INSERT INTO brand (brand_name) VALUES ('BMW');
+INSERT INTO brand (brand_name) VALUES ('Opel');
+INSERT INTO brand (brand_name) VALUES ('Audi');
+INSERT INTO brand (brand_name) VALUES ('Mercedes-Benz');
+INSERT INTO brand (brand_name) VALUES ('Renault');
+INSERT INTO brand (brand_name) VALUES ('Peugeot');
+INSERT INTO brand (brand_name) VALUES ('Skoda');
+INSERT INTO brand (brand_name) VALUES ('Volvo');
 
 -- Wstawianie modeli (ID: 1 i 2)
-INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Corolla', 1, 65);
-INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Mustang', 2, 55);
-INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Aygo', 1, 70);
-
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Corolla', (SELECT id from brand WHERE brand_name = 'Toyota'), 84);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Mustang', (SELECT id from brand WHERE brand_name = 'Ford'), 55);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Aygo', (SELECT id from brand WHERE brand_name = 'Toyota'), 78);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Avensis', (SELECT id from brand WHERE brand_name = 'Toyota'), 84);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Yaris', (SELECT id from brand WHERE brand_name = 'Toyota'), 82);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('RAV4', (SELECT id from brand WHERE brand_name = 'Toyota'), 84);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Prius', (SELECT id from brand WHERE brand_name = 'Toyota'), 90);
 
 -- Wstawianie kolorów (ID: 1 i 2)
 INSERT INTO color (color) VALUES ('Red');
