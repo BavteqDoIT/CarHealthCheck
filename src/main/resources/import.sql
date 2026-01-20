@@ -201,12 +201,14 @@ INSERT INTO color (color) VALUES ('Purple');
 INSERT INTO color (color) VALUES ('Gold');
 INSERT INTO color (color) VALUES ('Pink');
 
--- Wstawianie typów paliwa (ID: 1, 2 i 3)
+-- Wstawianie typów paliwa
 INSERT INTO fuel_type (fuel) VALUES ('Petrol');
 INSERT INTO fuel_type (fuel) VALUES ('Diesel');
 INSERT INTO fuel_type (fuel) VALUES ('Electric');
+INSERT INTO fuel_type (fuel) VALUES ('Hybrid');
+INSERT INTO fuel_type (fuel) VALUES ('Plug-in Hybrid');
 
--- Wstawianie typów silnika z poprawnymi referencjami do paliwa
+-- Wstawianie typów silnika z referencjami do paliwa
 INSERT INTO engine_type (engine_type, capacity, fuel_type_id) VALUES ('2.0L I4',1999, 1);
 INSERT INTO engine_type (engine_type, capacity, fuel_type_id) VALUES ('V6',3600,1);
 INSERT INTO engine_type (engine_type, capacity, fuel_type_id) VALUES ('Electric Motor',0, 3);
