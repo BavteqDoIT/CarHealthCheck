@@ -1,4 +1,4 @@
--- Wstawianie marek (ID: 1 i 2)
+-- Wstawianie marek
 INSERT INTO brand (brand_name) VALUES ('Toyota');
 INSERT INTO brand (brand_name) VALUES ('Ford');
 INSERT INTO brand (brand_name) VALUES ('Honda');
@@ -15,16 +15,177 @@ INSERT INTO brand (brand_name) VALUES ('Peugeot');
 INSERT INTO brand (brand_name) VALUES ('Skoda');
 INSERT INTO brand (brand_name) VALUES ('Volvo');
 
--- Wstawianie modeli (ID: 1 i 2)
+-- Wstawianie modeli
 INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Corolla', (SELECT id from brand WHERE brand_name = 'Toyota'), 84);
-INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Mustang', (SELECT id from brand WHERE brand_name = 'Ford'), 55);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Mustang', (SELECT id from brand WHERE brand_name = 'Ford'), 86);
 INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Aygo', (SELECT id from brand WHERE brand_name = 'Toyota'), 78);
 INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Avensis', (SELECT id from brand WHERE brand_name = 'Toyota'), 84);
 INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Yaris', (SELECT id from brand WHERE brand_name = 'Toyota'), 82);
 INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('RAV4', (SELECT id from brand WHERE brand_name = 'Toyota'), 84);
 INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Prius', (SELECT id from brand WHERE brand_name = 'Toyota'), 90);
 
--- Wstawianie kolorów (ID: 1 i 2)
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Fiesta', (SELECT id from brand WHERE brand_name = 'Ford'), 80);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Focus', (SELECT id from brand WHERE brand_name = 'Ford'), 84);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Fusion', (SELECT id from brand WHERE brand_name = 'Ford'), 80);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Kuga', (SELECT id from brand WHERE brand_name = 'Ford'), 88);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Escape', (SELECT id from brand WHERE brand_name = 'Ford'), 90);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Puma', (SELECT id from brand WHERE brand_name = 'Ford'), 84);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Transit', (SELECT id from brand WHERE brand_name = 'Ford'), 76);
+
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Civic', (SELECT id from brand WHERE brand_name = 'Honda'), 86);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Accord', (SELECT id from brand WHERE brand_name = 'Honda'), 88);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Jazz', (SELECT id from brand WHERE brand_name = 'Honda'), 88);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('CR-V', (SELECT id from brand WHERE brand_name = 'Honda'), 88);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('HR-V', (SELECT id from brand WHERE brand_name = 'Honda'), 86);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Prelude', (SELECT id from brand WHERE brand_name = 'Honda'), 86);
+
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('2', (SELECT id from brand WHERE brand_name = 'Mazda'), 90);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('3', (SELECT id from brand WHERE brand_name = 'Mazda'), 88);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('5', (SELECT id from brand WHERE brand_name = 'Mazda'), 86);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('6', (SELECT id from brand WHERE brand_name = 'Mazda'), 88);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('CX-3', (SELECT id from brand WHERE brand_name = 'Mazda'), 86);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('CX-5', (SELECT id from brand WHERE brand_name = 'Mazda'), 90);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('CX-7', (SELECT id from brand WHERE brand_name = 'Mazda'), 84);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('MX-5', (SELECT id from brand WHERE brand_name = 'Mazda'), 88);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('RX-8', (SELECT id from brand WHERE brand_name = 'Mazda'), 84);
+
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('i10', (SELECT id from brand WHERE brand_name = 'Hyundai'), 84);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('i20', (SELECT id from brand WHERE brand_name = 'Hyundai'), 86);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('i30', (SELECT id from brand WHERE brand_name = 'Hyundai'), 88);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('i40', (SELECT id from brand WHERE brand_name = 'Hyundai'), 86);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Accent', (SELECT id from brand WHERE brand_name = 'Hyundai'), 82);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Elantra', (SELECT id from brand WHERE brand_name = 'Hyundai'), 90);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Sonata', (SELECT id from brand WHERE brand_name = 'Hyundai'), 88);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Tucson', (SELECT id from brand WHERE brand_name = 'Hyundai'), 86);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('ix35', (SELECT id from brand WHERE brand_name = 'Hyundai'), 86);
+
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Picanto', (SELECT id from brand WHERE brand_name = 'Kia'), 86);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Rio', (SELECT id from brand WHERE brand_name = 'Kia'), 84);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Ceed', (SELECT id from brand WHERE brand_name = 'Kia'), 86);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('ProCeed', (SELECT id from brand WHERE brand_name = 'Kia'), 94);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Optima', (SELECT id from brand WHERE brand_name = 'Kia'), 90);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Stinger', (SELECT id from brand WHERE brand_name = 'Kia'), 90);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Sportage', (SELECT id from brand WHERE brand_name = 'Kia'), 84);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Sorento', (SELECT id from brand WHERE brand_name = 'Kia'), 88);
+
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Polo', (SELECT id from brand WHERE brand_name = 'Volkswagen'), 80);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Golf', (SELECT id from brand WHERE brand_name = 'Volkswagen'), 80);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Jetta', (SELECT id from brand WHERE brand_name = 'Volkswagen'), 84);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Passat', (SELECT id from brand WHERE brand_name = 'Volkswagen'), 82);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Arteon', (SELECT id from brand WHERE brand_name = 'Volkswagen'), 86);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Scirocco', (SELECT id from brand WHERE brand_name = 'Volkswagen'), 84);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Beetle', (SELECT id from brand WHERE brand_name = 'Volkswagen'), 96);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Tiguan', (SELECT id from brand WHERE brand_name = 'Volkswagen'), 88);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Touareg', (SELECT id from brand WHERE brand_name = 'Volkswagen'), 86);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('T-Roc', (SELECT id from brand WHERE brand_name = 'Volkswagen'), 88);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Caddy', (SELECT id from brand WHERE brand_name = 'Volkswagen'), 76);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Amarok', (SELECT id from brand WHERE brand_name = 'Volkswagen'), 78);
+
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Seria 1', (SELECT id from brand WHERE brand_name = 'BMW'), 86);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Seria 2', (SELECT id from brand WHERE brand_name = 'BMW'), 88);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Seria 3', (SELECT id from brand WHERE brand_name = 'BMW'), 86);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Seria 4', (SELECT id from brand WHERE brand_name = 'BMW'), 92);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Seria 5', (SELECT id from brand WHERE brand_name = 'BMW'), 88);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Seria 6', (SELECT id from brand WHERE brand_name = 'BMW'), 90);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Seria 7', (SELECT id from brand WHERE brand_name = 'BMW'), 88);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('X1', (SELECT id from brand WHERE brand_name = 'BMW'), 88);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('X3', (SELECT id from brand WHERE brand_name = 'BMW'), 86);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('X5', (SELECT id from brand WHERE brand_name = 'BMW'), 86);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('X7', (SELECT id from brand WHERE brand_name = 'BMW'), 86);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('i3', (SELECT id from brand WHERE brand_name = 'BMW'), 96);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('z4', (SELECT id from brand WHERE brand_name = 'BMW'), 86);
+
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Corsa', (SELECT id from brand WHERE brand_name = 'Opel'), 80);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Astra', (SELECT id from brand WHERE brand_name = 'Opel'), 82);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Insignia', (SELECT id from brand WHERE brand_name = 'Opel'), 84);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Vectra', (SELECT id from brand WHERE brand_name = 'Opel'), 82);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Omega', (SELECT id from brand WHERE brand_name = 'Opel'), 84);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Zafira', (SELECT id from brand WHERE brand_name = 'Opel'), 82);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Meriva', (SELECT id from brand WHERE brand_name = 'Opel'), 82);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Mokka', (SELECT id from brand WHERE brand_name = 'Opel'), 82);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Vivaro', (SELECT id from brand WHERE brand_name = 'Opel'), 76);
+
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('A1', (SELECT id from brand WHERE brand_name = 'Audi'), 72);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('A3', (SELECT id from brand WHERE brand_name = 'Audi'), 86);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('A4', (SELECT id from brand WHERE brand_name = 'Audi'), 84);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('A5', (SELECT id from brand WHERE brand_name = 'Audi'), 88);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('A6', (SELECT id from brand WHERE brand_name = 'Audi'), 86);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('A7', (SELECT id from brand WHERE brand_name = 'Audi'), 94);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('A8', (SELECT id from brand WHERE brand_name = 'Audi'), 90);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Q2', (SELECT id from brand WHERE brand_name = 'Audi'), 92);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Q3', (SELECT id from brand WHERE brand_name = 'Audi'), 72);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Q5', (SELECT id from brand WHERE brand_name = 'Audi'), 88);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Q7', (SELECT id from brand WHERE brand_name = 'Audi'), 88);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Q8', (SELECT id from brand WHERE brand_name = 'Audi'), 86);
+
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Klasa A', (SELECT id from brand WHERE brand_name = 'Mercedes-Benz'), 80);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Klasa B', (SELECT id from brand WHERE brand_name = 'Mercedes-Benz'), 88);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Klasa C', (SELECT id from brand WHERE brand_name = 'Mercedes-Benz'), 86);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Klasa E', (SELECT id from brand WHERE brand_name = 'Mercedes-Benz'), 86);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Klasa S', (SELECT id from brand WHERE brand_name = 'Mercedes-Benz'), 86);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('CLA', (SELECT id from brand WHERE brand_name = 'Mercedes-Benz'), 86);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('CLS', (SELECT id from brand WHERE brand_name = 'Mercedes-Benz'), 92);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('GLA', (SELECT id from brand WHERE brand_name = 'Mercedes-Benz'), 88);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('GLC', (SELECT id from brand WHERE brand_name = 'Mercedes-Benz'), 86);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('GLE', (SELECT id from brand WHERE brand_name = 'Mercedes-Benz'), 90);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Vito', (SELECT id from brand WHERE brand_name = 'Mercedes-Benz'), 74);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Sprinter', (SELECT id from brand WHERE brand_name = 'Mercedes-Benz'), 78);
+
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Clio', (SELECT id from brand WHERE brand_name = 'Renault'), 80);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Megane', (SELECT id from brand WHERE brand_name = 'Renault'), 82);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Laguna', (SELECT id from brand WHERE brand_name = 'Renault'), 82);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Talisman', (SELECT id from brand WHERE brand_name = 'Renault'), 88);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Captur', (SELECT id from brand WHERE brand_name = 'Renault'), 88);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Kadjar', (SELECT id from brand WHERE brand_name = 'Renault'), 86);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Koleos', (SELECT id from brand WHERE brand_name = 'Renault'), 86);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Scenic', (SELECT id from brand WHERE brand_name = 'Renault'), 86);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Espace', (SELECT id from brand WHERE brand_name = 'Renault'), 82);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Twingo', (SELECT id from brand WHERE brand_name = 'Renault'), 82);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Kangoo', (SELECT id from brand WHERE brand_name = 'Renault'), 78);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Trafic', (SELECT id from brand WHERE brand_name = 'Renault'), 80);
+
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('107', (SELECT id from brand WHERE brand_name = 'Peugeot'), 84);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('108', (SELECT id from brand WHERE brand_name = 'Peugeot'), 86);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('206', (SELECT id from brand WHERE brand_name = 'Peugeot'), 76);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('207', (SELECT id from brand WHERE brand_name = 'Peugeot'), 82);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('208', (SELECT id from brand WHERE brand_name = 'Peugeot'), 86);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('301', (SELECT id from brand WHERE brand_name = 'Peugeot'), 86);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('306', (SELECT id from brand WHERE brand_name = 'Peugeot'), 80);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('307', (SELECT id from brand WHERE brand_name = 'Peugeot'), 80);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('406', (SELECT id from brand WHERE brand_name = 'Peugeot'), 86);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('407', (SELECT id from brand WHERE brand_name = 'Peugeot'), 84);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('508', (SELECT id from brand WHERE brand_name = 'Peugeot'), 90);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('2008', (SELECT id from brand WHERE brand_name = 'Peugeot'), 88);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('3008', (SELECT id from brand WHERE brand_name = 'Peugeot'), 88);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('5008', (SELECT id from brand WHERE brand_name = 'Peugeot'), 88);
+
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Citigo', (SELECT id from brand WHERE brand_name = 'Skoda'), 86);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Fabia', (SELECT id from brand WHERE brand_name = 'Skoda'), 78);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Scala', (SELECT id from brand WHERE brand_name = 'Skoda'), 88);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Octavia', (SELECT id from brand WHERE brand_name = 'Skoda'), 82);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Superb', (SELECT id from brand WHERE brand_name = 'Skoda'), 88);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Rapid', (SELECT id from brand WHERE brand_name = 'Skoda'), 86);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Roomster', (SELECT id from brand WHERE brand_name = 'Skoda'), 78);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Yeti', (SELECT id from brand WHERE brand_name = 'Skoda'), 84);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Karoq', (SELECT id from brand WHERE brand_name = 'Skoda'), 88);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('Kodiaq', (SELECT id from brand WHERE brand_name = 'Skoda'), 86);
+
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('S40', (SELECT id from brand WHERE brand_name = 'Volvo'), 84);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('S60', (SELECT id from brand WHERE brand_name = 'Volvo'), 88);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('S80', (SELECT id from brand WHERE brand_name = 'Volvo'), 88);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('S90', (SELECT id from brand WHERE brand_name = 'Volvo'), 90);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('V40', (SELECT id from brand WHERE brand_name = 'Volvo'), 84);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('V50', (SELECT id from brand WHERE brand_name = 'Volvo'), 86);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('V60', (SELECT id from brand WHERE brand_name = 'Volvo'), 88);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('V70', (SELECT id from brand WHERE brand_name = 'Volvo'), 86);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('V90', (SELECT id from brand WHERE brand_name = 'Volvo'), 90);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('XC40', (SELECT id from brand WHERE brand_name = 'Volvo'), 88);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('XC60', (SELECT id from brand WHERE brand_name = 'Volvo'), 86);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('XC70', (SELECT id from brand WHERE brand_name = 'Volvo'), 86);
+INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('XC90', (SELECT id from brand WHERE brand_name = 'Volvo'), 84);
+
+
+-- Wstawianie kolorów
 INSERT INTO color (color) VALUES ('Red');
 INSERT INTO color (color) VALUES ('Blue');
 
