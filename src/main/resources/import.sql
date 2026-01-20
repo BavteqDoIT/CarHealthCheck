@@ -215,9 +215,15 @@ INSERT INTO engine_type (engine_type, capacity, fuel_type_id) VALUES ('Electric 
 
 
 -- Wstawianie typów nadwozia
-INSERT INTO body_type (body_type) VALUES ('Coupe');
 INSERT INTO body_type (body_type) VALUES ('Hatchback');
 INSERT INTO body_type (body_type) VALUES ('Sedan');
+INSERT INTO body_type (body_type) VALUES ('Coupe');
+INSERT INTO body_type (body_type) VALUES ('Convertible');
+INSERT INTO body_type (body_type) VALUES ('Wagon');
+INSERT INTO body_type (body_type) VALUES ('SUV');
+INSERT INTO body_type (body_type) VALUES ('Van');
+INSERT INTO body_type (body_type) VALUES ('Pickup');
+
 
 -- Łączenie modeli z silnikami
 INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES (1, 1); -- Corolla (ID 1) → 2.0L I4 (ID 1)
