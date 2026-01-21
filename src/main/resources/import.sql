@@ -209,9 +209,9 @@ INSERT INTO fuel_type (fuel) VALUES ('Hybrid');
 INSERT INTO fuel_type (fuel) VALUES ('Plug-in Hybrid');
 
 -- Wstawianie typów silnika z referencjami do paliwa
-INSERT INTO engine_type (engine_type, capacity, fuel_type_id) VALUES ('2.0L I4',1999, 1);
-INSERT INTO engine_type (engine_type, capacity, fuel_type_id) VALUES ('V6',3600,1);
-INSERT INTO engine_type (engine_type, capacity, fuel_type_id) VALUES ('Electric Motor',0, 3);
+INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('2.0L I4',1999,1,1 ,(SELECT id FROM fuel_type WHERE fuel = 'Diesel'));
+INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw ,fuel_type_id) VALUES ('V6',3600,1,1,(SELECT id FROM fuel_type WHERE fuel = 'Petrol'));
+INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw ,fuel_type_id) VALUES ('Electric Motor',0,1,1 ,(SELECT id FROM fuel_type WHERE fuel = 'Electric'));
 
 
 -- Wstawianie typów nadwozia
@@ -226,10 +226,10 @@ INSERT INTO body_type (body_type) VALUES ('Pickup');
 
 
 -- Łączenie modeli z silnikami
-INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES (1, 1); -- Corolla (ID 1) → 2.0L I4 (ID 1)
-INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES (1, 3); -- Corolla (ID 1) → Electric Motor (ID 3)
-INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES (2, 2); -- Mustang (ID 2) → V6 (ID 2)
-INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES (3, 3);
+INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES ((SELECT id from model_type WHERE model_type = 'Corolla'), (SELECT id from engine_type WHERE engine_type = '2.0L I4'));
+INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES ((SELECT id from model_type WHERE model_type = 'Corolla'), (SELECT id from engine_type WHERE engine_type = 'Electric Motor'));
+INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES ((SELECT id from model_type WHERE model_type = 'Mustang'), (SELECT id from engine_type WHERE engine_type = 'V6'));
+INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES ((SELECT id from model_type WHERE model_type = 'Aygo'), 3);
 
 --Wstawianie typów skrzyń biegów
 INSERT INTO gearbox_type (gearbox_type) VALUES ('Manual');

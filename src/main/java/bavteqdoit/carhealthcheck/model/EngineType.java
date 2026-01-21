@@ -22,6 +22,12 @@ public class EngineType {
     @Column(name = "capacity")
     private Integer capacity;
 
+    @Column(name = "horsepower_hp")
+    private Integer horsepowerHp;
+
+    @Column(name = "power_kw")
+    private Integer powerKw;
+
     @ManyToOne
     @JoinColumn(name = "fuel_type_id", nullable = false)
     private FuelType fuelType;

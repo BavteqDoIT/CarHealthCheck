@@ -29,6 +29,8 @@ CREATE TABLE IF NOT EXISTS public.engine_type (
     id BIGSERIAL PRIMARY KEY,
     engine_type VARCHAR(255) NOT NULL,
     capacity BIGINT NOT NULL,
+    horsepower_hp BIGINT NOT NULL,
+    power_kw BIGINT NOT NULL,
     fuel_type_id BIGINT NOT NULL,
     FOREIGN KEY (fuel_type_id) REFERENCES fuel_type(id) ON DELETE CASCADE
 );
