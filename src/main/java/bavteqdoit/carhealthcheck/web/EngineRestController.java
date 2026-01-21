@@ -32,9 +32,22 @@ public class EngineRestController {
                     Map<String, Object> map = new HashMap<>();
                     map.put("id", engine.getId());
                     map.put("name", engine.getName());
-                    map.put("displayName", messageSource.getMessage(
+                    map.put("hp", engine.getHorsepowerHp());
+                    map.put("kw", engine.getPowerKw());
+                    String baseName = messageSource.getMessage(
                             engine.getName().replace(" ", "_"),
-                            null, engine.getName(), locale));
+                            null,
+                            engine.getName(),
+                            locale
+                    );
+
+                    String powerPart = "";
+                    if (engine.getHorsepowerHp() != null && engine.getPowerKw() != null) {
+                        powerPart = " (" + engine.getHorsepowerHp() + " HP / "
+                                + engine.getPowerKw() + " kW)";
+                    }
+
+                    map.put("displayName", baseName + powerPart);
                     return map;
                 }).collect(Collectors.toSet()))
                 .map(ResponseEntity::ok)
