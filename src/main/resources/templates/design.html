@@ -30,12 +30,10 @@
                 </div>
 
                 <div class="col-md-6 mb-3 text-center">
-                    <label for="colorSelect" th:text="#{design.color}"></label>
-                    <select id="colorSelect" class="form-select" th:field="*{color}">
-                        <option value="" th:text="#{design.color.mess}"></option>
-                        <option th:each="color : ${colors}" th:value="${color.id}" th:text="#{${color.color}}">></option>
+                    <label for="fuelSelect" th:text="#{design.fuel}"></label>
+                    <select id="fuelSelect" class="form-select" disabled>
+                        <option value="" th:text="#{design.fuel.mess}"></option>
                     </select>
-                    <div class="text-danger" th:if="${#fields.hasErrors('color')}" th:errors="*{color}"></div>
                 </div>
 
                 <div class="col-md-6 mb-3 text-center">
@@ -45,6 +43,17 @@
                     </select>
                     <div class="text-danger" th:if="${#fields.hasErrors('engineType')}" th:errors="*{engineType}"></div>
                 </div>
+
+                <div class="col-md-6 mb-3 text-center">
+                    <label for="colorSelect" th:text="#{design.color}"></label>
+                    <select id="colorSelect" class="form-select" th:field="*{color}">
+                        <option value="" th:text="#{design.color.mess}"></option>
+                        <option th:each="color : ${colors}" th:value="${color.id}" th:text="#{${color.color}}">></option>
+                    </select>
+                    <div class="text-danger" th:if="${#fields.hasErrors('color')}" th:errors="*{color}"></div>
+                </div>
+
+
 
                 <div class="col-md-6 mb-3 text-center">
                     <label for="bodySelect" th:text="#{design.body}"></label>
@@ -125,8 +134,10 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script th:inline="javascript">
     const msgSelectModel = /*[[#{design.form.model}]]*/ 'Select a model';
-    const msgSelectModelFirst = /*[[#{design.engine.mess}]]*/ 'Select a model first';
+    const msgSelectModelFirst = /*[[#{design.fuel.mess}]]*/ 'Select a model first';
     const msgSelectEngineType = /*[[#{design.form.engine}]]*/ 'Select an engine type';
+    const msgSelectFuel = /*[[#{design.form.fuel}]]*/ 'Select fuel type';
+    const msgSelectFuelFirst = /*[[#{design.engine.mess}]]*/ 'Select fuel first';
 </script>
 <script src="/js/carForm.js"></script>
 </body>

@@ -206,12 +206,15 @@ INSERT INTO fuel_type (fuel) VALUES ('Petrol');
 INSERT INTO fuel_type (fuel) VALUES ('Diesel');
 INSERT INTO fuel_type (fuel) VALUES ('Electric');
 INSERT INTO fuel_type (fuel) VALUES ('Hybrid');
-INSERT INTO fuel_type (fuel) VALUES ('Plug-in Hybrid');
+INSERT INTO fuel_type (fuel) VALUES ('Plug-in_Hybrid');
 
 -- Wstawianie typów silnika z referencjami do paliwa
 INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('2.0L I4',1999,1,1 ,(SELECT id FROM fuel_type WHERE fuel = 'Diesel'));
 INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw ,fuel_type_id) VALUES ('V6',3600,1,1,(SELECT id FROM fuel_type WHERE fuel = 'Petrol'));
 INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw ,fuel_type_id) VALUES ('Electric Motor',0,1,1 ,(SELECT id FROM fuel_type WHERE fuel = 'Electric'));
+INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('Testowa Bena',1999,1,1 ,(SELECT id FROM fuel_type WHERE fuel = 'Petrol'));
+INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('Testowa Hybryda',1999,1,1 ,(SELECT id FROM fuel_type WHERE fuel = 'Hybrid'));
+INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('Testowa Hybryda typu Plug-in',1999,1,1 ,(SELECT id FROM fuel_type WHERE fuel = 'Plug-in_Hybrid'));
 
 
 -- Wstawianie typów nadwozia
@@ -230,6 +233,9 @@ INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES ((SELECT id
 INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES ((SELECT id from model_type WHERE model_type = 'Corolla'), (SELECT id from engine_type WHERE engine_type = 'Electric Motor'));
 INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES ((SELECT id from model_type WHERE model_type = 'Mustang'), (SELECT id from engine_type WHERE engine_type = 'V6'));
 INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES ((SELECT id from model_type WHERE model_type = 'Aygo'), 3);
+INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES ((SELECT id from model_type WHERE model_type = 'Corolla'), (SELECT id from engine_type WHERE engine_type = 'Testowa Bena'));
+INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES ((SELECT id from model_type WHERE model_type = 'Corolla'), (SELECT id from engine_type WHERE engine_type = 'Testowa Hybryda'));
+INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES ((SELECT id from model_type WHERE model_type = 'Corolla'), (SELECT id from engine_type WHERE engine_type = 'Testowa Hybryda typu Plug-in'));
 
 --Wstawianie typów skrzyń biegów
 INSERT INTO gearbox_type (gearbox_type) VALUES ('Manual');
