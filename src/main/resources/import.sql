@@ -211,9 +211,12 @@ INSERT INTO fuel_type (fuel) VALUES ('Plug-in_Hybrid');
 -- Wstawianie typów silnika z referencjami do paliwa
 --Toyota
 INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('1.3 VVT-i',1299,86,63 ,(SELECT id FROM fuel_type WHERE fuel = 'Petrol'));
-INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('1.33 Dual VVT-i',1330,100,74 ,(SELECT id FROM fuel_type WHERE fuel = 'Petrol'));
+INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('1.33 VVT-i Dual',1330,100,74 ,(SELECT id FROM fuel_type WHERE fuel = 'Petrol'));
 INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('1.4 VVT-i',1399,97,71 ,(SELECT id FROM fuel_type WHERE fuel = 'Petrol'));
 INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('1.6 VVT-i',1599,110,81 ,(SELECT id FROM fuel_type WHERE fuel = 'Petrol'));
+INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('1.6 VVT-i',1599,124,91 ,(SELECT id FROM fuel_type WHERE fuel = 'Petrol'));
+INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('1.6 Valvematic',1599,132,97 ,(SELECT id FROM fuel_type WHERE fuel = 'Petrol'));
+INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('1.6 VVT-i Dual',1599,125,92 ,(SELECT id FROM fuel_type WHERE fuel = 'Petrol'));
 INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('1.8 CE',1799,130,96 ,(SELECT id FROM fuel_type WHERE fuel = 'Petrol'));
 INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('1.8 VVT-i T-Sport',1799,192,141 ,(SELECT id FROM fuel_type WHERE fuel = 'Petrol'));
 INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('1.4D D-4D',1399,90,66 ,(SELECT id FROM fuel_type WHERE fuel = 'Diesel'));
@@ -222,6 +225,7 @@ INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_t
 INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('2.0D D-4D',1999,90,66 ,(SELECT id FROM fuel_type WHERE fuel = 'Diesel'));
 INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('2.0D D-4D',1999,110,81 ,(SELECT id FROM fuel_type WHERE fuel = 'Diesel'));
 INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('2.0D D-4D',1999,116,85 ,(SELECT id FROM fuel_type WHERE fuel = 'Diesel'));
+INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('2.0D D-4D',1999,126,93 ,(SELECT id FROM fuel_type WHERE fuel = 'Diesel'));
 
 
 -- Wstawianie typów nadwozia
@@ -237,8 +241,12 @@ INSERT INTO body_type (body_type) VALUES ('Pickup');
 
 -- Łączenie modeli z silnikami
 INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES ((SELECT id from model_type WHERE model_type = 'Corolla'), (SELECT id from engine_type WHERE engine_type = '1.3 VVT-i'AND horsepower_hp = 86 AND power_kw = 63));
+INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES ((SELECT id from model_type WHERE model_type = 'Corolla'), (SELECT id from engine_type WHERE engine_type = '1.33 VVT-i Dual' AND horsepower_hp = 100 AND power_kw = 74));
 INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES ((SELECT id from model_type WHERE model_type = 'Corolla'), (SELECT id from engine_type WHERE engine_type = '1.4 VVT-i' AND horsepower_hp = 97 AND power_kw = 71));
 INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES ((SELECT id from model_type WHERE model_type = 'Corolla'), (SELECT id from engine_type WHERE engine_type = '1.6 VVT-i' AND horsepower_hp = 110 AND power_kw = 81));
+INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES ((SELECT id from model_type WHERE model_type = 'Corolla'), (SELECT id from engine_type WHERE engine_type = '1.6 VVT-i' AND horsepower_hp = 124 AND power_kw = 91));
+INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES ((SELECT id from model_type WHERE model_type = 'Corolla'), (SELECT id from engine_type WHERE engine_type = '1.6 Valvematic' AND horsepower_hp = 132 AND power_kw = 97));
+INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES ((SELECT id from model_type WHERE model_type = 'Corolla'), (SELECT id from engine_type WHERE engine_type = '1.6 VVT-i Dual' AND horsepower_hp = 125 AND power_kw = 92));
 INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES ((SELECT id from model_type WHERE model_type = 'Corolla'), (SELECT id from engine_type WHERE engine_type = '1.8 CE' AND horsepower_hp = 130 AND power_kw = 96));
 INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES ((SELECT id from model_type WHERE model_type = 'Corolla'), (SELECT id from engine_type WHERE engine_type = '1.8 VVT-i T-Sport' AND horsepower_hp = 192 AND power_kw = 141));
 INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES ((SELECT id from model_type WHERE model_type = 'Corolla'), (SELECT id from engine_type WHERE engine_type = '1.4D D-4D' AND horsepower_hp = 90 AND power_kw = 66));
@@ -247,6 +255,7 @@ INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES ((SELECT id
 INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES ((SELECT id from model_type WHERE model_type = 'Corolla'), (SELECT id from engine_type WHERE engine_type = '2.0D D-4D'AND horsepower_hp = 90 AND power_kw =66));
 INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES ((SELECT id from model_type WHERE model_type = 'Corolla'), (SELECT id from engine_type WHERE engine_type = '2.0D D-4D' AND horsepower_hp = 110 AND power_kw = 81));
 INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES ((SELECT id from model_type WHERE model_type = 'Corolla'), (SELECT id from engine_type WHERE engine_type = '2.0D D-4D' AND horsepower_hp = 116 AND power_kw = 85));
+INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES ((SELECT id from model_type WHERE model_type = 'Corolla'), (SELECT id from engine_type WHERE engine_type = '2.0D D-4D' AND horsepower_hp = 126 AND power_kw = 93));
 
 --Wstawianie typów skrzyń biegów
 INSERT INTO gearbox_type (gearbox_type) VALUES ('Manual');
@@ -299,6 +308,11 @@ INSERT INTO model_variant(model_type_id, engine_type_id, body_type_id,year_from,
 INSERT INTO model_variant(model_type_id, engine_type_id, body_type_id,year_from, year_to,generation_code, facelift,basic_score,source_url, source_ratings_count, source_avg_rating) VALUES ((SELECT id FROM model_type WHERE model_type = 'Corolla'),(SELECT id FROM engine_type WHERE engine_type = '1.4D D-4D' AND horsepower_hp = 90 AND power_kw = 66),(SELECT id FROM body_type WHERE body_type = 'Wagon'),2004, 2009,'IX E12', FALSE,84,'https://www.autocentrum.pl/oceny/toyota/corolla/ix-e12/kombi/silnik-diesla-1.4-d-4d-90km-2004-2009/',50,4.18);
 INSERT INTO model_variant(model_type_id, engine_type_id, body_type_id,year_from, year_to,generation_code, facelift,basic_score,source_url, source_ratings_count, source_avg_rating) VALUES ((SELECT id FROM model_type WHERE model_type = 'Corolla'),(SELECT id FROM engine_type WHERE engine_type = '2.0D D-4D' AND horsepower_hp = 116 AND power_kw = 85),(SELECT id FROM body_type WHERE body_type = 'Wagon'),2004, 2009,'IX E12', FALSE,84,'https://www.autocentrum.pl/oceny/toyota/corolla/ix-e12/kombi/silnik-diesla-2.0-d-4d-116km-2004-2009/',8,4.2);
 INSERT INTO model_variant(model_type_id, engine_type_id, body_type_id,year_from, year_to,generation_code, facelift,basic_score,source_url, source_ratings_count, source_avg_rating) VALUES ((SELECT id FROM model_type WHERE model_type = 'Corolla'),(SELECT id FROM engine_type WHERE engine_type = '2.0D D-4D' AND horsepower_hp = 90 AND power_kw = 66),(SELECT id FROM body_type WHERE body_type = 'Wagon'),2001, 2009,'IX E12', FALSE,84,'https://www.autocentrum.pl/oceny/toyota/corolla/ix-e12/kombi/silnik-diesla-2.0-d-4d-90km-2001-2009/',20,4.43);
+
+INSERT INTO model_variant(model_type_id, engine_type_id, body_type_id,year_from, year_to,generation_code, facelift,basic_score,source_url, source_ratings_count, source_avg_rating) VALUES ((SELECT id FROM model_type WHERE model_type = 'Corolla'),(SELECT id FROM engine_type WHERE engine_type = '1.33 VVT-i Dual' AND horsepower_hp = 100 AND power_kw = 74),(SELECT id FROM body_type WHERE body_type = 'Sedan'),2010, 2013,'X', TRUE,84,'https://www.autocentrum.pl/oceny/toyota/corolla/x/sedan-facelifting/silnik-benzynowy-1.33-dual-vvt-i-100km-2010-2013/',0,0);
+INSERT INTO model_variant(model_type_id, engine_type_id, body_type_id,year_from, year_to,generation_code, facelift,basic_score,source_url, source_ratings_count, source_avg_rating) VALUES ((SELECT id FROM model_type WHERE model_type = 'Corolla'),(SELECT id FROM engine_type WHERE engine_type = '1.6 Valvematic' AND horsepower_hp = 132 AND power_kw = 97),(SELECT id FROM body_type WHERE body_type = 'Sedan'),2010, 2014,'X', TRUE,84,'https://www.autocentrum.pl/oceny/toyota/corolla/x/sedan-facelifting/silnik-benzynowy-1.6-valvematic-132km-2010-2014/',8,4.2);
+INSERT INTO model_variant(model_type_id, engine_type_id, body_type_id,year_from, year_to,generation_code, facelift,basic_score,source_url, source_ratings_count, source_avg_rating) VALUES ((SELECT id FROM model_type WHERE model_type = 'Corolla'),(SELECT id FROM engine_type WHERE engine_type = '1.4D D-4D' AND horsepower_hp = 90 AND power_kw = 66),(SELECT id FROM body_type WHERE body_type = 'Sedan'),2010, 2013,'X', TRUE,84,'https://www.autocentrum.pl/oceny/toyota/corolla/x/sedan-facelifting/silnik-diesla-1.4-d-4d-90km-2010-2013/',3,4.4);
+INSERT INTO model_variant(model_type_id, engine_type_id, body_type_id,year_from, year_to,generation_code, facelift,basic_score,source_url, source_ratings_count, source_avg_rating) VALUES ((SELECT id FROM model_type WHERE model_type = 'Corolla'),(SELECT id FROM engine_type WHERE engine_type = '2.0D D-4D' AND horsepower_hp = 126 AND power_kw = 93),(SELECT id FROM body_type WHERE body_type = 'Sedan'),2010, 2013,'X', TRUE,84,'https://www.autocentrum.pl/oceny/toyota/corolla/x/sedan-facelifting/silnik-diesla-2.0-d-4d-126km-2010-2013/',1,4);
 -- ===============================
 -- Pytania
 -- ===============================
