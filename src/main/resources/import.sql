@@ -140,9 +140,14 @@ INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_t
 INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('1.3 VVT-i',1299,86,63 ,(SELECT id FROM fuel_type WHERE fuel = 'Petrol'));
 INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('1.33 VVT-i Dual',1330,100,74 ,(SELECT id FROM fuel_type WHERE fuel = 'Petrol'));
 INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('1.4 VVT-i',1399,97,71 ,(SELECT id FROM fuel_type WHERE fuel = 'Petrol'));
+INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('1.5 VVT-i',1499,106,78 ,(SELECT id FROM fuel_type WHERE fuel = 'Petrol'));
+INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('1.5 VVT-iE Dual',1499,111,82 ,(SELECT id FROM fuel_type WHERE fuel = 'Petrol'));
 INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('1.5 VVT-i',1499,125,92 ,(SELECT id FROM fuel_type WHERE fuel = 'Petrol'));
+INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('1.5 VVT-i',1499,150,110 ,(SELECT id FROM fuel_type WHERE fuel = 'Petrol'));
 INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('1.6',1599,101,74 ,(SELECT id FROM fuel_type WHERE fuel = 'Petrol'));
 INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('1.6',1599,110,81 ,(SELECT id FROM fuel_type WHERE fuel = 'Petrol'));
+INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('1.6',1599,261,192 ,(SELECT id FROM fuel_type WHERE fuel = 'Petrol'));
+INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('1.6',1599,280,206 ,(SELECT id FROM fuel_type WHERE fuel = 'Petrol'));
 INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('1.6 VVT-i',1599,110,81 ,(SELECT id FROM fuel_type WHERE fuel = 'Petrol'));
 INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('1.6 VVT-i',1599,124,91 ,(SELECT id FROM fuel_type WHERE fuel = 'Petrol'));
 INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('1.6 Valvematic',1599,132,97 ,(SELECT id FROM fuel_type WHERE fuel = 'Petrol'));
@@ -151,6 +156,8 @@ INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_t
 INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('1.8',1799,129,95 ,(SELECT id FROM fuel_type WHERE fuel = 'Petrol'));
 INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('1.8 Valvematic',1799,147,108 ,(SELECT id FROM fuel_type WHERE fuel = 'Petrol'));
 INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('1.8 CE',1799,130,96 ,(SELECT id FROM fuel_type WHERE fuel = 'Petrol'));
+INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('1.8 VVT-i',1799,133,98 ,(SELECT id FROM fuel_type WHERE fuel = 'Petrol'));
+INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('1.8 VVT-i Dual',1799,212,156 ,(SELECT id FROM fuel_type WHERE fuel = 'Petrol'));
 INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('1.8 VVT-i T-Sport',1799,192,141 ,(SELECT id FROM fuel_type WHERE fuel = 'Petrol'));
 INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('2.0',1999,128,94 ,(SELECT id FROM fuel_type WHERE fuel = 'Petrol'));
 INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('2.0 Valvematic',1999,152,112 ,(SELECT id FROM fuel_type WHERE fuel = 'Petrol'));
@@ -160,6 +167,7 @@ INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_t
 INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('2.4 VVT-i',2399,170,125 ,(SELECT id FROM fuel_type WHERE fuel = 'Petrol'));
 
 INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('1.4D D-4D',1399,55,40 ,(SELECT id FROM fuel_type WHERE fuel = 'Diesel'));
+INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('1.4D DI',1399,75,55 ,(SELECT id FROM fuel_type WHERE fuel = 'Diesel'));
 INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('1.4D D-4D',1399,90,66 ,(SELECT id FROM fuel_type WHERE fuel = 'Diesel'));
 INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('1.6D D-4D',1599,112,82 ,(SELECT id FROM fuel_type WHERE fuel = 'Diesel'));
 INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('1.9D',1899,70,51 ,(SELECT id FROM fuel_type WHERE fuel = 'Diesel'));
@@ -178,6 +186,9 @@ INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_t
 INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('2.2D D-CAT',2199,177,130 ,(SELECT id FROM fuel_type WHERE fuel = 'Diesel'));
 INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('2.2D D-CAT PowerBoost',2199,190,140 ,(SELECT id FROM fuel_type WHERE fuel = 'Diesel'));
 
+INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('1.5 Hybrid',1499,100,74 ,(SELECT id FROM fuel_type WHERE fuel = 'Hybrid'));
+INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('1.5 Hybrid',1499,116,85 ,(SELECT id FROM fuel_type WHERE fuel = 'Hybrid'));
+INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('1.5 Hybrid',1499,130,96 ,(SELECT id FROM fuel_type WHERE fuel = 'Hybrid'));
 INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('1.8 Hybrid',1799,122,90 ,(SELECT id FROM fuel_type WHERE fuel = 'Hybrid'));
 INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('1.8 Hybrid',1799,140,103 ,(SELECT id FROM fuel_type WHERE fuel = 'Hybrid'));
 INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('2.0 Hybrid Dynamic Force',1999,184,135 ,(SELECT id FROM fuel_type WHERE fuel = 'Hybrid'));
@@ -249,6 +260,19 @@ INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES ((SELECT id
 INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES ((SELECT id from model_type WHERE model_type = 'Avensis'), (SELECT id from engine_type WHERE engine_type = '2.4 VVT-i'AND horsepower_hp = 163 AND power_kw = 120));
 INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES ((SELECT id from model_type WHERE model_type = 'Avensis'), (SELECT id from engine_type WHERE engine_type = '2.4 VVT-i'AND horsepower_hp = 170 AND power_kw = 125));
 
+INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES ((SELECT id from model_type WHERE model_type = 'Yaris'), (SELECT id from engine_type WHERE engine_type = '1.0 VVT-i'AND horsepower_hp = 68 AND power_kw = 50));
+INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES ((SELECT id from model_type WHERE model_type = 'Yaris'), (SELECT id from engine_type WHERE engine_type = '1.3 VVT-i'AND horsepower_hp = 86 AND power_kw = 63));
+INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES ((SELECT id from model_type WHERE model_type = 'Yaris'), (SELECT id from engine_type WHERE engine_type = '1.5 VVT-i'AND horsepower_hp = 106 AND power_kw = 78));
+INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES ((SELECT id from model_type WHERE model_type = 'Yaris'), (SELECT id from engine_type WHERE engine_type = '1.5 VVT-iE Dual'AND horsepower_hp = 111 AND power_kw = 82));
+INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES ((SELECT id from model_type WHERE model_type = 'Yaris'), (SELECT id from engine_type WHERE engine_type = '1.5 VVT-i'AND horsepower_hp = 150 AND power_kw = 110));
+INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES ((SELECT id from model_type WHERE model_type = 'Yaris'), (SELECT id from engine_type WHERE engine_type = '1.6'AND horsepower_hp = 261 AND power_kw = 192));
+INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES ((SELECT id from model_type WHERE model_type = 'Yaris'), (SELECT id from engine_type WHERE engine_type = '1.6'AND horsepower_hp = 280 AND power_kw = 206));
+INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES ((SELECT id from model_type WHERE model_type = 'Yaris'), (SELECT id from engine_type WHERE engine_type = '1.8 VVT-i'AND horsepower_hp = 133 AND power_kw = 98));
+INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES ((SELECT id from model_type WHERE model_type = 'Yaris'), (SELECT id from engine_type WHERE engine_type = '1.8 VVT-i Dual'AND horsepower_hp = 212 AND power_kw = 156));
+INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES ((SELECT id from model_type WHERE model_type = 'Yaris'), (SELECT id from engine_type WHERE engine_type = '1.4D DI'AND horsepower_hp = 75 AND power_kw = 55));
+INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES ((SELECT id from model_type WHERE model_type = 'Yaris'), (SELECT id from engine_type WHERE engine_type = '1.5 Hybrid'AND horsepower_hp = 100 AND power_kw = 74));
+INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES ((SELECT id from model_type WHERE model_type = 'Yaris'), (SELECT id from engine_type WHERE engine_type = '1.5 Hybrid'AND horsepower_hp = 116 AND power_kw = 85));
+INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES ((SELECT id from model_type WHERE model_type = 'Yaris'), (SELECT id from engine_type WHERE engine_type = '1.5 Hybrid'AND horsepower_hp = 130 AND power_kw = 96));
 --Wstawianie typów skrzyń biegów
 INSERT INTO gearbox_type (gearbox_type) VALUES ('Manual');
 INSERT INTO gearbox_type (gearbox_type) VALUES ('Automatic');
