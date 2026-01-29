@@ -223,12 +223,20 @@ INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES ((SELECT id
 
 INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES ((SELECT id from model_type WHERE model_type = 'Avensis'), (SELECT id from engine_type WHERE engine_type = '1.6'AND horsepower_hp = 101 AND power_kw = 74));
 INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES ((SELECT id from model_type WHERE model_type = 'Avensis'), (SELECT id from engine_type WHERE engine_type = '1.6'AND horsepower_hp = 110 AND power_kw = 81));
+INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES ((SELECT id from model_type WHERE model_type = 'Avensis'), (SELECT id from engine_type WHERE engine_type = '1.6 VVT-i'AND horsepower_hp = 110 AND power_kw = 81));
 INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES ((SELECT id from model_type WHERE model_type = 'Avensis'), (SELECT id from engine_type WHERE engine_type = '1.8'AND horsepower_hp = 110 AND power_kw = 81));
 INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES ((SELECT id from model_type WHERE model_type = 'Avensis'), (SELECT id from engine_type WHERE engine_type = '1.8'AND horsepower_hp = 129 AND power_kw = 95));
 INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES ((SELECT id from model_type WHERE model_type = 'Avensis'), (SELECT id from engine_type WHERE engine_type = '2.0'AND horsepower_hp = 128 AND power_kw = 94));
+INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES ((SELECT id from model_type WHERE model_type = 'Avensis'), (SELECT id from engine_type WHERE engine_type = '2.0 VVT-i'AND horsepower_hp = 147 AND power_kw = 108));
 INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES ((SELECT id from model_type WHERE model_type = 'Avensis'), (SELECT id from engine_type WHERE engine_type = '2.0 16V'AND horsepower_hp = 150 AND power_kw = 110));
 INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES ((SELECT id from model_type WHERE model_type = 'Avensis'), (SELECT id from engine_type WHERE engine_type = '2.0TD'AND horsepower_hp = 90 AND power_kw = 66));
 INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES ((SELECT id from model_type WHERE model_type = 'Avensis'), (SELECT id from engine_type WHERE engine_type = '2.0D D-4D'AND horsepower_hp = 110 AND power_kw = 81));
+INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES ((SELECT id from model_type WHERE model_type = 'Avensis'), (SELECT id from engine_type WHERE engine_type = '2.0D D-4D'AND horsepower_hp = 116 AND power_kw = 85));
+INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES ((SELECT id from model_type WHERE model_type = 'Avensis'), (SELECT id from engine_type WHERE engine_type = '2.0D D-4D'AND horsepower_hp = 126 AND power_kw = 93));
+INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES ((SELECT id from model_type WHERE model_type = 'Avensis'), (SELECT id from engine_type WHERE engine_type = '2.2D D-4D'AND horsepower_hp = 150 AND power_kw = 110));
+INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES ((SELECT id from model_type WHERE model_type = 'Avensis'), (SELECT id from engine_type WHERE engine_type = '2.2D D-4D'AND horsepower_hp = 177 AND power_kw = 130));
+INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES ((SELECT id from model_type WHERE model_type = 'Avensis'), (SELECT id from engine_type WHERE engine_type = '2.4 VVT-i'AND horsepower_hp = 163 AND power_kw = 120));
+INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES ((SELECT id from model_type WHERE model_type = 'Avensis'), (SELECT id from engine_type WHERE engine_type = '2.4 VVT-i'AND horsepower_hp = 170 AND power_kw = 125));
 
 --Wstawianie typów skrzyń biegów
 INSERT INTO gearbox_type (gearbox_type) VALUES ('Manual');
