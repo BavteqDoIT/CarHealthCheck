@@ -105,7 +105,6 @@ INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('S60', (SELEC
 INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('S80', (SELECT id from brand WHERE brand_name = 'Volvo'), 88);
 INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('V50', (SELECT id from brand WHERE brand_name = 'Volvo'), 86);
 INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('V60', (SELECT id from brand WHERE brand_name = 'Volvo'), 88);
-INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('V70', (SELECT id from brand WHERE brand_name = 'Volvo'), 86);
 INSERT INTO model_type (model_type, brand_id, basic_score) VALUES ('V90', (SELECT id from brand WHERE brand_name = 'Volvo'), 90);
 
 
@@ -150,20 +149,33 @@ INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_t
 INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('1.6 VVT-i Dual',1599,125,92 ,(SELECT id FROM fuel_type WHERE fuel = 'Petrol'));
 INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('1.8',1799,110,81 ,(SELECT id FROM fuel_type WHERE fuel = 'Petrol'));
 INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('1.8',1799,129,95 ,(SELECT id FROM fuel_type WHERE fuel = 'Petrol'));
+INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('1.8 Valvematic',1799,147,108 ,(SELECT id FROM fuel_type WHERE fuel = 'Petrol'));
 INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('1.8 CE',1799,130,96 ,(SELECT id FROM fuel_type WHERE fuel = 'Petrol'));
 INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('1.8 VVT-i T-Sport',1799,192,141 ,(SELECT id FROM fuel_type WHERE fuel = 'Petrol'));
 INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('2.0',1999,128,94 ,(SELECT id FROM fuel_type WHERE fuel = 'Petrol'));
+INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('2.0 Valvematic',1999,152,112 ,(SELECT id FROM fuel_type WHERE fuel = 'Petrol'));
+INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('2.0 VVT-i',1999,147,108 ,(SELECT id FROM fuel_type WHERE fuel = 'Petrol'));
 INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('2.0 16V',1999,150,110 ,(SELECT id FROM fuel_type WHERE fuel = 'Petrol'));
+INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('2.4 VVT-i',2399,163,120 ,(SELECT id FROM fuel_type WHERE fuel = 'Petrol'));
+INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('2.4 VVT-i',2399,170,125 ,(SELECT id FROM fuel_type WHERE fuel = 'Petrol'));
 
 INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('1.4D D-4D',1399,55,40 ,(SELECT id FROM fuel_type WHERE fuel = 'Diesel'));
 INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('1.4D D-4D',1399,90,66 ,(SELECT id FROM fuel_type WHERE fuel = 'Diesel'));
+INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('1.6D D-4D',1599,112,82 ,(SELECT id FROM fuel_type WHERE fuel = 'Diesel'));
 INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('1.9D',1899,70,51 ,(SELECT id FROM fuel_type WHERE fuel = 'Diesel'));
 INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('2.0D',1999,72,53 ,(SELECT id FROM fuel_type WHERE fuel = 'Diesel'));
 INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('2.0TD',1999,90,66 ,(SELECT id FROM fuel_type WHERE fuel = 'Diesel'));
 INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('2.0D D-4D',1999,90,66 ,(SELECT id FROM fuel_type WHERE fuel = 'Diesel'));
 INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('2.0D D-4D',1999,110,81 ,(SELECT id FROM fuel_type WHERE fuel = 'Diesel'));
 INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('2.0D D-4D',1999,116,85 ,(SELECT id FROM fuel_type WHERE fuel = 'Diesel'));
+INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('2.0D D-4D',1999,124,91 ,(SELECT id FROM fuel_type WHERE fuel = 'Diesel'));
 INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('2.0D D-4D',1999,126,93 ,(SELECT id FROM fuel_type WHERE fuel = 'Diesel'));
+INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('2.0D D-4D',1999,143,105 ,(SELECT id FROM fuel_type WHERE fuel = 'Diesel'));
+INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('2.0D D-4D PowerBoost',1399,150,110 ,(SELECT id FROM fuel_type WHERE fuel = 'Diesel'));
+INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('2.2D D-4D',2199,150,110 ,(SELECT id FROM fuel_type WHERE fuel = 'Diesel'));
+INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('2.2D D-CAT',2199,150,110 ,(SELECT id FROM fuel_type WHERE fuel = 'Diesel'));
+INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('2.2D D-4D',2199,177,130 ,(SELECT id FROM fuel_type WHERE fuel = 'Diesel'));
+INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('2.2D D-CAT PowerBoost',2199,190,140 ,(SELECT id FROM fuel_type WHERE fuel = 'Diesel'));
 
 INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('1.8 Hybrid',1799,122,90 ,(SELECT id FROM fuel_type WHERE fuel = 'Hybrid'));
 INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('1.8 Hybrid',1799,140,103 ,(SELECT id FROM fuel_type WHERE fuel = 'Hybrid'));
