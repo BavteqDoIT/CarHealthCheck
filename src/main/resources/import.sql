@@ -210,6 +210,20 @@ INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_t
 
 INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('2.5 Plug-in Hybrid',2499,306,225 ,(SELECT id FROM fuel_type WHERE fuel = 'Plug-in_Hybrid'));
 
+--Ford
+INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('1.4',1399,75,55 ,(SELECT id FROM fuel_type WHERE fuel = 'Petrol'));
+INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('1.6',1599,98,72 ,(SELECT id FROM fuel_type WHERE fuel = 'Petrol'));
+INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('1.6',1599,100,74 ,(SELECT id FROM fuel_type WHERE fuel = 'Petrol'));
+INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('1.6',1599,101,74 ,(SELECT id FROM fuel_type WHERE fuel = 'Petrol'));
+INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('1.8',1799,115,85 ,(SELECT id FROM fuel_type WHERE fuel = 'Petrol'));
+INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('2.0',1999,130,96 ,(SELECT id FROM fuel_type WHERE fuel = 'Petrol'));
+
+INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('1.8',1799,75,55 ,(SELECT id FROM fuel_type WHERE fuel = 'Diesel'));
+INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('1.8',1799,90,66 ,(SELECT id FROM fuel_type WHERE fuel = 'Diesel'));
+INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('1.8',1799,101,74 ,(SELECT id FROM fuel_type WHERE fuel = 'Diesel'));
+INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('1.8',1799,115,85 ,(SELECT id FROM fuel_type WHERE fuel = 'Diesel'));
+
+-- INSERT INTO engine_type (engine_type, capacity, horsepower_hp, power_kw , fuel_type_id) VALUES ('x',199,0,0 ,(SELECT id FROM fuel_type WHERE fuel = 'Hybrid'));
 
 -- Wstawianie typów nadwozia
 INSERT INTO body_type (body_type) VALUES ('Hatchback');
@@ -314,6 +328,18 @@ INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES ((SELECT id
 INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES ((SELECT id from model_type WHERE model_type = 'RAV4'), (SELECT id from engine_type WHERE engine_type = '2.5 Hybrid'AND horsepower_hp = 306 AND power_kw = 225));
 INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES ((SELECT id from model_type WHERE model_type = 'RAV4'), (SELECT id from engine_type WHERE engine_type = '2.5 Plug-in Hybrid'AND horsepower_hp = 306 AND power_kw = 225));
 INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES ((SELECT id from model_type WHERE model_type = 'RAV4'), (SELECT id from engine_type WHERE engine_type = '3.5 V6'AND horsepower_hp = 269 AND power_kw = 198));
+
+-- INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES ((SELECT id from model_type WHERE model_type = 'Focus'), (SELECT id from engine_type WHERE engine_type = 'x'AND horsepower_hp = 0 AND power_kw = 0));
+INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES ((SELECT id from model_type WHERE model_type = 'Focus'), (SELECT id from engine_type WHERE engine_type = '1.4'AND horsepower_hp = 75 AND power_kw = 55));
+INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES ((SELECT id from model_type WHERE model_type = 'Focus'), (SELECT id from engine_type WHERE engine_type = '1.6'AND horsepower_hp = 98 AND power_kw = 72));
+INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES ((SELECT id from model_type WHERE model_type = 'Focus'), (SELECT id from engine_type WHERE engine_type = '1.6'AND horsepower_hp = 100 AND power_kw = 74));
+INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES ((SELECT id from model_type WHERE model_type = 'Focus'), (SELECT id from engine_type WHERE engine_type = '1.6'AND horsepower_hp = 101 AND power_kw = 74));
+INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES ((SELECT id from model_type WHERE model_type = 'Focus'), (SELECT id from engine_type WHERE engine_type = '1.8'AND horsepower_hp = 115 AND power_kw = 85));
+INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES ((SELECT id from model_type WHERE model_type = 'Focus'), (SELECT id from engine_type WHERE engine_type = '2.0'AND horsepower_hp = 130 AND power_kw = 96));
+INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES ((SELECT id from model_type WHERE model_type = 'Focus'), (SELECT id from engine_type WHERE engine_type = '1.8'AND horsepower_hp = 75 AND power_kw = 55));
+INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES ((SELECT id from model_type WHERE model_type = 'Focus'), (SELECT id from engine_type WHERE engine_type = '1.8'AND horsepower_hp = 90 AND power_kw = 66));
+INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES ((SELECT id from model_type WHERE model_type = 'Focus'), (SELECT id from engine_type WHERE engine_type = '1.8'AND horsepower_hp = 101 AND power_kw = 74));
+INSERT INTO model_engine_type (model_type_id, engine_type_id) VALUES ((SELECT id from model_type WHERE model_type = 'Focus'), (SELECT id from engine_type WHERE engine_type = '1.8'AND horsepower_hp = 115 AND power_kw = 85));
 --Wstawianie typów skrzyń biegów
 INSERT INTO gearbox_type (gearbox_type) VALUES ('Manual');
 INSERT INTO gearbox_type (gearbox_type) VALUES ('Automatic');
