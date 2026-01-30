@@ -16,6 +16,10 @@ public class EngineType {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "brand_id", nullable = false)
+    private Brand brand;
+
     @Column(name = "engine_type")
     private String name;
 

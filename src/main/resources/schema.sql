@@ -27,6 +27,7 @@ CREATE TABLE IF NOT EXISTS public.fuel_type (
 
 CREATE TABLE IF NOT EXISTS public.engine_type (
     id BIGSERIAL PRIMARY KEY,
+    brand_id BIGINT NOT NULL,
     engine_type VARCHAR(255) NOT NULL,
     capacity BIGINT NOT NULL,
     horsepower_hp BIGINT NOT NULL,
