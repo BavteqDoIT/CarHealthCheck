@@ -1,27 +1,97 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{layout :: head}">
-</head>
+<head th:replace="~{layout :: head}"></head>
 <body>
 <div th:replace="~{layout :: navbar}"></div>
 
 <div class="container py-4">
     <h1 class="text-center mb-4" th:text="#{admin.engine.add.title}"></h1>
+
     <form th:action="@{/admin/engine/add}" th:object="${engine}" method="post">
+
+        <div class="alert alert-danger"
+             th:if="${#fields.hasAnyErrors()}"
+             th:text="#{admin.engine.add.allFieldsRequired}">
+        </div>
+
+        <div class="mb-3">
+            <label for="brandSelect" th:text="#{design.brand}"></label>
+            <select id="brandSelect" class="form-select"
+                    th:field="*{brandId}"
+                    th:classappend="${#fields.hasErrors('brandId')} ? 'is-invalid'">
+                <option value="" th:text="#{design.brand.mess}"></option>
+                <option th:each="brand : ${brands}"
+                        th:value="${brand.id}"
+                        th:text="${brand.brandName}">
+                </option>
+            </select>
+            <div class="invalid-feedback"
+                 th:if="${#fields.hasErrors('brandId')}"
+                 th:errors="*{brandId}">
+            </div>
+        </div>
+
         <div class="mb-3">
             <label for="name" class="form-label" th:text="#{admin.engine.add.name}"></label>
-            <input id="name" class="form-control" type="text" th:field="*{name}" />
+            <input id="name" class="form-control" type="text"
+                   th:field="*{name}"
+                   th:classappend="${#fields.hasErrors('name')} ? 'is-invalid'"/>
+            <div class="invalid-feedback"
+                 th:if="${#fields.hasErrors('name')}"
+                 th:errors="*{name}">
+            </div>
         </div>
+
         <div class="mb-3">
             <label for="fuelType" class="form-label" th:text="#{admin.engine.add.fuel}"></label>
-            <select id="fuelType" th:field="*{fuelType.id}" class="form-select">
-                <option th:each="fuel : ${fuels}" th:value="${fuel.id}" th:text="#{${fuel.fuel}}"></option>
+            <select id="fuelType" class="form-select"
+                    th:field="*{fuelTypeId}"
+                    th:classappend="${#fields.hasErrors('fuelTypeId')} ? 'is-invalid'">
+                <option value="" th:text="#{design.form.fuel}"></option>
+                <option th:each="fuel : ${fuels}"
+                        th:value="${fuel.id}"
+                        th:text="#{${fuel.fuel}}">
+                </option>
             </select>
+            <div class="invalid-feedback"
+                 th:if="${#fields.hasErrors('fuelTypeId')}"
+                 th:errors="*{fuelTypeId}">
+            </div>
         </div>
+
         <div class="mb-3">
             <label for="capacity" class="form-label" th:text="#{admin.engine.add.capacity}"></label>
-            <input id="capacity" type="number" th:field="*{capacity}" class="form-control"/>
+            <input id="capacity" type="number" class="form-control"
+                   th:field="*{capacity}"
+                   th:classappend="${#fields.hasErrors('capacity')} ? 'is-invalid'"/>
+            <div class="invalid-feedback"
+                 th:if="${#fields.hasErrors('capacity')}"
+                 th:errors="*{capacity}">
+            </div>
         </div>
+
+        <div class="mb-3">
+            <label for="horsepower_hp" class="form-label" th:text="#{admin.engine.add.horsepower_hp}"></label>
+            <input id="horsepower_hp" type="number" class="form-control"
+                   th:field="*{horsepowerHp}"
+                   th:classappend="${#fields.hasErrors('horsepowerHp')} ? 'is-invalid'"/>
+            <div class="invalid-feedback"
+                 th:if="${#fields.hasErrors('horsepowerHp')}"
+                 th:errors="*{horsepowerHp}">
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="powerKw" class="form-label" th:text="#{admin.engine.add.powerKw}"></label>
+            <input id="powerKw" type="number" class="form-control"
+                   th:field="*{powerKw}"
+                   th:classappend="${#fields.hasErrors('powerKw')} ? 'is-invalid'"/>
+            <div class="invalid-feedback"
+                 th:if="${#fields.hasErrors('powerKw')}"
+                 th:errors="*{powerKw}">
+            </div>
+        </div>
+
         <div class="text-center mt-4">
             <button type="submit" class="btn btn-success" th:text="#{admin.edit.save}">Zapisz</button>
             <a th:href="@{/admin/engines}" class="btn btn-secondary" th:text="#{admin.edit.cancel}">Anuluj</a>

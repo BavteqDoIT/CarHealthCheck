@@ -1,14 +1,17 @@
 package bavteqdoit.carhealthcheck.web;
 
 import bavteqdoit.carhealthcheck.data.UserRepository;
+import bavteqdoit.carhealthcheck.dto.EngineTypeForm;
 import bavteqdoit.carhealthcheck.model.*;
 import bavteqdoit.carhealthcheck.service.*;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -159,39 +162,65 @@ public class AdminController {
     @GetMapping("admin/engines")
     public String enginesPage(Model model) {
         model.addAttribute("engines", engineService.findAll());
+        model.addAttribute("brands",  brandService.findAll());
         return "adminEngines";
     }
 
     @GetMapping("/admin/engine/add")
     public String addEngineForm(Model model) {
-        model.addAttribute("engine", new EngineType());
+        model.addAttribute("engine", new EngineTypeForm());
+        model.addAttribute("brands", brandService.findAll());
         model.addAttribute("fuels", fuelService.findAll());
         return "adminEngineAdd";
     }
 
     @PostMapping("/admin/engine/add")
-    public String addEngine(@ModelAttribute EngineType engine) {
-        engineService.save(engine);
+    public String addEngine(@Valid @ModelAttribute("engine") EngineTypeForm form,
+                            BindingResult br, Model model) {
+        if (br.hasErrors()) {
+            model.addAttribute("brands", brandService.findAll());
+            model.addAttribute("fuels", fuelService.findAll());
+            return "adminEngineAdd";
+        }
+
+        EngineType e = new EngineType();
+        mapFormToEntity(form, e);
+
+        engineService.save(e);
         return "redirect:/admin/engines";
     }
 
     @GetMapping("/admin/engine/edit/{id}")
-    public String editBrand(@PathVariable Long id, Model model) {
+    public String editEngineForm(@PathVariable Long id, Model model) {
         EngineType engine = engineService.findById(id);
-        model.addAttribute("engine", engine);
+
+        EngineTypeForm form = new EngineTypeForm();
+        form.setId(engine.getId());
+        form.setBrandId(engine.getBrand().getId());
+        form.setFuelTypeId(engine.getFuelType().getId());
+        form.setName(engine.getName());
+        form.setCapacity(engine.getCapacity());
+        form.setHorsepowerHp(engine.getHorsepowerHp());
+        form.setPowerKw(engine.getPowerKw());
+
+        model.addAttribute("engine", form);
         model.addAttribute("fuels", fuelService.findAll());
         return "adminEngineEdit";
     }
 
-    @PostMapping("/admin/engine/edit/{id}")
-    public String updateEngine(@PathVariable Long id, @ModelAttribute("engine") EngineType updatedEngine) {
-        EngineType engine = engineService.findById(id);
 
-        engine.setName(updatedEngine.getName());
-        engine.setCapacity(updatedEngine.getCapacity());
-        engine.setFuelType(updatedEngine.getFuelType());
+    @PostMapping("/admin/engine/edit")
+    public String editEngine(@Valid @ModelAttribute("engine") EngineTypeForm form,
+                             BindingResult br, Model model) {
 
-        engineService.save(engine);
+        if (br.hasErrors()) {
+            model.addAttribute("fuels", fuelService.findAll());
+            return "adminEngineEdit";
+        }
+
+        EngineType e = engineService.findById(form.getId());
+        mapFormToEntity(form, e);
+        engineService.save(e);
 
         return "redirect:/admin/engines";
     }
@@ -205,5 +234,14 @@ public class AdminController {
             throw new IllegalStateException("Nie można usunąć silnika, który jest używany w modelach.");
         }
         return "redirect:/admin/engines";
+    }
+
+    private void mapFormToEntity(EngineTypeForm form, EngineType e) {
+        e.setBrand(brandService.findById(form.getBrandId()));
+        e.setFuelType(fuelService.findById(form.getFuelTypeId()));
+        e.setName(form.getName());
+        e.setCapacity(form.getCapacity());
+        e.setHorsepowerHp(form.getHorsepowerHp());
+        e.setPowerKw(form.getPowerKw());
     }
 }

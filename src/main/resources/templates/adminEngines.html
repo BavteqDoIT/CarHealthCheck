@@ -19,6 +19,7 @@
             <thead class="table-dark">
             <tr>
                 <th>ID</th>
+                <th th:text="#{admin.brand.name}"></th>
                 <th th:text="#{admin.engine.name}"></th>
                 <th th:text="#{admin.button.fuel}"></th>
                 <th th:text="#{admin.engine.capacity}"></th>
@@ -29,6 +30,7 @@
             <tbody>
             <tr th:each="engine : ${engines}">
                 <td th:text="${engine.id}"></td>
+                <td th:text="${engine.brand.brandName}"></td>
                 <td th:text="${engine.name}"></td>
                 <td th:text="#{${engine.fuelType.fuel}}"></td>
                 <td th:text="${engine.capacity}"></td>
