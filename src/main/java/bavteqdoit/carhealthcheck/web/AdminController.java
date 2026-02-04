@@ -98,8 +98,8 @@ public class AdminController {
             brand.setId(id);
             brandService.update(brand);
             return "redirect:/admin/brands";
-        } catch (EntityNotFoundException e) {
-            model.addAttribute("errorMessage", "admin.editBrand.error");
+        } catch (RuntimeException e) {
+            model.addAttribute("errorMessage", e.getMessage());
             return "adminBrandEdit";
         }
     }
