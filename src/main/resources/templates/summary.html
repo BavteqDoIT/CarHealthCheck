@@ -144,13 +144,18 @@
                     </div>
 
                 </div>
-                <div class="d-flex justify-content-center gap-3 mt-4">
+                <div class="d-flex justify-content-center gap-3 mt-4" th:if="${viewMode == false}">
                     <div>
                         <a href="/account" class="btn btn-success btn-lg">
                             <span th:text="#{summary.confirmation.button}"></span>
                         </a>
                     </div>
                     <div th:insert="~{fragments/cancelButton.html}"></div>
+                </div>
+                <div class="d-flex justify-content-center mt-4" th:if="${viewMode == true}">
+                    <a th:href="@{/account}" class="btn btn-outline-primary btn-lg">
+                        <span th:text="#{summary.return.button}"></span>
+                    </a>
                 </div>
             </div>
         </div>

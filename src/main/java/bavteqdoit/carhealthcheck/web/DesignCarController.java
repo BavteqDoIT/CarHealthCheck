@@ -387,6 +387,7 @@ public class DesignCarController {
         model.addAttribute("car", car);
         var summary = inspectionSummaryService.buildSummary(carId, locale);
         model.addAttribute("summary", summary);
+        model.addAttribute("viewMode", false);
         return "summary";
     }
 
