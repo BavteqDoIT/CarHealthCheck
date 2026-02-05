@@ -1,0 +1,137 @@
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title th:text="#{summary.title}">Raport</title>
+    <style>
+        body { font-family: DejaVu Sans, sans-serif; font-size: 12px; margin: 24px; }
+        h1 { font-size: 20px; margin: 0 0 14px; text-align: center; }
+        h2 { font-size: 14px; margin: 16px 0 8px; }
+        .box { border: 1px solid #ddd; border-radius: 10px; padding: 14px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+        th, td { border: 1px solid #ccc; padding: 6px; vertical-align: top; }
+        th { width: 35%; text-align: left; }
+        .section { margin-top: 14px; }
+        .flag { border: 1px solid #ccc; border-radius: 8px; padding: 10px; margin-top: 10px; }
+        .flag-title { font-weight: 700; margin-bottom: 6px; }
+        ul { margin: 6px 0 0 18px; padding: 0; }
+        .meta { color: #666; font-size: 11px; text-align: right; margin-top: 8px; }
+    </style>
+</head>
+
+<body>
+<h1 th:text="#{summary.title}">Podsumowanie</h1>
+
+<div class="box" th:object="${car}">
+    <h2 th:text="#{summary.table.car.title}">Car details</h2>
+
+    <table>
+        <tbody>
+        <tr>
+            <th th:text="#{summary.brand}">Brand</th>
+            <td th:text="*{brand.brandName}"></td>
+        </tr>
+        <tr>
+            <th th:text="#{summary.model}">Model</th>
+            <td th:text="*{modelType.modelName}"></td>
+        </tr>
+        <tr>
+            <th th:text="#{summary.color}">Color</th>
+            <td th:text="#{*{color.color}}"></td>
+        </tr>
+        <tr>
+            <th th:text="#{summary.engine}">Engine</th>
+            <td th:text="*{engineType.name}"></td>
+        </tr>
+        <tr>
+            <th th:text="#{summary.body.type}">Body type</th>
+            <td th:text="*{bodyType.bodyType}"></td>
+        </tr>
+        <tr>
+            <th th:text="#{summary.drive.type}">Drive type</th>
+            <td th:text="#{*{driveType.driveType}}"></td>
+        </tr>
+        <tr>
+            <th th:text="#{summary.gearbox}">Gearbox</th>
+            <td th:text="#{*{gearboxType.gearboxType}}"></td>
+        </tr>
+        <tr>
+            <th th:text="#{summary.production.year}">Production year</th>
+            <td th:text="*{productionYear}"></td>
+        </tr>
+        <tr>
+            <th th:text="#{summary.mileage}">Mileage</th>
+            <td th:text="*{mileage + ' km'}"></td>
+        </tr>
+        <tr>
+            <th th:text="#{summary.vin}">VIN</th>
+            <td th:text="*{vin}"></td>
+        </tr>
+        <tr th:if="${car.firstRegistrationDate != null}">
+            <th th:text="#{summary.first.registration}">First registration</th>
+            <td th:text="*{firstRegistrationDate}"></td>
+        </tr>
+        <tr th:if="${car.foreignRegistered == true}">
+            <th th:text="#{summary.model.foreign.registered}">Foreign registered</th>
+            <td th:text="*{foreignRegistered} ? #{summary.yes} : #{summary.no}"></td>
+        </tr>
+        <tr>
+            <th th:text="#{summary.car.name}">Car name</th>
+            <td th:text="*{name}"></td>
+        </tr>
+
+        <tr>
+            <th th:text="#{summary.car.score}">Basic score</th>
+            <td th:text="${summary.basicScoreUsed} + '/100'"></td>
+        </tr>
+        <tr>
+            <th th:text="#{summary.risk.score}">Risk score</th>
+            <td th:text="${summary.finalScore} + '/100'"></td>
+        </tr>
+        <tr>
+            <th th:text="#{summary.risk.level}">Risk level</th>
+            <td th:text="${summary.riskLevel}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="section" th:if="${summary.redFlags.size() > 0}">
+        <div class="flag">
+            <div class="flag-title" th:text="#{summary.redFlags.title}">Red flags</div>
+            <ul>
+                <li th:each="msg : ${summary.redFlags}" th:text="${msg}"></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="section" th:if="${summary.yellowFlags.size() > 0}">
+        <div class="flag">
+            <div class="flag-title" th:text="#{summary.yellowFlags.title}">Yellow flags</div>
+            <ul>
+                <li th:each="msg : ${summary.yellowFlags}" th:text="${msg}"></li>
+            </ul>
+
+            <div th:if="${summary.paintDamageDetails != null and summary.paintDamageDetails.size() > 0}" class="section">
+                <div class="flag-title" th:text="#{summary.paint.damage.modal.title}">Uszkodzenia lakieru</div>
+                <ul>
+                    <li th:each="d : ${summary.paintDamageDetails}" th:text="${d}"></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="section" th:if="${summary.greenNotes.size() > 0}">
+        <div class="flag">
+            <div class="flag-title" th:text="#{summary.greenFlags.title}">Green notes</div>
+            <ul>
+                <li th:each="msg : ${summary.greenNotes}" th:text="${msg}"></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="meta" th:if="${generatedAt != null}">
+        <span th:text="${generatedAt}"></span>
+    </div>
+</div>
+
+</body>
+</html>

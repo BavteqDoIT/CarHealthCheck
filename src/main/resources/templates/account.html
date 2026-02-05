@@ -19,46 +19,61 @@
         <div th:if="${errorMessage}" class="alert alert-danger"
              th:text="#{${errorMessage}}"></div>
         <div th:if="${!#lists.isEmpty(cars)}">
-            <table class="table table-striped">
-                <thead>
-                <tr>
-                    <th th:text="#{account.car.name}">Nazwa</th>
-                    <th th:text="#{account.car.brand}">Marka</th>
-                    <th th:text="#{account.car.model}">Model</th>
-                    <th th:text="#{account.car.year}">Rok</th>
-                    <th th:text="#{account.car.overview}">Podgląd</th>
-                    <th th:text="#{account.car.delete}">Usunięcie</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="car : ${cars}">
-                    <td th:text="${car.name}"></td>
-                    <td th:text="${car.brand.brandName}"></td>
-                    <td th:text="${car.modelType.modelName}"></td>
-                    <td th:text="${car.productionYear}"></td>
-                    <td>
-                        <a th:href="@{/account/cars/{id}(id=${car.id})}"
-                           class="btn btn-sm btn-outline-primary"
-                           title="Podgląd">
-                            👁️
-                        </a>
-                    </td>
-                    <td>
-                        <form th:action="@{/account/cars/{id}/delete(id=${car.id})}"
-                              method="post"
-                              style="display:inline">
-                            <button type="submit"
-                                    class="btn btn-sm btn-outline-danger"
-                                    th:data-confirm="#{account.car.delete.confirm}"
-                                    th:onclick="return confirm(this.dataset.confirm)">
-                                🗑️
-                            </button>
-                        </form>
-                    </td>
-                </tr>
-                </tr>
-                </tbody>
-            </table>
+            <div class="table-responsive">
+                <table class="table table-striped align-middle">
+                    <thead>
+                    <tr>
+                        <th th:text="#{account.car.name}">Nazwa</th>
+                        <th th:text="#{account.car.brand}">Marka</th>
+                        <th th:text="#{account.car.model}">Model</th>
+                        <th th:text="#{account.car.year}">Rok</th>
+
+                        <th class="text-center" th:text="#{account.car.overview}">Podgląd</th>
+                        <th class="text-center" th:text="#{account.car.download}">Pobierz raport PDF</th>
+                        <th class="text-center" th:text="#{account.car.delete}">Usuń</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr th:each="car : ${cars}">
+                        <td th:text="${car.name}"></td>
+                        <td th:text="${car.brand.brandName}"></td>
+                        <td th:text="${car.modelType.modelName}"></td>
+                        <td th:text="${car.productionYear}"></td>
+
+                        <td class="text-center">
+                            <a th:href="@{/account/cars/{id}(id=${car.id})}"
+                               class="btn btn-sm btn-outline-primary px-3"
+                               aria-label="Podgląd">
+                                <i class="bi bi-eye"></i>
+                            </a>
+                        </td>
+
+                        <td class="text-center">
+                            <a class="btn btn-sm btn-outline-secondary px-3"
+                               th:href="@{/account/cars/{id}/report.pdf(id=${car.id})}"
+                               aria-label="Pobierz raport PDF">
+                                <i class="bi bi-file-earmark-pdf"></i>
+                            </a>
+                        </td>
+
+                        <td class="text-center">
+                            <form th:action="@{/account/cars/{id}/delete(id=${car.id})}"
+                                  method="post"
+                                  class="d-inline">
+                                <button type="submit"
+                                        class="btn btn-sm btn-outline-danger px-3"
+                                        th:data-confirm="#{account.car.delete.confirm}"
+                                        th:onclick="return confirm(this.dataset.confirm)"
+                                        aria-label="Usuń">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </main>
 </div>
