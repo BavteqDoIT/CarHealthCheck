@@ -71,19 +71,19 @@ public class RiskScoringService {
         }
 
         if (isFounded(vin.getTheft()))
-            out.add(new Penalty(60, "risk.vin.theft"));
+            out.add(new Penalty(100, "risk.vin.theft"));
 
         if (isFounded(vin.getTotalLoss()))
-            out.add(new Penalty(55, "risk.vin.total_loss"));
+            out.add(new Penalty(100, "risk.vin.total_loss"));
 
         if (isFounded(vin.getOdometerMismatch()))
-            out.add(new Penalty(45, "risk.vin.odometer_mismatch"));
+            out.add(new Penalty(100, "risk.vin.odometer_mismatch"));
 
         if (isFounded(vin.getScrapped()))
-            out.add(new Penalty(55, "risk.vin.scrapped"));
+            out.add(new Penalty(100, "risk.vin.scrapped"));
 
         if (isFounded(vin.getNotRoadworthy()))
-            out.add(new Penalty(50, "risk.vin.not_roadworthy"));
+            out.add(new Penalty(100, "risk.vin.not_roadworthy"));
     }
 
     private void applyPaintPenalties(PaintCheck paint, List<Penalty> out) {
@@ -91,22 +91,47 @@ public class RiskScoringService {
             out.add(new Penalty(5, "risk.paint.no_data"));
             return;
         }
-
         if (paint.isNoThicknessMeasurements()) {
             out.add(new Penalty(5, "risk.paint.no_measurements"));
+            return;
+        }
+        double med = median(paint.getAllThicknessValues());
+        boolean hasMedian = !Double.isNaN(med) && med > 0;
+
+        List<Integer> worsts = paint.getAllMaxThicknessValues();
+
+        boolean fillerAdded = false;
+        boolean repaintAdded = false;
+
+
+        for (Integer worst : worsts) {
+            if (worst == null || worst <= 0) continue;
+            if (!hasMedian) {
+                if (!fillerAdded && worst >= 300) {
+                    out.add(new Penalty(25, "risk.paint.filler"));
+                    fillerAdded = true;
+                } else if (!repaintAdded && worst >= 200) {
+                    out.add(new Penalty(14, "risk.paint.repaint"));
+                    repaintAdded = true;
+                }
+                continue;
+            }
+            if (!fillerAdded && worst >= 300 && worst >= 1.6 * med) {
+                out.add(new Penalty(25, "risk.paint.filler"));
+                fillerAdded = true;
+                repaintAdded = true;
+            } else if (!repaintAdded && worst >= 200 && worst >= 1.4 * med) {
+                out.add(new Penalty(14, "risk.paint.repaint"));
+                repaintAdded = true;
+            }
         }
 
-        paint.forEachThickness(worst -> {
-            if (worst >= 300)
-                out.add(new Penalty(25, "risk.paint.filler"));
-            else if (worst >= 200)
-                out.add(new Penalty(14, "risk.paint.repaint"));
-        });
-
         long diffCount = paint.countDifferentParts();
-        if (diffCount >= 3)
+        if (diffCount >= 3) {
             out.add(new Penalty(10, "risk.paint.many_parts_different"));
+        }
     }
+
 
     private void applyChecklistPenalties(List<QuestionAnswer> answers, List<Penalty> out) {
         if (answers == null) return;
@@ -135,11 +160,28 @@ public class RiskScoringService {
         }
     }
 
+    private double median(List<Integer> values) {
+        if (values == null) return Double.NaN;
+
+        List<Integer> sorted = values.stream()
+                .filter(v -> v != null && v > 0)
+                .sorted()
+                .toList();
+
+        int n = sorted.size();
+        if (n == 0) return Double.NaN;
+
+        if (n % 2 == 1) return sorted.get(n / 2);
+        return (sorted.get(n / 2 - 1) + sorted.get(n / 2)) / 2.0;
+    }
+
     private int questionWeight(String key) {
         return switch (key) {
+            case "vin_readable",        //critical issues
+                 "service_docs" -> 999;
+
             case "gearbox_operation",
                  "brakes_operation",
-                 "vin_readable",
                  "visible_leaks",
                  "exhaust_smoke" -> 3;
 

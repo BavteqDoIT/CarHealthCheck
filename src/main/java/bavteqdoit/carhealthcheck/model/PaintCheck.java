@@ -149,6 +149,54 @@ public class PaintCheck {
         }
     }
 
+    public void forEachThicknessMinMax(java.util.function.Consumer<Integer> consumer) {
+        Integer[] values = {
+                // Hood
+                getMinHoodThickness(), getMaxHoodThickness(),
+                // Roof
+                getMinRoofThickness(), getMaxRoofThickness(),
+                // Doors
+                getMinFrontLeftDoorThickness(), getMaxFrontLeftDoorThickness(),
+                getMinRearLeftDoorThickness(), getMaxRearLeftDoorThickness(),
+                getMinFrontRightDoorThickness(), getMaxFrontRightDoorThickness(),
+                getMinRearRightDoorThickness(), getMaxRearRightDoorThickness(),
+                // Trunk
+                getMinTrunkThickness(), getMaxTrunkThickness(),
+                // Wheel arches
+                getMinFrontLeftWheelArchThickness(), getMaxFrontLeftWheelArchThickness(),
+                getMinFrontRightWheelArchThickness(), getMaxFrontRightWheelArchThickness(),
+                getMinRearLeftWheelArchThickness(), getMaxRearLeftWheelArchThickness(),
+                getMinRearRightWheelArchThickness(), getMaxRearRightWheelArchThickness(),
+                // Pillars
+                getMinPillarALeftThickness(), getMaxPillarALeftThickness(),
+                getMinPillarARightThickness(), getMaxPillarARightThickness(),
+                getMinPillarBLeftThickness(), getMaxPillarBLeftThickness(),
+                getMinPillarBRightThickness(), getMaxPillarBRightThickness(),
+                getMinPillarCLeftThickness(), getMaxPillarCLeftThickness(),
+                getMinPillarCRightThickness(), getMaxPillarCRightThickness(),
+                // Bumpers
+                getMinFrontBumperThickness(), getMaxFrontBumperThickness(),
+                getMinRearBumperThickness(), getMaxRearBumperThickness()
+        };
+
+        for (Integer v : values) {
+            if (v != null) consumer.accept(v);
+        }
+    }
+
+    public List<Integer> getAllThicknessValues() {
+        List<Integer> values = new ArrayList<>();
+        forEachThicknessMinMax(values::add);
+        return values;
+    }
+
+    public List<Integer> getAllMaxThicknessValues() {
+        List<Integer> values = new ArrayList<>();
+        forEachThickness(values::add);
+        return values;
+    }
+
+
     public long countDifferentParts() {
         return java.util.stream.Stream.of(
                 isHoodDifferent(),
