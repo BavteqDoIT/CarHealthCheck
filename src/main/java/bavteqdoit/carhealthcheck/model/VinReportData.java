@@ -66,4 +66,8 @@ public class VinReportData {
 
     @Enumerated(EnumType.STRING)
     private CarRisk serviceActions;
+
+    private String vinFromReport;
+    private String brandFromReport;
+    private String modelFromReport;
 }

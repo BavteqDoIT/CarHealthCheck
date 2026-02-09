@@ -17,6 +17,8 @@ public class VinPdfParserService {
         return productionYear.find() ? Integer.parseInt(productionYear.group(1)) : null;
     }
 
+    public record BrandModel(String brand, String model) {}
+
     public LocalDate extractFirstRegistration(String text){
         Matcher firstRegistration = Pattern
                 .compile("(\\d{2}\\.\\d{2}\\.\\d{4})\\s+Pierwsza\\s+rejestracja\\s+w\\s+Polsce", Pattern.CASE_INSENSITIVE)
@@ -98,6 +100,54 @@ public class VinPdfParserService {
         return OcStatus.NO_DATA;
     }
 
+    public String extractVinFromReport(String text) {
+        if (text == null) return null;
+
+        text = text.replace('\u00A0', ' ');
+
+        Matcher m = Pattern.compile(
+                "(?is)Numer\\s*VIN\\s*,?[^A-Z0-9]*([A-HJ-NPR-Z0-9](?:\\s*[A-HJ-NPR-Z0-9]){16})"
+        ).matcher(text);
+
+        if (m.find()) {
+            return m.group(1).replaceAll("\\s+", "").toUpperCase();
+        }
+
+        int idx = text.toLowerCase().indexOf("numer vin");
+        if (idx >= 0) {
+            int end = Math.min(text.length(), idx + 250);
+            String window = text.substring(idx, end);
+
+            Matcher m2 = Pattern.compile("([A-HJ-NPR-Z0-9]{17})").matcher(window);
+            if (m2.find()) return m2.group(1).toUpperCase();
+
+            Matcher m3 = Pattern.compile("([A-HJ-NPR-Z0-9](?:\\s*[A-HJ-NPR-Z0-9]){16})").matcher(window);
+            if (m3.find()) return m3.group(1).replaceAll("\\s+", "").toUpperCase();
+        }
+
+        return null;
+    }
+
+
+    public BrandModel extractBrandAndModel(String text) {
+        if (text == null) return null;
+
+        Matcher m = Pattern
+                .compile("(?mi)^\\s*Pojazd\\s+([^,\\r\\n]+)\\s*,\\s*([^,\\r\\n]+)\\s*,")
+                .matcher(text);
+
+        if (!m.find()) return null;
+
+        String brand = normalizeLabel(m.group(1));
+        String model = normalizeLabel(m.group(2));
+
+        return new BrandModel(brand, model);
+    }
+
+    private String normalizeLabel(String s) {
+        if (s == null) return null;
+        return s.trim().replaceAll("\\s{2,}", " ");
+    }
 
     public CarRisk extractTheftRisk(String text) {
         return extractForeignRiskOr(text, "Kradzież");

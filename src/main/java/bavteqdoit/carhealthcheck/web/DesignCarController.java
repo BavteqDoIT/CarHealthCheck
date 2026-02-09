@@ -1,12 +1,16 @@
 package bavteqdoit.carhealthcheck.web;
 
 import bavteqdoit.carhealthcheck.data.*;
+import bavteqdoit.carhealthcheck.dto.VinResolveForm;
+import bavteqdoit.carhealthcheck.dto.VinValidationView;
 import bavteqdoit.carhealthcheck.model.*;
 import bavteqdoit.carhealthcheck.service.*;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
@@ -16,10 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 @Slf4j
 @Controller
@@ -45,6 +46,7 @@ public class DesignCarController {
     private final VinMileageEntryRepository vinMileageEntryRepository;
     private final VinReportMileageService vinReportMileageService;
     private final InspectionSummaryService inspectionSummaryService;
+    private final VinReportValidationService vinReportValidationService;
 
     public DesignCarController(BrandRepository brandRepository,
                                ModelTypeRepository modelTypeRepository,
@@ -61,7 +63,8 @@ public class DesignCarController {
                                VinTimelineParserService vinTimelineParserService,
                                VinMileageEntryRepository vinMileageEntryRepository,
                                VinReportMileageService vinReportMileageService,
-                               InspectionSummaryService inspectionSummaryService) {
+                               InspectionSummaryService inspectionSummaryService,
+                               VinReportValidationService vinReportValidationService) {
         this.brandRepository = brandRepository;
         this.modelTypeRepository = modelTypeRepository;
         this.colorRepository = colorRepository;
@@ -82,6 +85,7 @@ public class DesignCarController {
         this.vinMileageEntryRepository = vinMileageEntryRepository;
         this.vinReportMileageService = vinReportMileageService;
         this.inspectionSummaryService = inspectionSummaryService;
+        this.vinReportValidationService = vinReportValidationService;
     }
 
     @GetMapping
@@ -123,17 +127,29 @@ public class DesignCarController {
     public String showRaportVin(@RequestParam Long carId, Model model) {
         Car car = carRepository.findById(carId).orElseThrow();
         model.addAttribute("car", car);
-        model.addAttribute("mileageEntries",
-                vinMileageEntryRepository.findByCarIdOrderByReadingDateDescMileageKmDesc(carId));
+
+        var entries = vinMileageEntryRepository.findByCarIdOrderByReadingDateDescMileageKmDesc(carId);
+        model.addAttribute("mileageEntries", entries);
+
         if (car.getFirstRegistrationDate() == null) {
             return "redirect:/design/paint?carId=" + carId;
-        } else {
-            vinReportDataRepository.findByCarId(carId)
-                    .ifPresent(data -> model.addAttribute("vinData", data));
-            vinReportFileRepository.findByCarId(carId)
-                    .ifPresent(file -> model.addAttribute("reportFile", file));
-            return "raportVin";
         }
+
+        var vinDataOpt = vinReportDataRepository.findByCarId(carId);
+        vinDataOpt.ifPresent(data -> model.addAttribute("vinData", data));
+
+        var reportFileOpt = vinReportFileRepository.findByCarId(carId);
+        reportFileOpt.ifPresent(file -> model.addAttribute("reportFile", file));
+
+        if (reportFileOpt.isPresent()
+                && reportFileOpt.get().getStatus() == VinReportStatus.PARSED_OK
+                && vinDataOpt.isPresent()) {
+
+            var validation = vinReportValidationService.build(car, vinDataOpt.get(), entries);
+            model.addAttribute("validation", validation);
+        }
+
+        return "raportVin";
     }
 
     @PostMapping("/raportVin/upload")
@@ -206,6 +222,16 @@ public class DesignCarController {
             data.setTotalLoss(vinPdfParserService.extractTotalLossRisk(text));
             data.setVinChecksumError(vinPdfParserService.extractVinChecksumErrorRisk(text));
             data.setServiceActions(vinPdfParserService.extractServiceActionsRisk(text));
+
+            String vinFromReport = vinPdfParserService.extractVinFromReport(text);
+            var bm = vinPdfParserService.extractBrandAndModel(text);
+
+            data.setVinFromReport(vinFromReport);
+
+            if (bm != null) {
+                data.setBrandFromReport(bm.brand());
+                data.setModelFromReport(bm.model());
+            }
             vinReportDataRepository.save(data);
 
             reportFile.setStatus(VinReportStatus.PARSED_OK);
@@ -271,10 +297,42 @@ public class DesignCarController {
         return "redirect:/design/raportVin?carId=" + carId;
     }
 
-    @PostMapping("/raportVin")
-    public String processRaportVin(@RequestParam Long carId) {
+    @Autowired
+    private VinReportApplyService vinReportApplyService;
+
+    @PostMapping("/raportVin/apply")
+    @Transactional
+    public String apply(@RequestParam Long carId, VinResolveForm form) {
+
         Car car = carRepository.findById(carId).orElseThrow();
+        VinReportData data = vinReportDataRepository.findByCarId(carId).orElseThrow();
+
+        var entries = vinMileageEntryRepository
+                .findByCarIdOrderByReadingDateDescMileageKmDesc(carId);
+
+        vinReportApplyService.apply(car, data, entries, form);
+
         carRepository.save(car);
+
+        return "redirect:/design/raportVin?carId=" + carId;
+    }
+
+    @PostMapping("/raportVin")
+    public String processRaportVin(@RequestParam Long carId, RedirectAttributes ra) {
+        Car car = carRepository.findById(carId).orElseThrow();
+
+        VinReportData data = vinReportDataRepository.findByCarId(carId).orElse(null);
+        List<VinMileageEntry> entries =
+                vinMileageEntryRepository.findByCarIdOrderByReadingDateDescMileageKmDesc(carId);
+
+        if (data != null) {
+            var validation = vinReportValidationService.build(car, data, entries);
+            if (validation.isHasBlockingIssues()) {
+                ra.addFlashAttribute("errorMessage", "Najpierw rozwiąż krytyczne niezgodności w raporcie VIN.");
+                return "redirect:/design/raportVin?carId=" + carId;
+            }
+        }
+
         return "redirect:/design/paint?carId=" + car.getId();
     }
 

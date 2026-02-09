@@ -162,7 +162,7 @@
         <div th:if="${reportFile != null and reportFile.status.name() == 'PARSED_OK' and mileageEntries != null and !mileageEntries.isEmpty()}"
              class="card mt-3">
             <div class="card-body">
-                <h6 class="card-title mb-3" th:text="#{raport.info.data.report.table.title}"></h6>
+                <h6 class="card-title mb-3 text-center" th:text="#{raport.info.data.report.table.title}"></h6>
 
                 <div class="table-responsive">
                     <table class="table table-sm">
@@ -194,6 +194,77 @@
                 <th:block th:text="#{raport.info.data.errorText} + ' '"/>
             </b><span th:text="${reportFile.parseError}"></span>
         </div>
+        <div th:if="${reportFile != null and reportFile.status.name() == 'PARSED_OK' and validation != null}"
+             class="card mt-3 shadow-sm">
+            <div class="card-body">
+                <h6 class="card-title mb-3 text-center" th:text="#{raport.data.validation.title}"></h6>
+
+                <div th:if="${validation.hasBlockingIssues}" class="alert alert-danger text-center" th:text="#{raport.data.validation.blocking.message}"></div>
+
+                <form method="post" th:action="@{/design/raportVin/apply(carId=${car.id})}">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
+                    <div class="table-responsive">
+                        <table class="table table-sm align-middle">
+                            <thead>
+                            <tr>
+                                <th th:text="#{raport.data.validation.table.row.field}"></th>
+                                <th th:text="#{raport.data.validation.table.row.form}"></th>
+                                <th th:text="#{raport.data.validation.table.row.raport}"></th>
+                                <th th:text="#{raport.data.validation.table.row.status}"></th>
+                                <th th:text="#{raport.data.validation.table.row.choice}"></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="it : ${validation.items}">
+                                <td th:text="${#messages.msg(it.field.labelKey())}"></td>
+                                <td th:text="${it.formValue}"></td>
+                                <td th:text="${it.reportValue}"></td>
+
+                                <td>
+                                    <span th:if="${it.severity.name() == 'OK'}" class="badge bg-success" th:text="#{raport.data.validation.table.row.status.ok}"></span>
+                                    <span th:if="${it.severity.name() == 'WARN'}" class="badge bg-warning text-dark" th:text="#{raport.data.validation.table.row.status.warn}"></span>
+                                    <span th:if="${it.severity.name() == 'BLOCK'}" class="badge bg-danger" th:text="#{raport.data.validation.table.row.status.critical}"></span>
+                                    <div class="small text-muted"
+                                         th:text="${#messages.msg(it.messageKey)}">
+                                    </div>
+                                </td>
+
+                                <td>
+                                    <div th:if="${it.severity.name() != 'OK'}" class="d-flex flex-column gap-1">
+                                        <label class="form-check">
+                                            <input class="form-check-input"
+                                                   type="radio"
+                                                   th:name="${'resolution[' + it.field + ']'}"
+                                                   value="USE_FORM"
+                                                   th:checked="${it.currentResolution == 'USE_FORM'}">
+                                            <span class="form-check-label" th:text="#{raport.data.validation.table.row.choice.form}"></span>
+                                        </label>
+
+                                        <label class="form-check">
+                                            <input class="form-check-input"
+                                                   type="radio"
+                                                   th:name="${'resolution[' + it.field + ']'}"
+                                                   value="USE_REPORT"
+                                                   th:checked="${it.currentResolution == 'USE_REPORT'}">
+                                            <span class="form-check-label" th:text="#{raport.data.validation.table.row.choice.raport}"></span>
+                                        </label>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="text-center mt-3">
+                        <button type="submit"
+                                class="btn btn-outline-primary rounded-pill px-4"
+                                th:text="#{raport.data.validation.table.button.submit}">
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
         <div class="row justify-content-center mt-4">
             <div class="col-md-6 text-center">
                 <form method="post"
@@ -205,8 +276,11 @@
 
                     <button type="submit"
                             class="btn btn-primary btn-lg px-4 py-2 rounded-pill shadow-sm"
-                            th:text="#{design.button}">
+                            th:text="#{design.button}"
+                            th:disabled="${validation != null and validation.hasBlockingIssues}">
                     </button>
+                    <div th:if="${validation != null and validation.hasBlockingIssues}" class="text-danger small mt-2" th:text="#{raport.data.validation.statement}">
+                    </div>
                 </form>
 
                 <div th:insert="~{fragments/cancelButton.html}"
