@@ -125,7 +125,10 @@ public class RiskScoringService {
 
 
     private void applyChecklistPenalties(List<QuestionAnswer> answers, List<Penalty> out) {
-        if (answers == null) return;
+        if (answers == null || answers.isEmpty()) {
+            out.add(new Penalty(50, "risk.checklist.no_data"));
+            return;
+        }
 
         for (QuestionAnswer a : answers) {
             if (a.getSelectedOption() == null) continue;
