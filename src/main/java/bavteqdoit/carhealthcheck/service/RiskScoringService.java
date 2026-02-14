@@ -2,27 +2,22 @@ package bavteqdoit.carhealthcheck.service;
 
 import bavteqdoit.carhealthcheck.model.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Locale;
 
 @Service
 @RequiredArgsConstructor
 public class RiskScoringService {
 
-    private final MessageSource messageSource;
     private final BaselineScoreResolver baselineScoreResolver;
 
     public RiskResult compute(
             Car car,
             VinReportData vin,
             PaintCheck paint,
-            List<QuestionAnswer> answers,
-            Locale locale
+            List<QuestionAnswer> answers
     ) {
         BaselineScoreResolver.BaselineResult baselineResult = baselineScoreResolver.resolve(car);
 
@@ -40,16 +35,9 @@ public class RiskScoringService {
         int finalScore = clamp(baseline - totalPenalty, 0, 100);
         RiskLevel level = classifyLevel(finalScore);
 
-        List<String> reasons = penalties.stream()
-                .sorted(Comparator.comparingInt(Penalty::points).reversed())
-                .limit(6)
-                .map(p -> messageSource.getMessage(p.reasonKey(), null, locale))
-                .toList();
-
         RiskResult result = new RiskResult();
         result.setFinalScore(finalScore);
         result.setRiskLevel(level);
-        result.setRiskReasons(reasons);
         return result;
     }
 

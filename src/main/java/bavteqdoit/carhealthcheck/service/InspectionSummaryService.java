@@ -43,7 +43,7 @@ public class InspectionSummaryService {
         var vin = vinReportDataRepository.findByCarId(carId).orElse(null);
         var paint = paintCheckRepository.findByCarId(carId).orElse(null);
         var answers = questionAnswerRepository.findAllByCarIdWithDetails(carId);
-        var risk = riskScoringService.compute(car, vin, paint, answers, locale);
+        var risk = riskScoringService.compute(car, vin, paint, answers);
 
         applyVin(dto, vin, locale);
         applyPaint(dto, paint, locale);
