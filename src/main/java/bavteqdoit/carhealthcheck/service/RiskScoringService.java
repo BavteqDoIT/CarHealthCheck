@@ -126,9 +126,11 @@ public class RiskScoringService {
             }
         }
 
-        long diffCount = paint.countDifferentParts();
-        if (diffCount >= 3) {
-            out.add(new Penalty(10, "risk.paint.many_parts_different"));
+        int diffCount = (int) paint.countDifferentParts();
+        if (diffCount < 3){
+            out.add(new Penalty(3 * diffCount,"risk.paint.parts_different"));
+        } else {
+            out.add(new Penalty(10 + (diffCount * 2), "risk.paint.many_parts_different"));
         }
     }
 
