@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.security.Principal;
 import java.util.*;
 
 @Slf4j
@@ -38,6 +39,7 @@ public class DesignCarController {
     private final VinReportValidationService vinReportValidationService;
     private final VinReportUploadService vinReportUploadService;
     private final VinReportApplyService vinReportApplyService;
+    private final VinReportViewService vinReportViewService;
     private final CarService carService;
 
     public DesignCarController(BrandRepository brandRepository,
@@ -58,6 +60,7 @@ public class DesignCarController {
                                VinReportValidationService vinReportValidationService,
                                VinReportUploadService vinReportUploadService,
                                VinReportApplyService vinReportApplyService,
+                               VinReportViewService vinReportViewService,
                                CarService carService) {
         this.brandRepository = brandRepository;
         this.modelTypeRepository = modelTypeRepository;
@@ -77,6 +80,7 @@ public class DesignCarController {
         this.vinReportValidationService = vinReportValidationService;
         this.vinReportUploadService = vinReportUploadService;
         this.vinReportApplyService = vinReportApplyService;
+        this.vinReportViewService = vinReportViewService;
         this.carService = carService;
     }
 
@@ -105,33 +109,24 @@ public class DesignCarController {
     }
 
     @GetMapping("/raportVin")
-    public String showRaportVin(@RequestParam Long carId, Model model) {
-        Car car = carRepository.findById(carId).orElseThrow();
-        model.addAttribute("car", car);
+    public String showRaportVin(@RequestParam Long carId,
+                                Model model,
+                                Principal principal) {
 
-        var entries = vinMileageEntryRepository.findByCarIdOrderByReadingDateDescMileageKmDesc(carId);
-        model.addAttribute("mileageEntries", entries);
-
-        if (car.getFirstRegistrationDate() == null) {
-            return "redirect:/design/paint?carId=" + carId;
+        if (principal == null) {
+            return "redirect:/login";
         }
 
-        var vinDataOpt = vinReportDataRepository.findByCarId(carId);
-        vinDataOpt.ifPresent(data -> model.addAttribute("vinData", data));
+        var view = vinReportViewService.build(carId, principal.getName());
 
-        var reportFileOpt = vinReportFileRepository.findByCarId(carId);
-        reportFileOpt.ifPresent(file -> model.addAttribute("reportFile", file));
-
-        if (reportFileOpt.isPresent()
-                && reportFileOpt.get().getStatus() == VinReportStatus.PARSED_OK
-                && vinDataOpt.isPresent()) {
-
-            var validation = vinReportValidationService.build(car, vinDataOpt.get(), entries);
-            model.addAttribute("validation", validation);
+        if (view.redirectUrl() != null) {
+            return "redirect:" + view.redirectUrl();
         }
 
+        model.addAllAttributes(view.toModelMap());
         return "raportVin";
     }
+
 
     @PostMapping("/raportVin/upload")
     public String uploadReport(@RequestParam Long carId,
