@@ -32,15 +32,12 @@ public class DesignCarController {
     private final QuestionOptionRepository questionOptionRepository;
     private final QuestionRepository questionRepository;
     private final QuestionAnswerRepository questionAnswerRepository;
-    private final VinReportDataRepository vinReportDataRepository;
-    private final VinReportFileRepository vinReportFileRepository;
-    private final VinMileageEntryRepository vinMileageEntryRepository;
     private final InspectionSummaryService inspectionSummaryService;
-    private final VinReportValidationService vinReportValidationService;
     private final VinReportUploadService vinReportUploadService;
     private final VinReportApplyService vinReportApplyService;
     private final VinReportViewService vinReportViewService;
     private final CarService carService;
+    private final VinReportFlowService vinReportFlowService;
 
     public DesignCarController(BrandRepository brandRepository,
                                ModelTypeRepository modelTypeRepository,
@@ -61,7 +58,8 @@ public class DesignCarController {
                                VinReportUploadService vinReportUploadService,
                                VinReportApplyService vinReportApplyService,
                                VinReportViewService vinReportViewService,
-                               CarService carService) {
+                               CarService carService,
+                               VinReportFlowService vinReportFlowService) {
         this.brandRepository = brandRepository;
         this.modelTypeRepository = modelTypeRepository;
         this.colorRepository = colorRepository;
@@ -73,15 +71,12 @@ public class DesignCarController {
         this.questionRepository = questionRepository;
         this.questionOptionRepository = questionOptionRepository;
         this.questionAnswerRepository = questionAnswerRepository;
-        this.vinReportDataRepository = vinReportDataRepository;
-        this.vinReportFileRepository = vinReportFileRepository;
-        this.vinMileageEntryRepository = vinMileageEntryRepository;
         this.inspectionSummaryService = inspectionSummaryService;
-        this.vinReportValidationService = vinReportValidationService;
         this.vinReportUploadService = vinReportUploadService;
         this.vinReportApplyService = vinReportApplyService;
         this.vinReportViewService = vinReportViewService;
         this.carService = carService;
+        this.vinReportFlowService = vinReportFlowService;
     }
 
     @GetMapping
@@ -160,23 +155,20 @@ public class DesignCarController {
         return "redirect:/design/raportVin?carId=" + carId;
     }
 
+
     @PostMapping("/raportVin")
-    public String processRaportVin(@RequestParam Long carId, RedirectAttributes ra) {
-        Car car = carRepository.findById(carId).orElseThrow();
+    public String processRaportVin(@RequestParam Long carId,
+                                   RedirectAttributes ra,
+                                   Principal principal) {
 
-        VinReportData data = vinReportDataRepository.findByCarId(carId).orElse(null);
-        List<VinMileageEntry> entries =
-                vinMileageEntryRepository.findByCarIdOrderByReadingDateDescMileageKmDesc(carId);
+        if (principal == null) return "redirect:/login";
 
-        if (data != null) {
-            var validation = vinReportValidationService.build(car, data, entries);
-            if (validation.isHasBlockingIssues()) {
-                ra.addFlashAttribute("errorMessage", "Najpierw rozwiąż krytyczne niezgodności w raporcie VIN.");
-                return "redirect:/design/raportVin?carId=" + carId;
-            }
+        String msg = vinReportFlowService.blockingMessage(carId, principal.getName());
+        if (msg != null) {
+            ra.addFlashAttribute("errorMessage", msg);
+            return "redirect:/design/raportVin?carId=" + carId;
         }
-
-        return "redirect:/design/paint?carId=" + car.getId();
+        return "redirect:/design/paint?carId=" + carId;
     }
 
     @GetMapping("/paint")
