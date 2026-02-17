@@ -1,8 +1,8 @@
 package bavteqdoit.carhealthcheck.web;
 
-import bavteqdoit.carhealthcheck.data.UserRepository;
 import bavteqdoit.carhealthcheck.model.User;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import bavteqdoit.carhealthcheck.service.AuthService;
+import bavteqdoit.carhealthcheck.dto.RegisterResult;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -10,12 +10,10 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class AuthController {
 
-    private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
+    private final AuthService authService;
 
-    public AuthController(UserRepository userRepository, PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
+    public AuthController(AuthService authService) {
+        this.authService = authService;
     }
 
     @GetMapping("/register")
@@ -25,22 +23,14 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public String processRegister(@ModelAttribute User user, Model model) {
-        if (!user.getPassword().equals(user.getConfirmPassword())) {
-            model.addAttribute("error", "register.password.mismatch");
+    public String processRegister(@ModelAttribute("user") User user, Model model) {
+        RegisterResult result = authService.register(user);
+
+        if (!result.isSuccess()) {
+            model.addAttribute("error", result.getError().getMessageKey());
             return "register";
         }
-        if (user.getEmail() == null || user.getEmail().isEmpty()) {
-            model.addAttribute("error", "register.email.empty");
-            return "register";
-        }
-        if (!user.getEmail().matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
-            model.addAttribute("error", "register.email.invalid");
-            return "register";
-        }
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRole("USER");
-        userRepository.save(user);
+
         return "redirect:/login";
     }
 
@@ -49,4 +39,3 @@ public class AuthController {
         return "login";
     }
 }
-
