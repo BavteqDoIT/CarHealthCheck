@@ -6,10 +6,8 @@ import bavteqdoit.carhealthcheck.model.*;
 import bavteqdoit.carhealthcheck.service.*;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
@@ -33,7 +31,6 @@ public class DesignCarController {
     private final QuestionOptionRepository questionOptionRepository;
     private final QuestionRepository questionRepository;
     private final QuestionAnswerRepository questionAnswerRepository;
-    private final UserRepository userRepository;
     private final VinReportDataRepository vinReportDataRepository;
     private final VinReportFileRepository vinReportFileRepository;
     private final VinMileageEntryRepository vinMileageEntryRepository;
@@ -41,6 +38,7 @@ public class DesignCarController {
     private final VinReportValidationService vinReportValidationService;
     private final VinReportUploadService vinReportUploadService;
     private final VinReportApplyService vinReportApplyService;
+    private final CarService carService;
 
     public DesignCarController(BrandRepository brandRepository,
                                ModelTypeRepository modelTypeRepository,
@@ -53,14 +51,14 @@ public class DesignCarController {
                                QuestionOptionRepository questionOptionRepository,
                                QuestionRepository questionRepository,
                                QuestionAnswerRepository questionAnswerRepository,
-                               UserRepository userRepository,
                                VinReportDataRepository vinReportDataRepository,
                                VinReportFileRepository vinReportFileRepository,
                                VinMileageEntryRepository vinMileageEntryRepository,
                                InspectionSummaryService inspectionSummaryService,
                                VinReportValidationService vinReportValidationService,
                                VinReportUploadService vinReportUploadService,
-                               VinReportApplyService vinReportApplyService) {
+                               VinReportApplyService vinReportApplyService,
+                               CarService carService) {
         this.brandRepository = brandRepository;
         this.modelTypeRepository = modelTypeRepository;
         this.colorRepository = colorRepository;
@@ -72,7 +70,6 @@ public class DesignCarController {
         this.questionRepository = questionRepository;
         this.questionOptionRepository = questionOptionRepository;
         this.questionAnswerRepository = questionAnswerRepository;
-        this.userRepository = userRepository;
         this.vinReportDataRepository = vinReportDataRepository;
         this.vinReportFileRepository = vinReportFileRepository;
         this.vinMileageEntryRepository = vinMileageEntryRepository;
@@ -80,13 +77,11 @@ public class DesignCarController {
         this.vinReportValidationService = vinReportValidationService;
         this.vinReportUploadService = vinReportUploadService;
         this.vinReportApplyService = vinReportApplyService;
+        this.carService = carService;
     }
 
     @GetMapping
     public String showDesignForm(Model model) {
-
-        loadingDataAndAddAttributes(model);
-
         model.addAttribute("car", new Car());
 
         return "design";
@@ -95,26 +90,18 @@ public class DesignCarController {
     private final CarRepository carRepository;
 
     @PostMapping
-    public String processDesign(@Valid Car car, Errors errors, Model model,  @AuthenticationPrincipal org.springframework.security.core.userdetails.User authUser) {
+    public String processDesign(@Valid @ModelAttribute("car") Car car,
+                                Errors errors,
+                                @AuthenticationPrincipal org.springframework.security.core.userdetails.User authUser) {
         if (errors.hasErrors()) {
-
-            loadingDataAndAddAttributes(model);
-
             return "design";
         }
-        User user = userRepository.findByUsername(authUser.getUsername())
-                .orElseThrow(() -> new RuntimeException("User not found"));
 
-        car.setOwner(user);
-        carRepository.save(car);
+        Car saved = carService.createForUsername(car, authUser.getUsername());
 
-        log.info("Processing car: {}", car);
-
-        if (car.isForeignRegistered()) {
-            return "redirect:/design/paint?carId=" + car.getId();
-        } else {
-            return "redirect:/design/raportVin?carId=" + car.getId();
-        }
+        return saved.isForeignRegistered()
+                ? "redirect:/design/paint?carId=" + saved.getId()
+                : "redirect:/design/raportVin?carId=" + saved.getId();
     }
 
     @GetMapping("/raportVin")
@@ -316,21 +303,14 @@ public class DesignCarController {
         return "redirect:/";
     }
 
-    private void loadingDataAndAddAttributes(Model model) {
-        List<Brand> brands = brandRepository.findAll();
-        List<ModelType> models = modelTypeRepository.findAll();
-        List<Color> colors = colorRepository.findAll();
-        List<EngineType> engineTypes = engineTypeRepository.findAll();
-        List<BodyType> bodyTypes = bodyTypeRepository.findAll();
-        List<DriveType> driveTypes = driveTypeRepository.findAll();
-        List<GearboxType> gearboxTypes = gearboxTypeRepository.findAll();
-
-        model.addAttribute("brands", brands);
-        model.addAttribute("models", models);
-        model.addAttribute("colors", colors);
-        model.addAttribute("engineTypes", engineTypes);
-        model.addAttribute("bodyTypes", bodyTypes);
-        model.addAttribute("driveTypes", driveTypes);
-        model.addAttribute("gearboxTypes", gearboxTypes);
+    @ModelAttribute
+    public void commonData(Model model) {
+        model.addAttribute("brands", brandRepository.findAll());
+        model.addAttribute("models", modelTypeRepository.findAll());
+        model.addAttribute("colors", colorRepository.findAll());
+        model.addAttribute("engineTypes", engineTypeRepository.findAll());
+        model.addAttribute("bodyTypes", bodyTypeRepository.findAll());
+        model.addAttribute("driveTypes", driveTypeRepository.findAll());
+        model.addAttribute("gearboxTypes", gearboxTypeRepository.findAll());
     }
 }
