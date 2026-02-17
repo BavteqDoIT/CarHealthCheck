@@ -40,6 +40,7 @@ public class DesignCarController {
     private final InspectionSummaryService inspectionSummaryService;
     private final VinReportValidationService vinReportValidationService;
     private final VinReportUploadService vinReportUploadService;
+    private final VinReportApplyService vinReportApplyService;
 
     public DesignCarController(BrandRepository brandRepository,
                                ModelTypeRepository modelTypeRepository,
@@ -58,7 +59,8 @@ public class DesignCarController {
                                VinMileageEntryRepository vinMileageEntryRepository,
                                InspectionSummaryService inspectionSummaryService,
                                VinReportValidationService vinReportValidationService,
-                               VinReportUploadService vinReportUploadService) {
+                               VinReportUploadService vinReportUploadService,
+                               VinReportApplyService vinReportApplyService) {
         this.brandRepository = brandRepository;
         this.modelTypeRepository = modelTypeRepository;
         this.colorRepository = colorRepository;
@@ -77,6 +79,7 @@ public class DesignCarController {
         this.inspectionSummaryService = inspectionSummaryService;
         this.vinReportValidationService = vinReportValidationService;
         this.vinReportUploadService = vinReportUploadService;
+        this.vinReportApplyService = vinReportApplyService;
     }
 
     @GetMapping
@@ -159,22 +162,18 @@ public class DesignCarController {
         return "redirect:/design/raportVin?carId=" + carId;
     }
 
-    @Autowired
-    private VinReportApplyService vinReportApplyService;
 
     @PostMapping("/raportVin/apply")
-    @Transactional
-    public String apply(@RequestParam Long carId, VinResolveForm form) {
+    public String apply(@RequestParam Long carId,
+                        @ModelAttribute VinResolveForm form,
+                        RedirectAttributes ra) {
 
-        Car car = carRepository.findById(carId).orElseThrow();
-        VinReportData data = vinReportDataRepository.findByCarId(carId).orElseThrow();
-
-        var entries = vinMileageEntryRepository
-                .findByCarIdOrderByReadingDateDescMileageKmDesc(carId);
-
-        vinReportApplyService.apply(car, data, entries, form);
-
-        carRepository.save(car);
+        try {
+            vinReportApplyService.apply(carId, form);
+            ra.addFlashAttribute("successMessage", "Dane z raportu VIN zostały zastosowane.");
+        } catch (Exception e) {
+            ra.addFlashAttribute("errorMessage", "Nie udało się zastosować danych: " + e.getMessage());
+        }
 
         return "redirect:/design/raportVin?carId=" + carId;
     }

@@ -1,27 +1,42 @@
 package bavteqdoit.carhealthcheck.service;
 
+import bavteqdoit.carhealthcheck.data.*;
+import bavteqdoit.carhealthcheck.dto.VinResolveForm;
+import bavteqdoit.carhealthcheck.dto.VinValidationView;
 import bavteqdoit.carhealthcheck.model.Car;
 import bavteqdoit.carhealthcheck.model.VinMileageEntry;
 import bavteqdoit.carhealthcheck.model.VinReportData;
-import bavteqdoit.carhealthcheck.data.BrandRepository;
-import bavteqdoit.carhealthcheck.data.ModelTypeRepository;
-import bavteqdoit.carhealthcheck.dto.VinResolveForm;
-import bavteqdoit.carhealthcheck.dto.VinValidationView;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
 @Service
+@RequiredArgsConstructor
 public class VinReportApplyService {
 
-    @Autowired
-    private BrandRepository brandRepository;
+    private final BrandRepository brandRepository;
+    private final ModelTypeRepository modelTypeRepository;
 
-    @Autowired
-    private ModelTypeRepository modelTypeRepository;
+    private final CarRepository carRepository;
+    private final VinReportDataRepository vinReportDataRepository;
+    private final VinMileageEntryRepository vinMileageEntryRepository;
+
+    @Transactional
+    public void apply(Long carId, VinResolveForm form) {
+        Car car = carRepository.findById(carId).orElseThrow();
+        VinReportData data = vinReportDataRepository.findByCarId(carId).orElseThrow();
+
+        List<VinMileageEntry> mileageEntries =
+                vinMileageEntryRepository.findByCarIdOrderByReadingDateDescMileageKmDesc(carId);
+
+        apply(car, data, mileageEntries, form);
+
+        carRepository.save(car);
+    }
 
     public void apply(Car car,
                       VinReportData data,
@@ -34,7 +49,6 @@ public class VinReportApplyService {
         applyVin(car, data, form);
         applyFirstRegistration(car, data, form);
     }
-
 
     private void applyBrandAndModel(Car car, VinReportData data, VinResolveForm form) {
         var brandRes = form.getResolution().get("BRAND");
@@ -62,7 +76,6 @@ public class VinReportApplyService {
         }
     }
 
-
     private void applyProductionYear(Car car, VinReportData data, VinResolveForm form) {
         var res = form.getResolution().get("PRODUCTION_YEAR");
 
@@ -71,7 +84,6 @@ public class VinReportApplyService {
             car.setProductionYear(data.getProductionYearFromReport());
         }
     }
-
 
     private void applyMileage(Car car,
                               VinReportData data,
@@ -94,7 +106,6 @@ public class VinReportApplyService {
         }
     }
 
-
     private void applyVin(Car car, VinReportData data, VinResolveForm form) {
         var res = form.getResolution().get("VIN");
 
@@ -112,6 +123,7 @@ public class VinReportApplyService {
 
     private void applyFirstRegistration(Car car, VinReportData data, VinResolveForm form) {
         var res = form.getResolution().get("FIRST_REG_PL");
+
         if (res == VinValidationView.Resolution.USE_REPORT && data.getFirstRegistrationFromReport() != null) {
             car.setFirstRegistrationDate(data.getFirstRegistrationFromReport());
         } else if (res == VinValidationView.Resolution.MANUAL) {
@@ -119,5 +131,4 @@ public class VinReportApplyService {
             if (v != null) car.setFirstRegistrationDate(LocalDate.parse(v));
         }
     }
-
 }
