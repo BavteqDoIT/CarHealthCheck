@@ -38,6 +38,7 @@ public class DesignCarController {
     private final VinReportViewService vinReportViewService;
     private final CarService carService;
     private final VinReportFlowService vinReportFlowService;
+    private final PaintCheckService paintCheckService;
 
     public DesignCarController(BrandRepository brandRepository,
                                ModelTypeRepository modelTypeRepository,
@@ -55,7 +56,8 @@ public class DesignCarController {
                                VinReportApplyService vinReportApplyService,
                                VinReportViewService vinReportViewService,
                                CarService carService,
-                               VinReportFlowService vinReportFlowService) {
+                               VinReportFlowService vinReportFlowService,
+                               PaintCheckService paintCheckService) {
         this.brandRepository = brandRepository;
         this.modelTypeRepository = modelTypeRepository;
         this.colorRepository = colorRepository;
@@ -73,6 +75,7 @@ public class DesignCarController {
         this.vinReportViewService = vinReportViewService;
         this.carService = carService;
         this.vinReportFlowService = vinReportFlowService;
+        this.paintCheckService = paintCheckService;
     }
 
     @GetMapping
@@ -168,18 +171,16 @@ public class DesignCarController {
     }
 
     @GetMapping("/paint")
-    public String showPaintForm(@RequestParam Long carId, Model model) {
-        Car car = carRepository.findById(carId).orElseThrow();
+    public String showPaintForm(@RequestParam Long carId,
+                                Model model,
+                                Principal principal) {
 
-        PaintCheck paintCheck = car.getPaintCheck();
-        if (paintCheck == null) {
-            paintCheck = new PaintCheck();
-            paintCheck.setCar(car);
-            car.setPaintCheck(paintCheck);
-        }
+        if (principal == null) return "redirect:/login";
 
-        model.addAttribute("car", car);
-        model.addAttribute("paintCheck", paintCheck);
+        var data = paintCheckService.preparePaintForm(carId, principal.getName());
+
+        model.addAttribute("car", data.car());
+        model.addAttribute("paintCheck", data.paintCheck());
 
         return "paint";
     }
