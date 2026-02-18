@@ -33,18 +33,20 @@ public class RiskScoringService {
                 .sum();
 
         int finalScore = clamp(baseline - totalPenalty, 0, 100);
-        RiskLevel level = classifyLevel(finalScore);
+        int riskScore  = 100 - finalScore;
+        RiskLevel level = classifyLevel(riskScore);
 
         RiskResult result = new RiskResult();
         result.setFinalScore(finalScore);
         result.setRiskLevel(level);
+        result.setRiskScore(riskScore);
         return result;
     }
 
 
     private RiskLevel classifyLevel(int score) {
-        if (score >= 75) return RiskLevel.LOW;
-        if (score >= 45) return RiskLevel.MEDIUM;
+        if (score <= 25) return RiskLevel.LOW;
+        if (score <= 55) return RiskLevel.MEDIUM;
         return RiskLevel.HIGH;
     }
 

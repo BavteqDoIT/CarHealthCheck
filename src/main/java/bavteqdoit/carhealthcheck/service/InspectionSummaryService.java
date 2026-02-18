@@ -50,7 +50,8 @@ public class InspectionSummaryService {
         applyQuestions(dto, answers, locale);
 
         dto.setFinalScore(risk.getFinalScore());
-        dto.setRiskLevel(risk.getRiskLevel().name());
+        dto.setRiskLevel(msg(locale, "risk.level." + risk.getRiskLevel().name()));
+        dto.setRiskScore(risk.getRiskScore());
         dto.setRiskReasons(risk.getRiskReasons());
 
         if (dto.getRedFlags().isEmpty() && dto.getYellowFlags().isEmpty()) {

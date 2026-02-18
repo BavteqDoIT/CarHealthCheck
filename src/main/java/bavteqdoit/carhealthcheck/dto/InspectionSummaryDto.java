@@ -16,6 +16,7 @@ public class InspectionSummaryDto {
 
     private Integer finalScore;
     private String riskLevel;
+    private Integer riskScore;
     private List<String> riskReasons = new ArrayList<>();
 
     public void red(String msg) {

@@ -80,6 +80,10 @@
                         <td th:text="${summary.finalScore}+ '/100'"></td>
                     </tr>
                     <tr>
+                        <th scope="row" th:text="#{summary.risk.riskScore}"></th>
+                        <td th:text="${summary.riskScore}+ '/100'"></td>
+                    </tr>
+                    <tr>
                         <th scope="row" th:text="#{summary.risk.level}"></th>
                         <td th:text="${summary.riskLevel}"></td>
                     </tr>

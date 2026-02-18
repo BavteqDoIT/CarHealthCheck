@@ -8,5 +8,6 @@ import java.util.List;
 public class RiskResult {
     private int finalScore;
     private RiskLevel riskLevel;
+    private int riskScore;
     private List<String> riskReasons;
 }
