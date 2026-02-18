@@ -142,7 +142,7 @@ public class RiskScoringService {
                 default -> 0;
             };
 
-            int weight = questionWeight(a.getQuestion().getQuestionKey());
+            int weight = safeWeight(a.getQuestion());
             int penalty = base * weight;
 
             if (penalty > 0) {
@@ -169,21 +169,10 @@ public class RiskScoringService {
         return (sorted.get(n / 2 - 1) + sorted.get(n / 2)) / 2.0;
     }
 
-    private int questionWeight(String key) {
-        return switch (key) {
-            case "vin_readable",        //critical issues
-                 "service_docs" -> 999;
-
-            case "gearbox_operation",
-                 "brakes_operation",
-                 "visible_leaks",
-                 "exhaust_smoke" -> 3;
-
-            case "suspension_behavior",
-                 "steering_response" -> 2;
-
-            default -> 1;
-        };
+    private int safeWeight(Question q) {
+        if (q == null) return 1;
+        int w = q.getWeight();
+        return (w <= 0) ? 1 : w;
     }
 
     private boolean isFounded(CarRisk risk) {

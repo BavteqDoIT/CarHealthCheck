@@ -17,6 +17,9 @@ public class Question {
     private String questionKey;
     private String questionType;
 
+    @Column(nullable = false)
+    private Integer weight = 1;
+
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<QuestionOption> options;
 }

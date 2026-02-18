@@ -4,6 +4,7 @@ import bavteqdoit.carhealthcheck.data.*;
 import bavteqdoit.carhealthcheck.dto.VinResolveForm;
 import bavteqdoit.carhealthcheck.model.*;
 import bavteqdoit.carhealthcheck.service.*;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -38,6 +39,7 @@ public class DesignCarController {
     private final VinReportViewService vinReportViewService;
     private final CarService carService;
     private final VinReportFlowService vinReportFlowService;
+    private final QuestionWeightService questionWeightService;
 
     public DesignCarController(BrandRepository brandRepository,
                                ModelTypeRepository modelTypeRepository,
@@ -55,7 +57,8 @@ public class DesignCarController {
                                VinReportApplyService vinReportApplyService,
                                VinReportViewService vinReportViewService,
                                CarService carService,
-                               VinReportFlowService vinReportFlowService) {
+                               VinReportFlowService vinReportFlowService,
+                               QuestionWeightService questionWeightService) {
         this.brandRepository = brandRepository;
         this.modelTypeRepository = modelTypeRepository;
         this.colorRepository = colorRepository;
@@ -73,6 +76,7 @@ public class DesignCarController {
         this.vinReportViewService = vinReportViewService;
         this.carService = carService;
         this.vinReportFlowService = vinReportFlowService;
+        this.questionWeightService = questionWeightService;
     }
 
     @GetMapping
@@ -226,38 +230,59 @@ public class DesignCarController {
     @PostMapping("/questions/save")
     public String saveCategoryResponses(@RequestParam Long carId,
                                         @RequestParam String category,
-                                        @RequestParam Map<String, String> allRequestParams) {
+                                        @RequestParam Map<String, String> allRequestParams,
+                                        HttpServletRequest request) {
 
         Car car = carRepository.findById(carId).orElseThrow();
 
         for (String paramName : allRequestParams.keySet()) {
-            if (paramName.startsWith("questionId_")) {
-                Long questionId = Long.valueOf(allRequestParams.get(paramName));
 
-                Question question = questionRepository.findById(questionId).orElseThrow();
-                QuestionAnswer answer = new QuestionAnswer();
-                answer.setCar(car);
-                answer.setQuestion(question);
+            if (!paramName.startsWith("questionId_")) continue;
 
-                String optionParam = allRequestParams.get("selectedOption_" + questionId);
-                if (optionParam != null && !optionParam.isEmpty()) {
-                    answer.setSelectedOption(questionOptionRepository.findById(Long.valueOf(optionParam)).orElse(null));
+            Long questionId = Long.valueOf(allRequestParams.get(paramName));
+            Question question = questionRepository.findById(questionId).orElseThrow();
+
+            if (request.isUserInRole("ROLE_ADMIN")) {
+                String weightParam = allRequestParams.get("weight_" + questionId);
+                if (weightParam != null && !weightParam.isBlank()) {
+                    try {
+                        int w = Integer.parseInt(weightParam);
+                        w = Math.max(1, Math.min(999, w));
+                        question.setWeight(w);
+                        questionRepository.save(question);
+                    } catch (NumberFormatException ignored) {
+                    }
                 }
-
-                String textValue = allRequestParams.get("answerValue_" + questionId);
-                if (textValue != null) answer.setAnswerValue(textValue);
-
-                String numericValue = allRequestParams.get("numericValue_" + questionId);
-                if (numericValue != null && !numericValue.isEmpty()) {
-                    answer.setNumericValue(Float.valueOf(numericValue));
-                }
-
-                questionAnswerRepository.save(answer);
             }
+
+            QuestionAnswer answer = new QuestionAnswer();
+            answer.setCar(car);
+            answer.setQuestion(question);
+
+            String optionParam = allRequestParams.get("selectedOption_" + questionId);
+            if (optionParam != null && !optionParam.isEmpty()) {
+                answer.setSelectedOption(
+                        questionOptionRepository.findById(Long.valueOf(optionParam)).orElse(null)
+                );
+            }
+
+            String textValue = allRequestParams.get("answerValue_" + questionId);
+            if (textValue != null) {
+                answer.setAnswerValue(textValue);
+            }
+
+            String numericValue = allRequestParams.get("numericValue_" + questionId);
+            if (numericValue != null && !numericValue.isEmpty()) {
+                answer.setNumericValue(Float.valueOf(numericValue));
+            }
+
+            questionAnswerRepository.save(answer);
         }
 
         String next = nextCategory(category);
-        if (next == null) return "redirect:/design/summary?carId=" + carId;
+        if (next == null)
+            return "redirect:/design/summary?carId=" + carId;
+
         return "redirect:/design/questions?carId=" + carId + "&mainCategory=" + next;
     }
 

@@ -145,8 +145,9 @@ CREATE TABLE IF NOT EXISTS public.question (
     main_category VARCHAR(255),
     sub_category VARCHAR(255),
     question_key VARCHAR(255),
-    question_type VARCHAR(255)
-);
+    question_type VARCHAR(255),
+    weight INT NOT NULL DEFAULT 1
+    );
 
 CREATE TABLE IF NOT EXISTS public.question_option(
     id BIGSERIAL PRIMARY KEY,
