@@ -40,6 +40,7 @@ public class DesignCarController {
     private final CarService carService;
     private final VinReportFlowService vinReportFlowService;
     private final QuestionWeightService questionWeightService;
+    private final PaintCheckService paintCheckService;
 
     public DesignCarController(BrandRepository brandRepository,
                                ModelTypeRepository modelTypeRepository,
@@ -58,7 +59,8 @@ public class DesignCarController {
                                VinReportViewService vinReportViewService,
                                CarService carService,
                                VinReportFlowService vinReportFlowService,
-                               QuestionWeightService questionWeightService) {
+                               QuestionWeightService questionWeightService,
+                               PaintCheckService paintCheckService) {
         this.brandRepository = brandRepository;
         this.modelTypeRepository = modelTypeRepository;
         this.colorRepository = colorRepository;
@@ -77,6 +79,7 @@ public class DesignCarController {
         this.carService = carService;
         this.vinReportFlowService = vinReportFlowService;
         this.questionWeightService = questionWeightService;
+        this.paintCheckService = paintCheckService;
     }
 
     @GetMapping
@@ -172,21 +175,20 @@ public class DesignCarController {
     }
 
     @GetMapping("/paint")
-    public String showPaintForm(@RequestParam Long carId, Model model) {
-        Car car = carRepository.findById(carId).orElseThrow();
+    public String showPaintForm(@RequestParam Long carId,
+                                Model model,
+                                Principal principal) {
 
-        PaintCheck paintCheck = car.getPaintCheck();
-        if (paintCheck == null) {
-            paintCheck = new PaintCheck();
-            paintCheck.setCar(car);
-            car.setPaintCheck(paintCheck);
-        }
+        if (principal == null) return "redirect:/login";
 
-        model.addAttribute("car", car);
-        model.addAttribute("paintCheck", paintCheck);
+        var data = paintCheckService.preparePaintForm(carId, principal.getName());
+
+        model.addAttribute("car", data.car());
+        model.addAttribute("paintCheck", data.paintCheck());
 
         return "paint";
     }
+
 
     @PostMapping("/paint")
     public String processPaintForm(@RequestParam Long carId,

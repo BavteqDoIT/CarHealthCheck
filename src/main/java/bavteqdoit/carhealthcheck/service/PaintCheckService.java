@@ -1,6 +1,5 @@
 package bavteqdoit.carhealthcheck.service;
 
-import bavteqdoit.carhealthcheck.data.CarRepository;
 import bavteqdoit.carhealthcheck.model.Car;
 import bavteqdoit.carhealthcheck.model.PaintCheck;
 import lombok.RequiredArgsConstructor;
