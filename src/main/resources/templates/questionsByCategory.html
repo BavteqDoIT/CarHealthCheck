@@ -43,7 +43,7 @@
 
                                     <div sec:authorize="hasRole('ADMIN')" class="flex-shrink-0">
                                         <div class="input-group input-group-sm" style="width: 140px;">
-                                            <span class="input-group-text">Waga</span>
+                                            <span class="input-group-text" th:text="#{questions.weight}"></span>
                                             <input type="number"
                                                    min="1"
                                                    max="999"
