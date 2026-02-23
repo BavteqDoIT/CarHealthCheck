@@ -153,21 +153,17 @@ public class DesignCarController {
     public String processPaintForm(@RequestParam Long carId,
                                    @Valid @ModelAttribute PaintCheck paintCheck,
                                    Errors errors,
-                                   Model model) {
+                                   Model model,
+                                   Principal principal) {
 
-        Car car = carRepository.findById(carId).orElseThrow();
-
-        paintCheck.setCar(car);
-        paintCheck.getDamages().forEach(d -> d.setPaintCheck(paintCheck));
-
-        car.setPaintCheck(paintCheck);
+        if (principal == null) return "redirect:/login";
 
         if (errors.hasErrors()) {
-            model.addAttribute("car", car);
+            model.addAttribute("car", carService.getUserCar(carId, principal.getName()));
             return "paint";
         }
 
-        carRepository.save(car);
+        paintCheckService.savePaintCheck(carId, principal.getName(), paintCheck);
 
         return "redirect:/design/questions?carId=" + carId;
     }

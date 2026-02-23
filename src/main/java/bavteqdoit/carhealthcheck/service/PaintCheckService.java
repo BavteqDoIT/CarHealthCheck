@@ -1,5 +1,6 @@
 package bavteqdoit.carhealthcheck.service;
 
+import bavteqdoit.carhealthcheck.data.CarRepository;
 import bavteqdoit.carhealthcheck.model.Car;
 import bavteqdoit.carhealthcheck.model.PaintCheck;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class PaintCheckService {
 
     private final CarService carService;
+    private final CarRepository carRepository;
 
     @Transactional(readOnly = true)
     public PaintFormData preparePaintForm(Long carId, String username) {
@@ -26,4 +28,20 @@ public class PaintCheckService {
     }
 
     public record PaintFormData(Car car, PaintCheck paintCheck) {}
+
+    @Transactional
+    public void savePaintCheck(Long carId, String username, PaintCheck paintCheck) {
+
+        Car car = carService.getUserCar(carId, username);
+
+        paintCheck.setCar(car);
+
+        if (paintCheck.getDamages() != null) {
+            paintCheck.getDamages().forEach(d -> d.setPaintCheck(paintCheck));
+        }
+
+        car.setPaintCheck(paintCheck);
+
+        carRepository.save(car);
+    }
 }
