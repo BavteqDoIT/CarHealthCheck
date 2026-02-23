@@ -41,6 +41,7 @@ public class DesignCarController {
     private final VinReportFlowService vinReportFlowService;
     private final QuestionWeightService questionWeightService;
     private final PaintCheckService paintCheckService;
+    private final QuestionAnswerService questionAnswerService;
 
     public DesignCarController(BrandRepository brandRepository,
                                ModelTypeRepository modelTypeRepository,
@@ -60,7 +61,8 @@ public class DesignCarController {
                                CarService carService,
                                VinReportFlowService vinReportFlowService,
                                QuestionWeightService questionWeightService,
-                               PaintCheckService paintCheckService) {
+                               PaintCheckService paintCheckService,
+                               QuestionAnswerService questionAnswerService) {
         this.brandRepository = brandRepository;
         this.modelTypeRepository = modelTypeRepository;
         this.colorRepository = colorRepository;
@@ -80,6 +82,7 @@ public class DesignCarController {
         this.vinReportFlowService = vinReportFlowService;
         this.questionWeightService = questionWeightService;
         this.paintCheckService = paintCheckService;
+        this.questionAnswerService = questionAnswerService;
     }
 
     @GetMapping
@@ -235,56 +238,14 @@ public class DesignCarController {
                                         @RequestParam Map<String, String> allRequestParams,
                                         HttpServletRequest request) {
 
-        Car car = carRepository.findById(carId).orElseThrow();
+        boolean isAdmin = request.isUserInRole("ROLE_ADMIN");
 
-        for (String paramName : allRequestParams.keySet()) {
-
-            if (!paramName.startsWith("questionId_")) continue;
-
-            Long questionId = Long.valueOf(allRequestParams.get(paramName));
-            Question question = questionRepository.findById(questionId).orElseThrow();
-
-            if (request.isUserInRole("ROLE_ADMIN")) {
-                String weightParam = allRequestParams.get("weight_" + questionId);
-                if (weightParam != null && !weightParam.isBlank()) {
-                    try {
-                        int w = Integer.parseInt(weightParam);
-                        w = Math.max(1, Math.min(999, w));
-                        question.setWeight(w);
-                        questionRepository.save(question);
-                    } catch (NumberFormatException ignored) {
-                    }
-                }
-            }
-
-            QuestionAnswer answer = new QuestionAnswer();
-            answer.setCar(car);
-            answer.setQuestion(question);
-
-            String optionParam = allRequestParams.get("selectedOption_" + questionId);
-            if (optionParam != null && !optionParam.isEmpty()) {
-                answer.setSelectedOption(
-                        questionOptionRepository.findById(Long.valueOf(optionParam)).orElse(null)
-                );
-            }
-
-            String textValue = allRequestParams.get("answerValue_" + questionId);
-            if (textValue != null) {
-                answer.setAnswerValue(textValue);
-            }
-
-            String numericValue = allRequestParams.get("numericValue_" + questionId);
-            if (numericValue != null && !numericValue.isEmpty()) {
-                answer.setNumericValue(Float.valueOf(numericValue));
-            }
-
-            questionAnswerRepository.save(answer);
-        }
+        questionAnswerService.saveCategoryResponses(carId, allRequestParams, isAdmin);
 
         String next = nextCategory(category);
-        if (next == null)
+        if (next == null) {
             return "redirect:/design/summary?carId=" + carId;
-
+        }
         return "redirect:/design/questions?carId=" + carId + "&mainCategory=" + next;
     }
 
