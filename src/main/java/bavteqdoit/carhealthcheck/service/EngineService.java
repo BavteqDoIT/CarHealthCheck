@@ -2,7 +2,9 @@ package bavteqdoit.carhealthcheck.service;
 
 import bavteqdoit.carhealthcheck.data.EngineTypeRepository;
 import bavteqdoit.carhealthcheck.model.EngineType;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -28,5 +30,18 @@ public class EngineService {
 
     public void delete(EngineType engineType) {
         engineTypeRepository.delete(engineType);
+    }
+
+    @Transactional
+    public void deleteIfUnused(Long id) {
+
+        EngineType engine = engineTypeRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Nie znaleziono silnika o id: " + id));
+
+        if (engine.getModelTypes() != null && !engine.getModelTypes().isEmpty()) {
+            throw new IllegalStateException("Nie można usunąć silnika, który jest używany w modelach.");
+        }
+
+        engineTypeRepository.delete(engine);
     }
 }

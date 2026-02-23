@@ -1,38 +1,28 @@
 package bavteqdoit.carhealthcheck.web;
 
-import bavteqdoit.carhealthcheck.data.UserRepository;
 import bavteqdoit.carhealthcheck.dto.EngineTypeForm;
 import bavteqdoit.carhealthcheck.model.*;
 import bavteqdoit.carhealthcheck.service.*;
 import jakarta.persistence.EntityExistsException;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-
+@RequiredArgsConstructor
 @Controller
 public class AdminController {
     private final UserService userService;
-    private final UserRepository userRepository;
     private final BrandService brandService;
     private final EngineService engineService;
     private final FuelService fuelService;
     private final ModelService modelService;
+    private final AdminUserService adminUserService;
 
-    public AdminController(UserService userService, UserRepository userRepository, BrandService brandService,  EngineService engineService,  FuelService fuelService, ModelService modelService) {
-        this.userService = userService;
-        this.userRepository = userRepository;
-        this.brandService = brandService;
-        this.engineService = engineService;
-        this.fuelService = fuelService;
-        this.modelService = modelService;
-    }
 
     @GetMapping("/admin")
     public String adminPage() {
@@ -46,20 +36,17 @@ public class AdminController {
     }
 
     @PostMapping("/admin/users/{id}/role")
-    public String changeUserRole(@PathVariable Long id, @RequestParam String role) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String currentUsername = authentication.getName();
-
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Nie znaleziono użytkownika o id: " + id));
-
-        if(user.getUsername().equals(currentUsername)) {
-            return "redirect:/admin/users?error=cannotChangeOwnRole";
+    public String changeUserRole(@PathVariable Long id,
+                                 @RequestParam String role,
+                                 Authentication auth,
+                                 RedirectAttributes ra) {
+        try {
+            adminUserService.changeRole(id, role, auth.getName());
+            return "redirect:/admin/users";
+        } catch (IllegalStateException ex) {
+            ra.addFlashAttribute("error", ex.getMessage());
+            return "redirect:/admin/users";
         }
-
-        user.setRole(role);
-        userRepository.save(user);
-        return "redirect:/admin/users";
     }
 
     @GetMapping("admin/brands")
@@ -226,12 +213,12 @@ public class AdminController {
     }
 
     @PostMapping("/admin/engine/delete/{id}")
-    public String deleteEngine(@PathVariable Long id) {
-        EngineType engine = engineService.findById(id);
-        if(engine.getModelTypes().isEmpty()) {
-            engineService.delete(engine);
-        } else {
-            throw new IllegalStateException("Nie można usunąć silnika, który jest używany w modelach.");
+    public String deleteEngine(@PathVariable Long id, RedirectAttributes ra) {
+        try {
+            engineService.deleteIfUnused(id);
+            ra.addFlashAttribute("successMessage", "admin.engine.delete.success");
+        } catch (IllegalStateException ex) {
+            ra.addFlashAttribute("errorMessage", ex.getMessage());
         }
         return "redirect:/admin/engines";
     }
