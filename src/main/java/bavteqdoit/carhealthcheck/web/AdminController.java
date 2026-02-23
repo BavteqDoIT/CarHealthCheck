@@ -169,11 +169,7 @@ public class AdminController {
             model.addAttribute("fuels", fuelService.findAll());
             return "adminEngineAdd";
         }
-
-        EngineType e = new EngineType();
-        mapFormToEntity(form, e);
-
-        engineService.save(e);
+        engineService.createFromForm(form);
         return "redirect:/admin/engines";
     }
 
@@ -206,7 +202,7 @@ public class AdminController {
         }
 
         EngineType e = engineService.findById(form.getId());
-        mapFormToEntity(form, e);
+        engineService.updateFromForm(form);
         engineService.save(e);
 
         return "redirect:/admin/engines";
@@ -221,14 +217,5 @@ public class AdminController {
             ra.addFlashAttribute("errorMessage", ex.getMessage());
         }
         return "redirect:/admin/engines";
-    }
-
-    private void mapFormToEntity(EngineTypeForm form, EngineType e) {
-        e.setBrand(brandService.findById(form.getBrandId()));
-        e.setFuelType(fuelService.findById(form.getFuelTypeId()));
-        e.setName(form.getName());
-        e.setCapacity(form.getCapacity());
-        e.setHorsepowerHp(form.getHorsepowerHp());
-        e.setPowerKw(form.getPowerKw());
     }
 }
