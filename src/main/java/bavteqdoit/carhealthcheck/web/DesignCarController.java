@@ -6,6 +6,7 @@ import bavteqdoit.carhealthcheck.model.*;
 import bavteqdoit.carhealthcheck.service.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -20,6 +21,7 @@ import java.util.*;
 
 @Slf4j
 @Controller
+@RequiredArgsConstructor
 @RequestMapping("/design")
 public class DesignCarController {
 
@@ -30,60 +32,16 @@ public class DesignCarController {
     private final BodyTypeRepository bodyTypeRepository;
     private final DriveTypeRepository driveTypeRepository;
     private final GearboxTypeRepository gearboxTypeRepository;
-    private final QuestionOptionRepository questionOptionRepository;
     private final QuestionRepository questionRepository;
-    private final QuestionAnswerRepository questionAnswerRepository;
     private final InspectionSummaryService inspectionSummaryService;
     private final VinReportUploadService vinReportUploadService;
     private final VinReportApplyService vinReportApplyService;
     private final VinReportViewService vinReportViewService;
     private final CarService carService;
     private final VinReportFlowService vinReportFlowService;
-    private final QuestionWeightService questionWeightService;
     private final PaintCheckService paintCheckService;
     private final QuestionAnswerService questionAnswerService;
-
-    public DesignCarController(BrandRepository brandRepository,
-                               ModelTypeRepository modelTypeRepository,
-                               ColorRepository colorRepository,
-                               EngineTypeRepository engineTypeRepository,
-                               BodyTypeRepository bodyTypeRepository,
-                               CarRepository carRepository,
-                               DriveTypeRepository driveTypeRepository,
-                               GearboxTypeRepository gearboxTypeRepository,
-                               QuestionOptionRepository questionOptionRepository,
-                               QuestionRepository questionRepository,
-                               QuestionAnswerRepository questionAnswerRepository,
-                               InspectionSummaryService inspectionSummaryService,
-                               VinReportUploadService vinReportUploadService,
-                               VinReportApplyService vinReportApplyService,
-                               VinReportViewService vinReportViewService,
-                               CarService carService,
-                               VinReportFlowService vinReportFlowService,
-                               QuestionWeightService questionWeightService,
-                               PaintCheckService paintCheckService,
-                               QuestionAnswerService questionAnswerService) {
-        this.brandRepository = brandRepository;
-        this.modelTypeRepository = modelTypeRepository;
-        this.colorRepository = colorRepository;
-        this.engineTypeRepository = engineTypeRepository;
-        this.bodyTypeRepository = bodyTypeRepository;
-        this.carRepository = carRepository;
-        this.driveTypeRepository = driveTypeRepository;
-        this.gearboxTypeRepository = gearboxTypeRepository;
-        this.questionRepository = questionRepository;
-        this.questionOptionRepository = questionOptionRepository;
-        this.questionAnswerRepository = questionAnswerRepository;
-        this.inspectionSummaryService = inspectionSummaryService;
-        this.vinReportUploadService = vinReportUploadService;
-        this.vinReportApplyService = vinReportApplyService;
-        this.vinReportViewService = vinReportViewService;
-        this.carService = carService;
-        this.vinReportFlowService = vinReportFlowService;
-        this.questionWeightService = questionWeightService;
-        this.paintCheckService = paintCheckService;
-        this.questionAnswerService = questionAnswerService;
-    }
+    private final CarRepository carRepository;
 
     @GetMapping
     public String showDesignForm(Model model) {
@@ -91,8 +49,6 @@ public class DesignCarController {
 
         return "design";
     }
-
-    private final CarRepository carRepository;
 
     @PostMapping
     public String processDesign(@Valid @ModelAttribute("car") Car car,
