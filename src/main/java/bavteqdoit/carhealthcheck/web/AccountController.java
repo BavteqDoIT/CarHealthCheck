@@ -1,6 +1,5 @@
 package bavteqdoit.carhealthcheck.web;
 
-import bavteqdoit.carhealthcheck.data.CarRepository;
 import bavteqdoit.carhealthcheck.model.Car;
 import bavteqdoit.carhealthcheck.model.User;
 import bavteqdoit.carhealthcheck.data.UserRepository;
@@ -8,7 +7,6 @@ import bavteqdoit.carhealthcheck.service.CarService;
 import bavteqdoit.carhealthcheck.service.InspectionSummaryService;
 import bavteqdoit.carhealthcheck.service.PdfService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -28,24 +26,23 @@ public class AccountController {
 
     private final UserRepository userRepository;
     private final CarService carService;
-    private final CarRepository carRepository;
     private final InspectionSummaryService inspectionSummaryService;
     private final PdfService pdfService;
 
     @GetMapping("/account")
-    public String getUserCars(@AuthenticationPrincipal org.springframework.security.core.userdetails.User authUser,
-                              Model model) {
-        User user = userRepository.findByUsername(authUser.getUsername())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+    public String getUserCars(
+            @AuthenticationPrincipal org.springframework.security.core.userdetails.User authUser,
+            Model model) {
 
-        model.addAttribute("cars", user.getCars());
+        var cars = carService.getUserCars(authUser.getUsername());
+
+        model.addAttribute("cars", cars);
         return "account";
     }
 
     @GetMapping("/account/cars/{id}")
-    public String getUserCar(@PathVariable Long id,Model model,Locale locale) {
-        Car car = carRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    public String getUserCar(@PathVariable Long id,Model model,Locale locale, @AuthenticationPrincipal org.springframework.security.core.userdetails.User authUser) {
+        Car car = carService.getUserCar(id, authUser.getUsername());
         model.addAttribute("car", car);
         var summary = inspectionSummaryService.buildSummary(id, locale);
         model.addAttribute("summary", summary);
@@ -61,10 +58,9 @@ public class AccountController {
         try {
             carService.deleteUserCar(id, authUser.getUsername());
             ra.addFlashAttribute("successMessage", "account.car.delete.success");
-        } catch (IllegalArgumentException ex) {
-            ra.addFlashAttribute("errorMessage", ex.getMessage());
+        } catch (ResponseStatusException ex) {
+            ra.addFlashAttribute("errorMessage", "Brak dostępu lub auto nie istnieje");
         }
-
         return "redirect:/account";
     }
 

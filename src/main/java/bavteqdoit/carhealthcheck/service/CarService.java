@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class CarService {
@@ -28,11 +30,11 @@ public class CarService {
 
     @Transactional
     public void deleteUserCar(Long carId, String username) {
-        Car car = carRepository.findByIdAndOwner_Username(carId, username)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        Car car = getUserCar(carId, username);
         carRepository.delete(car);
     }
 
+    @Transactional(readOnly = true)
     public Car getUserCar(Long carId, String username) {
         Car car = carRepository.findById(carId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
@@ -41,5 +43,10 @@ public class CarService {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         }
         return car;
+    }
+
+    @Transactional(readOnly = true)
+    public List<Car> getUserCars(String username) {
+        return carRepository.findAllByOwner_Username(username);
     }
 }

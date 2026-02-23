@@ -175,14 +175,18 @@ public class DesignCarController {
     @GetMapping("/questions")
     public String showQuestionsByCategory(@RequestParam Long carId,
                                           @RequestParam(defaultValue = "consumables") String mainCategory,
-                                          Model model) {
+                                          Model model,
+                                          Principal principal) {
+
+        if (principal == null) return "redirect:/login";
 
         List<Question> questions = questionRepository.findByMainCategoryOrderByIdAsc(mainCategory);
 
         model.addAttribute("questions", questions);
         model.addAttribute("carId", carId);
         model.addAttribute("category", mainCategory);
-        Car car = carRepository.findById(carId).orElseThrow();
+
+        Car car = carService.getUserCar(carId, principal.getName());
         model.addAttribute("car", car);
 
         return "questionsByCategory";
@@ -215,9 +219,12 @@ public class DesignCarController {
     }
 
     @GetMapping("/summary")
-    public String showSummary(@RequestParam Long carId, Model model, Locale locale) {
-        Car car = carRepository.findById(carId).orElseThrow();
+    public String showSummary(@RequestParam Long carId, Model model, Locale locale, Principal principal) {
+        if (principal == null) return "redirect:/login";
+
+        Car car = carService.getUserCar(carId, principal.getName());
         model.addAttribute("car", car);
+
         var summary = inspectionSummaryService.buildSummary(carId, locale);
         model.addAttribute("summary", summary);
         model.addAttribute("viewMode", false);
