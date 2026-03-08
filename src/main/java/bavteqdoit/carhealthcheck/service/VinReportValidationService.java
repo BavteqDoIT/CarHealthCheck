@@ -78,11 +78,11 @@ public class VinReportValidationService {
                     VinValidationView.Severity.WARN,
                     "raport.validation.mileage.lower", VinValidationView.Resolution.USE_REPORT
             ));
-        } else if (!Objects.equals(form, maxReportMileage)) {
+        } else if (form > maxReportMileage) {
             view.getItems().add(new VinValidationView.Item(
                     ValidationField.MILEAGE,  String.valueOf(form), String.valueOf(maxReportMileage),
-                    VinValidationView.Severity.WARN,
-                    "raport.validation.mileage.mismatch", VinValidationView.Resolution.USE_FORM
+                    VinValidationView.Severity.OK,
+                    "raport.validation.valid", VinValidationView.Resolution.USE_FORM
             ));
         } else {
             view.getItems().add(new VinValidationView.Item(

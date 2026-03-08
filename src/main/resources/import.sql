@@ -816,7 +816,7 @@ INSERT INTO model_variant(model_type_id, engine_type_id, body_type_id,year_from,
 -- ===============================
 
 INSERT INTO question (main_category, sub_category, question_key, question_type, weight) VALUES ('consumables', 'docs', 'vin_readable', 'select', 999);
-INSERT INTO question (main_category, sub_category, question_key, question_type, weight) VALUES ('consumables', 'docs', 'service_docs', 'select', 999);
+INSERT INTO question (main_category, sub_category, question_key, question_type, weight) VALUES ('consumables', 'docs', 'service_docs', 'select', 2);
 -- CONSUMABLES (exterior/tires/fluids)
 INSERT INTO question (main_category, sub_category, question_key, question_type, weight) VALUES ('consumables', 'exterior', 'lights_working', 'select',1);          -- id=3
 INSERT INTO question (main_category, sub_category, question_key, question_type, weight) VALUES ('consumables', 'exterior', 'headlights_condition', 'select',1);     -- id=4
@@ -827,7 +827,7 @@ INSERT INTO question (main_category, sub_category, question_key, question_type, 
 INSERT INTO question (main_category, sub_category, question_key, question_type, weight) VALUES ('consumables', 'tires', 'tires_type', 'select',1);                 -- id=8
 
 INSERT INTO question (main_category, sub_category, question_key, question_type, weight) VALUES ('consumables', 'fluids', 'oil_level', 'select',1);                  -- id=9
-INSERT INTO question (main_category, sub_category, question_key, question_type, weight) VALUES ('consumables', 'fluids', 'oil_condition', 'select',1);              -- id=10
+INSERT INTO question (main_category, sub_category, question_key, question_type, weight) VALUES ('consumables', 'fluids', 'oil_condition', 'select',5);              -- id=10
 INSERT INTO question (main_category, sub_category, question_key, question_type, weight) VALUES ('consumables', 'fluids', 'coolant_level', 'select',1);              -- id=11
 INSERT INTO question (main_category, sub_category, question_key, question_type, weight) VALUES ('consumables', 'fluids', 'visible_leaks', 'select', 3);              -- id=12
 
@@ -840,7 +840,7 @@ INSERT INTO question (main_category, sub_category, question_key, question_type, 
 INSERT INTO question (main_category, sub_category, question_key, question_type, weight) VALUES ('interior', 'electronics', 'mirrors_adjustment', 'select',1);        -- id=17
 INSERT INTO question (main_category, sub_category, question_key, question_type, weight) VALUES ('interior', 'electronics', 'radio_function', 'select',1);            -- id=18
 
-INSERT INTO question (main_category, sub_category, question_key, question_type, weight) VALUES ('interior', 'startup', 'dashboard_lights', 'select',1);              -- id=19
+INSERT INTO question (main_category, sub_category, question_key, question_type, weight) VALUES ('interior', 'startup', 'dashboard_lights', 'select',2);              -- id=19
 INSERT INTO question (main_category, sub_category, question_key, question_type, weight) VALUES ('interior', 'startup', 'air_conditioning', 'select',1);              -- id=20
 INSERT INTO question (main_category, sub_category, question_key, question_type, weight) VALUES ('interior', 'startup', 'blower_speeds', 'select',1);                 -- id=21
 
@@ -849,7 +849,7 @@ INSERT INTO question (main_category, sub_category, question_key, question_type, 
 INSERT INTO question (main_category, sub_category, question_key, question_type, weight) VALUES ('mechanics', 'engine', 'idle_operation', 'select',1);                -- id=23
 INSERT INTO question (main_category, sub_category, question_key, question_type, weight) VALUES ('mechanics', 'engine', 'exhaust_smoke', 'select', 3);                 -- id=24
 
-INSERT INTO question (main_category, sub_category, question_key, question_type, weight) VALUES ('mechanics', 'drivetrain', 'clutch_operation', 'select',1);          -- id=25
+INSERT INTO question (main_category, sub_category, question_key, question_type, weight) VALUES ('mechanics', 'drivetrain', 'clutch_operation', 'select',2);          -- id=25
 INSERT INTO question (main_category, sub_category, question_key, question_type, weight) VALUES ('mechanics', 'drivetrain', 'gearbox_operation', 'select', 3);         -- id=26
 
 INSERT INTO question (main_category, sub_category, question_key, question_type, weight) VALUES ('mechanics', 'roadtest', 'acceleration', 'select',1);                -- id=27
